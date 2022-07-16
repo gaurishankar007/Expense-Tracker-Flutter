@@ -71,19 +71,20 @@ class _SettingState extends State<Setting> {
           },
           icon: Icon(
             Icons.arrow_back,
-            color: AppColors.onPrimary,
+            color: AppColors.text,
           ),
         ),
         title: Text(
           "Settings",
           style: TextStyle(
-            color: AppColors.onPrimary,
+            color: AppColors.text,
+            fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
         ),
         elevation: 0,
         centerTitle: true,
-        backgroundColor: AppColors.primary,
+        backgroundColor: Colors.transparent,
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.only(
@@ -102,8 +103,9 @@ class _SettingState extends State<Setting> {
                   height: sHeight,
                   alignment: Alignment.center,
                   child: CircularProgressIndicator(
-                    strokeWidth: 3,
+                    strokeWidth: 6,
                     color: AppColors.primary,
+                    backgroundColor: AppColors.button,
                   ),
                 )
               ];
@@ -127,15 +129,15 @@ class _SettingState extends State<Setting> {
                         },
                         child: Icon(
                           Icons.edit,
-                          color: AppColors.text,
+                          color: AppColors.onPrimary,
                           size: 25,
                         ),
                         style: ElevatedButton.styleFrom(
                           padding: EdgeInsets.all(4),
                           minimumSize: Size.zero,
-                          primary: Colors.white,
+                          primary: AppColors.primary,
                           elevation: 10,
-                          shadowColor: Colors.black,
+                          shadowColor: AppColors.text,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
                           ),
@@ -187,7 +189,7 @@ class _SettingState extends State<Setting> {
                       ),
                       Icon(
                         Icons.person,
-                        color: AppColors.primary,
+                        color: AppColors.text,
                       ),
                     ],
                   ),
@@ -223,7 +225,7 @@ class _SettingState extends State<Setting> {
                         ),
                         Icon(
                           Icons.key,
-                          color: AppColors.primary,
+                          color: AppColors.text,
                         ),
                       ],
                     ),
@@ -256,6 +258,7 @@ class _SettingState extends State<Setting> {
                         width: 25,
                         child: Switch(
                           activeColor: AppColors.primary,
+                          inactiveThumbColor: AppColors.text,
                           value: progressPublication,
                           onChanged: (value) async {
                             final resData = await UserHttp().publicProgress();
@@ -314,7 +317,7 @@ class _SettingState extends State<Setting> {
                         ),
                         Icon(
                           Icons.logout_outlined,
-                          color: AppColors.primary,
+                          color: AppColors.text,
                         ),
                       ],
                     ),

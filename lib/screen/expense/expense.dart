@@ -85,8 +85,9 @@ class _ExpenseState extends State<Expense> {
                       height: sHeight,
                       alignment: Alignment.center,
                       child: CircularProgressIndicator(
-                        strokeWidth: 3,
-                        color: AppColors.primary,
+                        strokeWidth: 6,
+                      color: AppColors.primary,
+                      backgroundColor: AppColors.button,
                       ),
                     )
                   ];
@@ -128,7 +129,7 @@ class _ExpenseState extends State<Expense> {
                             },
                             icon: Icon(
                               Icons.add,
-                              color: AppColors.primary,
+                              color: AppColors.text,
                               size: 35,
                             ),
                           ),

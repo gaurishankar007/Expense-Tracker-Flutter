@@ -56,8 +56,9 @@ class _ResultState extends State<Result> {
                     height: sHeight,
                     alignment: Alignment.center,
                     child: CircularProgressIndicator(
-                      strokeWidth: 3,
+                      strokeWidth: 6,
                       color: AppColors.primary,
+                      backgroundColor: AppColors.button,
                     ),
                   )
                 ];

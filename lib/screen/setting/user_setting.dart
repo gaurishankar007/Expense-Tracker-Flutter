@@ -59,9 +59,10 @@ class _UserSettingState extends State<UserSetting> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Update Personal Info",
+          "Personal Information",
           style: TextStyle(
-            color: AppColors.onPrimary,
+            color: AppColors.text,
+            fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -72,11 +73,11 @@ class _UserSettingState extends State<UserSetting> {
           },
           icon: Icon(
             Icons.arrow_back,
-            color: AppColors.onPrimary,
+            color: AppColors.text,
           ),
         ),
         elevation: 0,
-        backgroundColor: AppColors.primary,
+        backgroundColor: Colors.transparent,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -96,8 +97,9 @@ class _UserSettingState extends State<UserSetting> {
                     height: sHeight,
                     alignment: Alignment.center,
                     child: CircularProgressIndicator(
-                      strokeWidth: 3,
+                      strokeWidth: 6,
                       color: AppColors.primary,
+                      backgroundColor: AppColors.button,
                     ),
                   )
                 ];

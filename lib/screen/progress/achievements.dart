@@ -38,19 +38,20 @@ class _AllAchievementsState extends State<AllAchievements> {
           },
           icon: Icon(
             Icons.arrow_back,
-            color: AppColors.onPrimary,
+            color: AppColors.text,
           ),
         ),
         title: Text(
           "Achievements",
           style: TextStyle(
-            color: AppColors.onPrimary,
+            color: AppColors.text,
+            fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
         ),
         elevation: 0,
         centerTitle: true,
-        backgroundColor: AppColors.primary,
+        backgroundColor: Colors.transparent,
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.only(
@@ -71,8 +72,9 @@ class _AllAchievementsState extends State<AllAchievements> {
                   height: sHeight,
                   alignment: Alignment.center,
                   child: CircularProgressIndicator(
-                    strokeWidth: 3,
+                    strokeWidth: 6,
                     color: AppColors.primary,
+                    backgroundColor: AppColors.button,
                   ),
                 )
               ];

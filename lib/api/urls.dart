@@ -29,17 +29,17 @@ class IncomeUrls {
 }
 
 class HomeUrls {
-  static const viewHome = "user/getHome";
+  static const viewHome = "home/userData";
 }
 
 class ProgressUrls {
-  static const getUserProgress = "user/getProgress";
-  static const topUsersProgress = "users/progresses";
+  static const getUserProgress = "progress/user";
+  static const topUsersProgress = "progress/users";
 }
 
 class TokenUrls {
-  static const generateToken = "generate/token";
-  static const verifyToken = "verify/token";
+  static const generateToken = "token/generate";
+  static const verifyToken = "token/verify";
 }
 
 class UserUrls {

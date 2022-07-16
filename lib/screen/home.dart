@@ -114,8 +114,9 @@ class _HomeState extends State<Home> {
                     height: sHeight,
                     alignment: Alignment.center,
                     child: CircularProgressIndicator(
-                      strokeWidth: 3,
+                      strokeWidth: 6,
                       color: AppColors.primary,
+                      backgroundColor: AppColors.button,
                     ),
                   )
                 ];
@@ -142,7 +143,7 @@ class _HomeState extends State<Home> {
                             padding: EdgeInsets.zero,
                             icon: Icon(
                               Icons.settings,
-                              color: AppColors.primary,
+                              color: AppColors.text,
                             ),
                             onPressed: () {
                               Navigator.push(
@@ -391,7 +392,7 @@ class _HomeState extends State<Home> {
         ),
         SizedBox(
           height: 200,
-          width: sWidth * .98,
+          width: sWidth * .94,
           child: BarChart(
             BarChartData(
               maxY: 5,
@@ -525,12 +526,12 @@ class _HomeState extends State<Home> {
                 show: true,
                 border: Border(
                   bottom: BorderSide(
-                    color: AppColors.primary,
-                    width: 3,
+                    color: AppColors.text,
+                    width: 2,
                   ),
                   left: BorderSide(
-                    color: AppColors.primary,
-                    width: 3,
+                    color: AppColors.text,
+                    width: 2,
                   ),
                   right: BorderSide(color: Colors.transparent),
                   top: BorderSide(color: Colors.transparent),
@@ -737,12 +738,12 @@ class _HomeState extends State<Home> {
                   show: true,
                   border: Border(
                     bottom: BorderSide(
-                      color: AppColors.primary,
-                      width: 3,
+                      color: AppColors.text,
+                      width: 2,
                     ),
                     left: BorderSide(
-                      color: AppColors.primary,
-                      width: 3,
+                      color: AppColors.text,
+                      width: 2,
                     ),
                     right: BorderSide(color: Colors.transparent),
                     top: BorderSide(color: Colors.transparent),
@@ -1074,7 +1075,7 @@ class _HomeState extends State<Home> {
                             : AlwaysStoppedAnimation(270 / 360),
                         child: Icon(
                           Icons.arrow_back_ios_new,
-                          color: AppColors.primary,
+                          color: AppColors.text,
                         ),
                       ),
                     )
@@ -1215,7 +1216,7 @@ class _HomeState extends State<Home> {
                             : AlwaysStoppedAnimation(270 / 360),
                         child: Icon(
                           Icons.arrow_back_ios_new,
-                          color: AppColors.primary,
+                          color: AppColors.text,
                         ),
                       ),
                     )

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:form_field_validator/form_field_validator.dart';
 
@@ -40,7 +41,14 @@ class _SignUpState extends State<SignUp> {
     final _screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        title: Text("SmoothPlayer"),
+        title: Text(
+          'Welcome to Expense Tracker',
+          style: TextStyle(
+            color: AppColors.text,
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         centerTitle: true,
         leading: IconButton(
           onPressed: () {
@@ -57,19 +65,21 @@ class _SignUpState extends State<SignUp> {
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.only(
-            left: _screenWidth * 0.05,
-            right: _screenWidth * 0.05,
+            left: _screenWidth * 0.08,
+            right: _screenWidth * 0.08,
           ),
           child: Form(
             key: _formKey,
             child: Column(
               children: [
-                Text(
-                  'Welcome to Expense Tracker',
-                  style: TextStyle(
-                      color: Colors.black87,
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(5),
+                  child: Image(
+                    height: 160,
+                    width: 175,
+                    fit: BoxFit.cover,
+                    image: AssetImage("image/logo.png"),
+                  ),
                 ),
                 SizedBox(
                   height: 20,
@@ -153,7 +163,10 @@ class _SignUpState extends State<SignUp> {
                         });
                       },
                       icon: Icon(
-                        Icons.remove_red_eye,
+                        hidePass
+                            ? FontAwesomeIcons.solidEyeSlash
+                            : FontAwesomeIcons.solidEye,
+                        size: 20,
                         color: AppColors.primary,
                       ),
                     )
@@ -195,7 +208,10 @@ class _SignUpState extends State<SignUp> {
                         });
                       },
                       icon: Icon(
-                        Icons.remove_red_eye,
+                        hideCPass
+                            ? FontAwesomeIcons.solidEyeSlash
+                            : FontAwesomeIcons.solidEye,
+                        size: 20,
                         color: AppColors.primary,
                       ),
                     )

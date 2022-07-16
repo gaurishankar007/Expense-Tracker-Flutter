@@ -75,8 +75,9 @@ class _CategorizedExpenseState extends State<CategorizedExpense> {
                       height: sHeight,
                       alignment: Alignment.center,
                       child: CircularProgressIndicator(
-                        strokeWidth: 3,
-                        color: AppColors.primary,
+                        strokeWidth: 6,
+                      color: AppColors.primary,
+                      backgroundColor: AppColors.button,
                       ),
                     )
                   ];
