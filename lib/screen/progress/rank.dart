@@ -2,7 +2,6 @@ import 'package:expense_tracker/api/http/progress_http.dart';
 import 'package:expense_tracker/api/res/progress_res.dart';
 import 'package:flutter/material.dart';
 
-import '../../api/urls.dart';
 import '../../resource/colors.dart';
 
 class RankingSystem extends StatefulWidget {
@@ -13,7 +12,6 @@ class RankingSystem extends StatefulWidget {
 }
 
 class _RankingSystemState extends State<RankingSystem> {
-  final profilePic = ApiUrls.routeUrl;
   late Future<TopProgress> usersProgress;
   List<Progress> progressList = [];
   List<String> pointList = [];
@@ -352,7 +350,7 @@ class _RankingSystemState extends State<RankingSystem> {
                         height: 40,
                         width: 40,
                         fit: BoxFit.cover,
-                        image: NetworkImage(profilePic +
+                        image: NetworkImage(
                             progressList[index].user!.profilePicture!),
                       ),
                     ),

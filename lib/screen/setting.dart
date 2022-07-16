@@ -7,7 +7,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import '../api/http/user_http.dart';
 import '../api/log_status.dart';
 import '../api/res/user_res.dart';
-import '../api/urls.dart';
 import '../resource/colors.dart';
 import 'authentication/login.dart';
 import 'setting/password_setting.dart';
@@ -21,15 +20,19 @@ class Setting extends StatefulWidget {
 }
 
 class _SettingState extends State<Setting> {
-  final profilePic = ApiUrls.routeUrl;
   late Future<User> getUser;
   bool progressPublication = false;
 
   void _pickProfileImg() async {
     final image = await FilePicker.platform.pickFiles(
-        allowMultiple: false,
-        type: FileType.image,
-        dialogTitle: "Select an image");
+      allowMultiple: false,
+      type: FileType.custom,
+      allowedExtensions: [
+        'png',
+        'jpg',
+        'jpeg',
+      ],
+    );
     if (image == null) return;
     PlatformFile file = image.files.first;
 
@@ -120,8 +123,8 @@ class _SettingState extends State<Setting> {
                     children: [
                       CircleAvatar(
                         radius: 100,
-                        backgroundImage: NetworkImage(
-                            profilePic + snapshot.data!.profilePicture!),
+                        backgroundImage:
+                            NetworkImage(snapshot.data!.profilePicture!),
                       ),
                       ElevatedButton(
                         onPressed: () {

@@ -1,7 +1,6 @@
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:intl/intl.dart';
-import 'package:expense_tracker/api/urls.dart';
 import 'package:expense_tracker/resource/category.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -20,7 +19,6 @@ class Income extends StatefulWidget {
 }
 
 class _IncomeState extends State<Income> {
-  final routeUrl = ApiUrls.routeUrl;
   final _formKey = GlobalKey<FormState>();
   String name = "", amount = "", category = "Other";
 
@@ -102,7 +100,7 @@ class _IncomeState extends State<Income> {
                               CircleAvatar(
                                 radius: 20,
                                 backgroundImage: NetworkImage(
-                                  routeUrl + snapshot.data!.profilePicture!,
+                                  snapshot.data!.profilePicture!,
                                 ),
                               ),
                               SizedBox(

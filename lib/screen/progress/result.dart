@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../api/res/progress_res.dart';
-import '../../api/urls.dart';
 import '../../resource/colors.dart';
 import '../../widget/navigator.dart';
 
@@ -17,8 +16,6 @@ class Result extends StatefulWidget {
 }
 
 class _ResultState extends State<Result> {
-  final routeUrl = ApiUrls.routeUrl;
-
   late Future<ProgressData> userProgress;
 
   void loadProgress() {
@@ -73,9 +70,7 @@ class _ResultState extends State<Result> {
                             CircleAvatar(
                               radius: 20,
                               backgroundImage: NetworkImage(
-                                routeUrl +
-                                    snapshot
-                                        .data!.progress!.user!.profilePicture!,
+                                snapshot.data!.progress!.user!.profilePicture!,
                               ),
                             ),
                             SizedBox(

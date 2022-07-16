@@ -1,7 +1,6 @@
 import 'package:expense_tracker/api/http/expense_http.dart';
 import 'package:expense_tracker/api/model/expense_income_model.dart';
 import 'package:expense_tracker/api/res/expense_res.dart';
-import 'package:expense_tracker/api/urls.dart';
 import 'package:expense_tracker/resource/category.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +19,6 @@ class Expense extends StatefulWidget {
 }
 
 class _ExpenseState extends State<Expense> {
-  final routeUrl = ApiUrls.routeUrl;
   final _formKey = GlobalKey<FormState>();
   String name = "", amount = "", category = "Other";
 
@@ -86,8 +84,8 @@ class _ExpenseState extends State<Expense> {
                       alignment: Alignment.center,
                       child: CircularProgressIndicator(
                         strokeWidth: 6,
-                      color: AppColors.primary,
-                      backgroundColor: AppColors.button,
+                        color: AppColors.primary,
+                        backgroundColor: AppColors.button,
                       ),
                     )
                   ];
@@ -102,7 +100,7 @@ class _ExpenseState extends State<Expense> {
                               CircleAvatar(
                                 radius: 20,
                                 backgroundImage: NetworkImage(
-                                  routeUrl + snapshot.data!.profilePicture!,
+                                  snapshot.data!.profilePicture!,
                                 ),
                               ),
                               SizedBox(
