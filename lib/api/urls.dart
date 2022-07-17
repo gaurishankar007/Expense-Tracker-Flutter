@@ -35,6 +35,7 @@ class HomeUrls {
 class ProgressUrls {
   static const getUserProgress = "progress/user";
   static const topUsersProgress = "progress/users";
+  static const calculateProgress = "progress/userCalculateProgress";
 }
 
 class TokenUrls {

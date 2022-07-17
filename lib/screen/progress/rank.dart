@@ -1,6 +1,7 @@
 import 'package:expense_tracker/api/http/progress_http.dart';
 import 'package:expense_tracker/api/res/progress_res.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../resource/colors.dart';
 
@@ -25,7 +26,7 @@ class _RankingSystemState extends State<RankingSystem> {
       for (int i = 0; i < progressList.length; i++) {
         String point = "";
         point = progressList[i].progress! > 1000
-            ? (progressList[i].progress! / 1000).toStringAsFixed(0) + " K"
+            ? (progressList[i].progress! / 1000).toStringAsFixed(1) + " K"
             : progressList[i].progress!.toString();
         pointList.add(point);
       }
@@ -176,7 +177,7 @@ class _RankingSystemState extends State<RankingSystem> {
             for (int i = 0; i < progressPoints.length; i++) {
               String point = "";
               point = progressPoints[i].progress! > 1000
-                  ? (progressPoints[i].progress! / 1000).toStringAsFixed(0) +
+                  ? (progressPoints[i].progress! / 1000).toStringAsFixed(1) +
                       " K"
                   : progressPoints[i].progress!.toString();
               tempPoints.add(point);
@@ -222,7 +223,7 @@ class _RankingSystemState extends State<RankingSystem> {
             for (int i = 0; i < tmpPoints.length; i++) {
               String point = "";
               point = tmpPoints[i].tmp! > 1000
-                  ? (tmpPoints[i].tmp! / 1000).toStringAsFixed(0) + " K"
+                  ? (tmpPoints[i].tmp! / 1000).toStringAsFixed(1) + " K"
                   : tmpPoints[i].tmp!.toString();
               tempPoints.add(point);
             }
@@ -267,7 +268,7 @@ class _RankingSystemState extends State<RankingSystem> {
             for (int i = 0; i < pmpPoints.length; i++) {
               String point = "";
               point = pmpPoints[i].pmp! > 1000
-                  ? (pmpPoints[i].pmp! / 1000).toStringAsFixed(0) + " K"
+                  ? (pmpPoints[i].pmp! / 1000).toStringAsFixed(1) + " K"
                   : pmpPoints[i].pmp!.toString();
               tempPoints.add(point);
             }
@@ -360,15 +361,73 @@ class _RankingSystemState extends State<RankingSystem> {
                   ),
                   SizedBox(
                     width: sWidth * .4,
-                    child: Text(
-                      progressList[index].user!.profileName!,
-                      textAlign: TextAlign.justify,
-                      softWrap: true,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.text,
-                      ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          progressList[index].user!.profileName!,
+                          textAlign: TextAlign.justify,
+                          softWrap: true,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.text,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          children: [
+                            Icon(
+                              FontAwesomeIcons.medal,
+                              size: 16,
+                              color: Colors.green,
+                            ),
+                            SizedBox(
+                              width: 4,
+                            ),
+                            Text(
+                              progressList[index]
+                                      .newAchievement!
+                                      .length
+                                      .toString() +
+                                  ",",
+                              textAlign: TextAlign.justify,
+                              softWrap: true,
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.text,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 8,
+                            ),
+                            Icon(
+                              FontAwesomeIcons.medal,
+                              size: 16,
+                              color: Colors.orange,
+                            ),
+                            SizedBox(
+                              width: 4,
+                            ),
+                            Text(
+                              progressList[index]
+                                  .oldAchievement!
+                                  .length
+                                  .toString(),
+                              textAlign: TextAlign.justify,
+                              softWrap: true,
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.text,
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
                     ),
                   ),
                 ],

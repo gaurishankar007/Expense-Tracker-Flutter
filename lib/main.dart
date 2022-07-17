@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'api/log_status.dart';
+import '../resource/colors.dart';
 import 'screen/authentication/login.dart';
 import 'screen/home.dart';
 
@@ -10,7 +11,7 @@ void main() {
   ErrorWidget.builder = (FlutterErrorDetails details) {
     return Material(
       child: Container(
-        color: Colors.green,
+        color: AppColors.primary,
         child: Center(
           child: Text(
             details.exception.toString(),

@@ -1,4 +1,5 @@
 import 'package:expense_tracker/api/http/home_http.dart';
+import 'package:expense_tracker/api/http/progress_http.dart';
 import 'package:expense_tracker/api/res/expense_res.dart';
 import 'package:expense_tracker/api/res/home_res.dart';
 import 'package:expense_tracker/resource/category.dart';
@@ -45,7 +46,7 @@ class _HomeState extends State<Home> {
     ),
   );
 
-  void getUserHomeData() {
+  void getUserHomeData() async {
     userHomeData = HomeHttp().viewHome();
     userHomeData.then((value) {
       List<ExpenseCategorized> e = value.thisMonthExpenseCategories!;
@@ -75,6 +76,8 @@ class _HomeState extends State<Home> {
             .toList();
       }
     });
+
+    await ProgressHttp().calculateProgress();
   }
 
   @override
@@ -177,9 +180,6 @@ class _HomeState extends State<Home> {
                     incomeDetail(
                       context,
                       snapshot.data!.thisMonthIncomeCategories!,
-                    ),
-                    SizedBox(
-                      height: 5,
                     ),
                     snapshot.data!.expenseDays!.length > 2
                         ? expenseLineChart(

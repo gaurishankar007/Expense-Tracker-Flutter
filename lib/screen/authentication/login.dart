@@ -172,6 +172,7 @@ class _LoginState extends State<Login> {
 
                     final resData = await LoginHttp().login(email, password);
                     if (resData["statusCode"] == 202) {
+                      Navigator.pop(context);
                       LogStatus().setToken(resData["body"]["token"]);
                       LogStatus.token = resData["body"]["token"];
                       Navigator.pushAndRemoveUntil(
@@ -182,6 +183,7 @@ class _LoginState extends State<Login> {
                         (route) => false,
                       );
                     } else {
+                      Navigator.pop(context);
                       Fluttertoast.showToast(
                         msg: resData["body"]["resM"],
                         toastLength: Toast.LENGTH_SHORT,
