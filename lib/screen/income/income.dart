@@ -20,12 +20,12 @@ class Income extends StatefulWidget {
 
 class _IncomeState extends State<Income> {
   final _formKey = GlobalKey<FormState>();
-  String name = "", amount = "", category = "Other";
+  String name = "", amount = "", category = "Other", firstDate = "";
 
   OutlineInputBorder formBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(5),
     borderSide: BorderSide(
-      color: AppColors.form,
+      color: AppColors.button,
       width: 2,
       style: BorderStyle.solid,
     ),
@@ -50,6 +50,7 @@ class _IncomeState extends State<Income> {
       incomeList = value.todayIncomes!;
       incomeAmount = value.todayIncomeAmount!;
       incomeCategoryList = value.todayIncomeCategories!;
+      firstDate = value.firstIncomeDate!;
     });
   }
 
@@ -109,7 +110,7 @@ class _IncomeState extends State<Income> {
                               Text(
                                 "Your Incomes",
                                 style: TextStyle(
-                                  color: AppColors.text,
+                                  color: AppColors.iconHeading,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 18,
                                 ),
@@ -118,22 +119,30 @@ class _IncomeState extends State<Income> {
                           ),
                           IconButton(
                             onPressed: () {
+                              setState(() {
+                                incomeList = [];
+                                incomeAmount = 0;
+                                incomeCategoryList = [];
+                                incomeIndex = 3;
+                                touchedIndex = 0;
+                              });
+
                               showDialog(
                                 context: context,
                                 builder: (ctx) {
-                                  return addIncome(context);
+                                  return selectDate(context, firstDate);
                                 },
                               );
                             },
                             icon: Icon(
-                              Icons.add,
-                              color: AppColors.text,
-                              size: 35,
+                              Icons.search,
+                              color: AppColors.iconHeading,
+                              size: 30,
                             ),
                           )
                         ],
                       ),
-                      getButtons(context, snapshot.data!.firstIncomeDate!),
+                      getButtons(context),
                       viewIncome(
                         context,
                         incomeList,
@@ -192,6 +201,24 @@ class _IncomeState extends State<Income> {
               },
             )),
       ),
+      floatingActionButton: SizedBox(
+        height: 50,
+        child: FloatingActionButton(
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (ctx) {
+                return addIncome(context);
+              },
+            );
+          },
+          backgroundColor: AppColors.primary,
+          child: Icon(
+            Icons.add,
+            color: AppColors.onPrimary,
+          ),
+        ),
+      ),
       bottomNavigationBar: PageNavigator(pageIndex: 2),
     );
   }
@@ -230,6 +257,7 @@ class _IncomeState extends State<Income> {
   ) {
     return StatefulBuilder(builder: (context, setState1) {
       return AlertDialog(
+        backgroundColor: AppColors.background,
         title: Form(
           key: _formKey,
           child: Column(
@@ -240,8 +268,11 @@ class _IncomeState extends State<Income> {
                 }),
                 decoration: InputDecoration(
                   filled: true,
-                  fillColor: AppColors.form,
+                  fillColor: AppColors.button,
                   hintText: "Enter name",
+                  hintStyle: TextStyle(
+                    color: AppColors.iconHeading,
+                  ),
                   enabledBorder: formBorder,
                   focusedBorder: formBorder,
                   errorBorder: formBorder,
@@ -258,8 +289,11 @@ class _IncomeState extends State<Income> {
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                   filled: true,
-                  fillColor: AppColors.form,
+                  fillColor: AppColors.button,
                   hintText: "Enter amount",
+                  hintStyle: TextStyle(
+                    color: AppColors.iconHeading,
+                  ),
                   enabledBorder: formBorder,
                   focusedBorder: formBorder,
                   errorBorder: formBorder,
@@ -274,7 +308,7 @@ class _IncomeState extends State<Income> {
                   horizontal: 10,
                 ),
                 decoration: BoxDecoration(
-                  color: AppColors.form,
+                  color: AppColors.button,
                   borderRadius: BorderRadius.circular(5),
                 ),
                 child: DropdownButton(
@@ -282,11 +316,11 @@ class _IncomeState extends State<Income> {
                   elevation: 20,
                   underline: SizedBox(),
                   style: TextStyle(
-                    color: AppColors.text,
+                    color: AppColors.iconHeading,
                     fontSize: 15,
                   ),
                   isExpanded: true,
-                  dropdownColor: AppColors.form,
+                  dropdownColor: AppColors.button,
                   borderRadius: BorderRadius.circular(5),
                   onChanged: (String? newValue) {
                     setState1(() {
@@ -310,8 +344,7 @@ class _IncomeState extends State<Income> {
               primary: AppColors.primary,
               minimumSize: Size.zero,
               padding: EdgeInsets.all(8),
-              elevation: 10,
-              shadowColor: Colors.black,
+              elevation: 5,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(5),
               ),
@@ -319,6 +352,7 @@ class _IncomeState extends State<Income> {
             onPressed: () async {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
+                Navigator.pop(context);
 
                 final resData = await IncomeHttp().addIncome(
                   AddExpenseIncome(
@@ -330,8 +364,11 @@ class _IncomeState extends State<Income> {
 
                 if (resData["statusCode"] == 201) {
                   refreshPage(context);
+
+                  name = "";
+                  amount = "";
                   category = "Other";
-                  Navigator.pop(context);
+
                   Fluttertoast.showToast(
                     msg: resData["body"]["resM"],
                     toastLength: Toast.LENGTH_SHORT,
@@ -371,8 +408,7 @@ class _IncomeState extends State<Income> {
               primary: AppColors.primary,
               minimumSize: Size.zero,
               padding: EdgeInsets.all(8),
-              elevation: 10,
-              shadowColor: Colors.black,
+              elevation: 5,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(5),
               ),
@@ -388,7 +424,7 @@ class _IncomeState extends State<Income> {
     });
   }
 
-  Widget getButtons(BuildContext context, String firstDate) {
+  Widget getButtons(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -416,12 +452,14 @@ class _IncomeState extends State<Income> {
           ),
           style: ElevatedButton.styleFrom(
             primary: incomeIndex == 0 ? AppColors.primary : AppColors.button,
-            onPrimary: incomeIndex == 0 ? AppColors.onPrimary : AppColors.text,
+            onPrimary:
+                incomeIndex == 0 ? AppColors.onPrimary : AppColors.iconHeading,
             minimumSize: Size.zero,
             padding: EdgeInsets.symmetric(
               horizontal: 10,
               vertical: 8,
             ),
+            elevation: 5,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5),
             ),
@@ -454,12 +492,14 @@ class _IncomeState extends State<Income> {
           ),
           style: ElevatedButton.styleFrom(
             primary: incomeIndex == 1 ? AppColors.primary : AppColors.button,
-            onPrimary: incomeIndex == 1 ? AppColors.onPrimary : AppColors.text,
+            onPrimary:
+                incomeIndex == 1 ? AppColors.onPrimary : AppColors.iconHeading,
             minimumSize: Size.zero,
             padding: EdgeInsets.symmetric(
               horizontal: 10,
               vertical: 8,
             ),
+            elevation: 5,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5),
             ),
@@ -492,56 +532,19 @@ class _IncomeState extends State<Income> {
           ),
           style: ElevatedButton.styleFrom(
             primary: incomeIndex == 2 ? AppColors.primary : AppColors.button,
-            onPrimary: incomeIndex == 2 ? AppColors.onPrimary : AppColors.text,
+            onPrimary:
+                incomeIndex == 2 ? AppColors.onPrimary : AppColors.iconHeading,
             minimumSize: Size.zero,
             padding: EdgeInsets.symmetric(
               horizontal: 10,
               vertical: 8,
             ),
+            elevation: 5,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5),
             ),
           ),
         ),
-        SizedBox(
-          width: 10,
-        ),
-        ElevatedButton(
-          onPressed: () {
-            setState(() {
-              incomeList = [];
-              incomeAmount = 0;
-              incomeCategoryList = [];
-              incomeIndex = 3;
-              touchedIndex = 0;
-            });
-
-            showDialog(
-              context: context,
-              builder: (ctx) {
-                return selectDate(context, firstDate);
-              },
-            );
-          },
-          child: Text(
-            "Select",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          style: ElevatedButton.styleFrom(
-            primary: incomeIndex == 3 ? AppColors.primary : AppColors.button,
-            onPrimary: incomeIndex == 3 ? AppColors.onPrimary : AppColors.text,
-            minimumSize: Size.zero,
-            padding: EdgeInsets.symmetric(
-              horizontal: 10,
-              vertical: 8,
-            ),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5),
-            ),
-          ),
-        )
       ],
     );
   }
@@ -550,6 +553,7 @@ class _IncomeState extends State<Income> {
     String startDate = "", endDate = "";
 
     return SimpleDialog(
+      backgroundColor: AppColors.background,
       children: [
         SimpleDialogOption(
           padding: EdgeInsets.only(
@@ -578,8 +582,11 @@ class _IncomeState extends State<Income> {
                 },
                 decoration: InputDecoration(
                   filled: true,
-                  fillColor: AppColors.form,
+                  fillColor: AppColors.button,
                   hintText: "Start Date",
+                  hintStyle: TextStyle(
+                    color: AppColors.iconHeading,
+                  ),
                   enabledBorder: formBorder,
                   focusedBorder: formBorder,
                   errorBorder: formBorder,
@@ -608,8 +615,11 @@ class _IncomeState extends State<Income> {
                 },
                 decoration: InputDecoration(
                   filled: true,
-                  fillColor: AppColors.form,
+                  fillColor: AppColors.button,
                   hintText: "End Date",
+                  hintStyle: TextStyle(
+                    color: AppColors.iconHeading,
+                  ),
                   enabledBorder: formBorder,
                   focusedBorder: formBorder,
                   errorBorder: formBorder,
@@ -661,6 +671,7 @@ class _IncomeState extends State<Income> {
                     horizontal: 10,
                     vertical: 8,
                   ),
+                  elevation: 5,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5),
                   ),
@@ -694,7 +705,7 @@ class _IncomeState extends State<Income> {
                   "Income Categories",
                   style: TextStyle(
                     fontSize: 18,
-                    color: AppColors.text,
+                    color: AppColors.iconHeading,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -780,7 +791,7 @@ class _IncomeState extends State<Income> {
                       text: TextSpan(
                         text: category[index].category!,
                         style: TextStyle(
-                          color: AppColors.text,
+                          color: AppColors.iconHeading,
                           fontWeight: FontWeight.bold,
                           fontSize: 14,
                         ),
@@ -797,7 +808,7 @@ class _IncomeState extends State<Income> {
                 text: TextSpan(
                   text: "= ",
                   style: TextStyle(
-                    color: AppColors.text,
+                    color: AppColors.iconHeading,
                     fontWeight: FontWeight.bold,
                     fontSize: 20,
                   ),
@@ -823,7 +834,7 @@ class _IncomeState extends State<Income> {
                 "Income Items",
                 style: TextStyle(
                   fontSize: 18,
-                  color: AppColors.text,
+                  color: AppColors.iconHeading,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -863,27 +874,27 @@ class _IncomeState extends State<Income> {
                 leading: Text(
                   (index + 1).toString() + ".",
                   style: TextStyle(
-                    color: AppColors.text,
+                    color: AppColors.iconHeading,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 title: Text(
                   incomes[index].name!,
                   style: TextStyle(
-                    color: AppColors.text,
+                    color: AppColors.iconHeading,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 subtitle: Text(
                   incomes[index].category!,
                   style: TextStyle(
-                    color: AppColors.text,
+                    color: AppColors.iconHeading,
                   ),
                 ),
                 trailing: Text(
                   "Rs. " + incomes[index].amount!.toString(),
                   style: TextStyle(
-                    color: AppColors.text,
+                    color: AppColors.iconHeading,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -901,7 +912,7 @@ class _IncomeState extends State<Income> {
             Text(
               "No incomes",
               style: TextStyle(
-                color: AppColors.text,
+                color: AppColors.iconHeading,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -910,8 +921,7 @@ class _IncomeState extends State<Income> {
                 primary: AppColors.primary,
                 minimumSize: Size.zero,
                 padding: EdgeInsets.all(8),
-                elevation: 10,
-                shadowColor: Colors.black,
+                elevation: 5,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5),
                 ),
@@ -938,7 +948,7 @@ class _IncomeState extends State<Income> {
             Text(
               "No incomes",
               style: TextStyle(
-                color: AppColors.text,
+                color: AppColors.iconHeading,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -957,19 +967,11 @@ class _IncomeState extends State<Income> {
         horizontal: MediaQuery.of(context).size.width * .20,
       ),
       decoration: BoxDecoration(
-        color: AppColors.onPrimary,
+        color: AppColors.background,
         borderRadius: BorderRadius.only(
           topLeft: const Radius.circular(15.0),
           topRight: const Radius.circular(15.0),
         ),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.button,
-            spreadRadius: 2,
-            blurRadius: 5,
-            offset: Offset(0, 1),
-          ),
-        ],
       ),
       height: 60,
       child: Row(
@@ -980,8 +982,7 @@ class _IncomeState extends State<Income> {
               primary: AppColors.primary,
               minimumSize: Size.zero,
               padding: EdgeInsets.all(0),
-              elevation: 10,
-              shadowColor: Colors.black,
+              elevation: 5,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(5),
               ),
@@ -1021,8 +1022,7 @@ class _IncomeState extends State<Income> {
               primary: Colors.red,
               minimumSize: Size.zero,
               padding: EdgeInsets.all(0),
-              elevation: 10,
-              shadowColor: Colors.black,
+              elevation: 5,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(5),
               ),
@@ -1073,6 +1073,7 @@ class _IncomeState extends State<Income> {
 
     return StatefulBuilder(builder: (context, setState1) {
       return AlertDialog(
+        backgroundColor: AppColors.background,
         title: Form(
           key: _formKey,
           child: Column(
@@ -1084,8 +1085,11 @@ class _IncomeState extends State<Income> {
                 }),
                 decoration: InputDecoration(
                   filled: true,
-                  fillColor: AppColors.form,
+                  fillColor: AppColors.button,
                   hintText: "Enter name",
+                  hintStyle: TextStyle(
+                    color: AppColors.iconHeading,
+                  ),
                   enabledBorder: formBorder,
                   focusedBorder: formBorder,
                   errorBorder: formBorder,
@@ -1103,8 +1107,11 @@ class _IncomeState extends State<Income> {
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                   filled: true,
-                  fillColor: AppColors.form,
+                  fillColor: AppColors.button,
                   hintText: "Enter amount",
+                  hintStyle: TextStyle(
+                    color: AppColors.iconHeading,
+                  ),
                   enabledBorder: formBorder,
                   focusedBorder: formBorder,
                   errorBorder: formBorder,
@@ -1119,7 +1126,7 @@ class _IncomeState extends State<Income> {
                   horizontal: 10,
                 ),
                 decoration: BoxDecoration(
-                  color: AppColors.form,
+                  color: AppColors.button,
                   borderRadius: BorderRadius.circular(5),
                 ),
                 child: DropdownButton(
@@ -1127,11 +1134,11 @@ class _IncomeState extends State<Income> {
                   elevation: 20,
                   underline: SizedBox(),
                   style: TextStyle(
-                    color: AppColors.text,
+                    color: AppColors.iconHeading,
                     fontSize: 15,
                   ),
                   isExpanded: true,
-                  dropdownColor: AppColors.form,
+                  dropdownColor: AppColors.button,
                   borderRadius: BorderRadius.circular(5),
                   onChanged: (String? newValue) {
                     setState1(() {
@@ -1155,8 +1162,7 @@ class _IncomeState extends State<Income> {
               primary: AppColors.primary,
               minimumSize: Size.zero,
               padding: EdgeInsets.all(8),
-              elevation: 10,
-              shadowColor: Colors.black,
+              elevation: 5,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(5),
               ),
@@ -1217,8 +1223,7 @@ class _IncomeState extends State<Income> {
               primary: AppColors.primary,
               minimumSize: Size.zero,
               padding: EdgeInsets.all(8),
-              elevation: 10,
-              shadowColor: Colors.black,
+              elevation: 5,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(5),
               ),

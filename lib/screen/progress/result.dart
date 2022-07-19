@@ -79,56 +79,35 @@ class _ResultState extends State<Result> {
                             Text(
                               "Your Progress",
                               style: TextStyle(
-                                color: AppColors.text,
+                                color: AppColors.iconHeading,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 18,
                               ),
                             ),
                           ],
                         ),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: AppColors.primary,
-                            minimumSize: Size.zero,
-                            padding: EdgeInsets.all(5),
-                            elevation: 10,
-                            shadowColor: Colors.black,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                          ),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (builder) => RankingSystem(),
-                              ),
-                            );
-                          },
-                          child: SizedBox(
-                            height: 15,
-                            width: 55,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: const [
-                                Icon(
-                                  FontAwesomeIcons.rankingStar,
-                                  size: 16,
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  "Rank",
-                                  style: TextStyle(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.bold,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            IconButton(
+                              padding: EdgeInsets.zero,
+                              constraints: BoxConstraints(),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (builder) => RankingSystem(),
                                   ),
-                                ),
-                              ],
+                                );
+                              },
+                              icon: Icon(
+                                FontAwesomeIcons.rankingStar,
+                                color: AppColors.iconHeading,
+                                size: 18,
+                              ),
                             ),
-                          ),
+                          ],
                         ),
                       ],
                     ),
@@ -154,8 +133,7 @@ class _ResultState extends State<Result> {
                         primary: AppColors.primary,
                         minimumSize: Size.zero,
                         padding: EdgeInsets.all(0),
-                        elevation: 10,
-                        shadowColor: Colors.black,
+                        elevation: 5,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
@@ -306,7 +284,7 @@ class _ResultState extends State<Result> {
                     text: TextSpan(
                       text: pmp,
                       style: TextStyle(
-                        color: AppColors.text,
+                        color: AppColors.iconHeading,
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
                       ),
@@ -322,7 +300,7 @@ class _ResultState extends State<Result> {
               text: TextSpan(
                 text: "PM",
                 style: TextStyle(
-                  color: AppColors.text,
+                  color: AppColors.iconHeading,
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
@@ -371,7 +349,7 @@ class _ResultState extends State<Result> {
                     text: TextSpan(
                       text: progress,
                       style: TextStyle(
-                        color: AppColors.text,
+                        color: AppColors.iconHeading,
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
                       ),
@@ -387,7 +365,7 @@ class _ResultState extends State<Result> {
               text: TextSpan(
                 text: "Total",
                 style: TextStyle(
-                  color: AppColors.text,
+                  color: AppColors.iconHeading,
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
@@ -436,7 +414,7 @@ class _ResultState extends State<Result> {
                     text: TextSpan(
                       text: tmp,
                       style: TextStyle(
-                        color: AppColors.text,
+                        color: AppColors.iconHeading,
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
                       ),
@@ -452,7 +430,7 @@ class _ResultState extends State<Result> {
               text: TextSpan(
                 text: "TM",
                 style: TextStyle(
-                  color: AppColors.text,
+                  color: AppColors.iconHeading,
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
@@ -482,7 +460,7 @@ class _ResultState extends State<Result> {
             "New Achievements",
             style: TextStyle(
               fontSize: 18,
-              color: AppColors.text,
+              color: AppColors.iconHeading,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -532,7 +510,7 @@ class _ResultState extends State<Result> {
                       textAlign: TextAlign.center,
                       softWrap: true,
                       style: TextStyle(
-                        color: AppColors.text,
+                        color: AppColors.iconHeading,
                         fontWeight: FontWeight.bold,
                         fontSize: 13,
                       ),
@@ -565,7 +543,7 @@ class _ResultState extends State<Result> {
             "Old Achievements",
             style: TextStyle(
               fontSize: 18,
-              color: AppColors.text,
+              color: AppColors.iconHeading,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -615,7 +593,7 @@ class _ResultState extends State<Result> {
                       textAlign: TextAlign.center,
                       softWrap: true,
                       style: TextStyle(
-                        color: AppColors.text,
+                        color: AppColors.iconHeading,
                         fontWeight: FontWeight.bold,
                         fontSize: 13,
                       ),

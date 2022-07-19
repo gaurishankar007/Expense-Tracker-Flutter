@@ -22,7 +22,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
   OutlineInputBorder formBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(5),
     borderSide: BorderSide(
-      color: AppColors.form,
+      color: AppColors.button,
       width: 2,
       style: BorderStyle.solid,
     ),
@@ -37,7 +37,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
         title: Text(
           "Forgot Password",
           style: TextStyle(
-            color: AppColors.text,
+            color: AppColors.iconHeading,
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
@@ -65,9 +65,6 @@ class _ForgetPasswordState extends State<ForgetPassword> {
             key: _formKey,
             child: Column(
               children: [
-                SizedBox(
-                  height: 10,
-                ),
                 TextFormField(
                   key: ValueKey("email"),
                   onSaved: (value) {
@@ -82,8 +79,11 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                   },
                   decoration: InputDecoration(
                     filled: true,
-                    fillColor: AppColors.form,
+                    fillColor: AppColors.button,
                     hintText: "Enter your email.....",
+                    hintStyle: TextStyle(
+                      color: AppColors.iconHeading,
+                    ),
                     enabledBorder: formBorder,
                     focusedBorder: formBorder,
                     errorBorder: formBorder,
@@ -107,12 +107,15 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                       ]),
                       obscureText: p,
                       style: TextStyle(
-                        color: AppColors.text,
+                        color: AppColors.iconHeading,
                       ),
                       decoration: InputDecoration(
                         filled: true,
-                        fillColor: AppColors.form,
+                        fillColor: AppColors.button,
                         hintText: "Enter a new password.....",
+                        hintStyle: TextStyle(
+                          color: AppColors.iconHeading,
+                        ),
                         enabledBorder: formBorder,
                         focusedBorder: formBorder,
                         errorBorder: formBorder,
@@ -130,8 +133,8 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                         p
                             ? FontAwesomeIcons.solidEyeSlash
                             : FontAwesomeIcons.solidEye,
-                        size: 20,
-                        color: AppColors.primary,
+                        size: 18,
+                        color: AppColors.iconHeading,
                       ),
                     ),
                   ],
@@ -153,12 +156,15 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                       ]),
                       obscureText: conP,
                       style: TextStyle(
-                        color: AppColors.text,
+                        color: AppColors.iconHeading,
                       ),
                       decoration: InputDecoration(
                         filled: true,
-                        fillColor: AppColors.form,
+                        fillColor: AppColors.button,
                         hintText: "Confirm New Password......",
+                        hintStyle: TextStyle(
+                          color: AppColors.iconHeading,
+                        ),
                         enabledBorder: formBorder,
                         focusedBorder: formBorder,
                         errorBorder: formBorder,
@@ -176,8 +182,8 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                         conP
                             ? FontAwesomeIcons.solidEyeSlash
                             : FontAwesomeIcons.solidEye,
-                        size: 20,
-                        color: AppColors.primary,
+                        size: 18,
+                        color: AppColors.iconHeading,
                       ),
                     ),
                   ],
@@ -243,8 +249,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                   ),
                   style: ElevatedButton.styleFrom(
                     primary: AppColors.primary,
-                    elevation: 10,
-                    shadowColor: Colors.black,
+                    elevation: 5,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5),
                     ),

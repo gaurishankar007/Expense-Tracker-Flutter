@@ -23,7 +23,7 @@ class _LoginState extends State<Login> {
   OutlineInputBorder formBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(5),
     borderSide: BorderSide(
-      color: AppColors.form,
+      color: AppColors.button,
       width: 2,
       style: BorderStyle.solid,
     ),
@@ -37,13 +37,13 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     final sWidth = MediaQuery.of(context).size.width;
-    final sHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
           "Expense Tracker",
           style: TextStyle(
-            color: AppColors.text,
+            color: AppColors.iconHeading,
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
@@ -56,7 +56,6 @@ class _LoginState extends State<Login> {
         padding: EdgeInsets.only(
           left: sWidth * .05,
           right: sWidth * .05,
-          top: sHeight * .03,
         ),
         child: Form(
           key: _formKey,
@@ -65,8 +64,8 @@ class _LoginState extends State<Login> {
               ClipRRect(
                 borderRadius: BorderRadius.circular(5),
                 child: Image(
-                  height: 160,
-                  width: 175,
+                  height: 165,
+                  width: 165,
                   fit: BoxFit.cover,
                   image: AssetImage("image/logo.png"),
                 ),
@@ -94,8 +93,11 @@ class _LoginState extends State<Login> {
                     ]),
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: AppColors.form,
+                      fillColor: AppColors.button,
                       hintText: "Enter your email.....",
+                      hintStyle: TextStyle(
+                        color: AppColors.iconHeading,
+                      ),
                       enabledBorder: formBorder,
                       focusedBorder: formBorder,
                       errorBorder: formBorder,
@@ -112,47 +114,75 @@ class _LoginState extends State<Login> {
                   SizedBox(
                     height: 5,
                   ),
-                  Stack(
-                    alignment: Alignment.centerRight,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      TextFormField(
-                        onSaved: (value) {
-                          password = value!.trim();
+                      Stack(
+                        alignment: Alignment.centerRight,
+                        children: [
+                          TextFormField(
+                            onSaved: (value) {
+                              password = value!.trim();
+                            },
+                            validator: MultiValidator([
+                              RequiredValidator(
+                                  errorText: "Password is required!"),
+                            ]),
+                            obscureText: hidePass,
+                            decoration: InputDecoration(
+                              filled: true,
+                              fillColor: AppColors.button,
+                              hintText: "Enter your password.....",
+                              hintStyle: TextStyle(
+                                color: AppColors.iconHeading,
+                              ),
+                              enabledBorder: formBorder,
+                              focusedBorder: formBorder,
+                              errorBorder: formBorder,
+                              focusedErrorBorder: formBorder,
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              setState(() {
+                                hidePass = !hidePass;
+                              });
+                            },
+                            icon: Icon(
+                              hidePass
+                                  ? FontAwesomeIcons.solidEyeSlash
+                                  : FontAwesomeIcons.solidEye,
+                              size: 18,
+                              color: AppColors.iconHeading,
+                            ),
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (builder) => ForgetPassword()));
                         },
-                        validator: MultiValidator([
-                          RequiredValidator(errorText: "Password is required!"),
-                        ]),
-                        obscureText: hidePass,
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: AppColors.form,
-                          hintText: "Enter your password.....",
-                          enabledBorder: formBorder,
-                          focusedBorder: formBorder,
-                          errorBorder: formBorder,
-                          focusedErrorBorder: formBorder,
+                        child: Text(
+                          "Forgot Password",
+                          style: TextStyle(
+                              decoration: TextDecoration.underline,
+                              fontSize: 15,
+                              color: AppColors.primary,
+                              fontWeight: FontWeight.bold),
                         ),
                       ),
-                      IconButton(
-                        onPressed: () {
-                          setState(() {
-                            hidePass = !hidePass;
-                          });
-                        },
-                        icon: Icon(
-                          hidePass
-                              ? FontAwesomeIcons.solidEyeSlash
-                              : FontAwesomeIcons.solidEye,
-                          size: 20,
-                          color: AppColors.primary,
-                        ),
-                      )
                     ],
                   ),
                 ],
               ),
               SizedBox(
-                height: 10,
+                height: 5,
               ),
               ElevatedButton(
                 onPressed: () async {
@@ -204,59 +234,42 @@ class _LoginState extends State<Login> {
                 ),
                 style: ElevatedButton.styleFrom(
                   primary: AppColors.primary,
-                  elevation: 10,
-                  shadowColor: Colors.black,
+                  elevation: 5,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5),
                   ),
                 ),
               ),
-              SizedBox(
-                height: 2,
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (builder) => ForgetPassword()));
-                },
-                child: Text(
-                  "Forgot Password",
-                  style: TextStyle(
-                    decoration: TextDecoration.underline,
-                    fontSize: 15,
-                    color: AppColors.primary,
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 2,
-              ),
-              ElevatedButton(
-                key: Key("button"),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (builder) => SignUp(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Don't have an account! ",
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: AppColors.iconHeading,
+                      fontWeight: FontWeight.bold,
                     ),
-                  );
-                },
-                child: Text(
-                  "Create an account",
-                  style: TextStyle(
-                    fontSize: 15,
                   ),
-                ),
-                style: ElevatedButton.styleFrom(
-                  primary: AppColors.primary,
-                  elevation: 10,
-                  shadowColor: Colors.black,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (builder) => SignUp(),
+                        ),
+                      );
+                    },
+                    child: Text(
+                      "Sign Up",
+                      style: TextStyle(
+                          decoration: TextDecoration.underline,
+                          fontSize: 15,
+                          color: AppColors.primary,
+                          fontWeight: FontWeight.bold),
+                    ),
                   ),
-                ),
+                ],
               ),
             ],
           ),

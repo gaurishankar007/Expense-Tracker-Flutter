@@ -20,7 +20,7 @@ class _VerifyTokenState extends State<VerifyToken> {
   OutlineInputBorder formBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(5),
     borderSide: BorderSide(
-      color: AppColors.form,
+      color: AppColors.button,
       width: 2,
       style: BorderStyle.solid,
     ),
@@ -35,7 +35,7 @@ class _VerifyTokenState extends State<VerifyToken> {
         title: Text(
           "Verify Token",
           style: TextStyle(
-            color: AppColors.text,
+            color: AppColors.iconHeading,
           ),
         ),
         centerTitle: true,
@@ -78,8 +78,11 @@ class _VerifyTokenState extends State<VerifyToken> {
                   },
                   decoration: InputDecoration(
                     filled: true,
-                    fillColor: AppColors.form,
+                    fillColor: AppColors.button,
                     hintText: "Enter the token.....",
+                    hintStyle: TextStyle(
+                      color: AppColors.iconHeading,
+                    ),
                     enabledBorder: formBorder,
                     focusedBorder: formBorder,
                     errorBorder: formBorder,
@@ -134,8 +137,7 @@ class _VerifyTokenState extends State<VerifyToken> {
                   ),
                   style: ElevatedButton.styleFrom(
                     primary: AppColors.primary,
-                    elevation: 10,
-                    shadowColor: Colors.black,
+                    elevation: 5,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5),
                     ),

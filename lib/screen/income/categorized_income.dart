@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import '../../api/http/income_http.dart';
 import '../../api/res/income_res.dart';
 import '../../resource/colors.dart';
+import '../../widget/navigator.dart';
 
 class CategorizedIncome extends StatefulWidget {
   final String? category;
@@ -63,176 +64,172 @@ class _CategorizedIncomeState extends State<CategorizedIncome> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: FutureBuilder<List<IncomeData>>(
-              future: incomeCategories,
-              builder: (context, snapshot) {
-                List<Widget> children = [];
-                if (snapshot.connectionState == ConnectionState.waiting) {
+            future: incomeCategories,
+            builder: (context, snapshot) {
+              List<Widget> children = [];
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                children = <Widget>[
+                  Container(
+                    width: sWidth * 0.97,
+                    height: sHeight,
+                    alignment: Alignment.center,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 6,
+                      color: AppColors.primary,
+                      backgroundColor: AppColors.button,
+                    ),
+                  )
+                ];
+              } else if (snapshot.connectionState == ConnectionState.done) {
+                if (snapshot.hasData) {
+                  children = <Widget>[
+                    Stack(
+                      alignment: Alignment.topLeft,
+                      children: [
+                        Stack(
+                          alignment: Alignment.bottomLeft,
+                          children: [
+                            Stack(
+                              children: [
+                                ClipRRect(
+                                  child: Image(
+                                    width: sWidth,
+                                    height: sHeight * .3,
+                                    fit: BoxFit.cover,
+                                    image: AssetImage(
+                                      "image/category/${widget.category}.jpg",
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  width: sWidth,
+                                  height: sHeight * .3,
+                                  decoration: BoxDecoration(
+                                    boxShadow: const [
+                                      BoxShadow(
+                                        color: Colors.black38,
+                                        spreadRadius: 1,
+                                        blurRadius: 5,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: sWidth * 0.015,
+                                vertical: 5,
+                              ),
+                              child: RichText(
+                                text: TextSpan(
+                                  text:
+                                      "${widget.category} (Rs. $incomeAmount)",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: AppColors.onPrimary,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                        IconButton(
+                          padding: EdgeInsets.all(5.0),
+                          constraints: BoxConstraints(),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          icon: Icon(
+                            Icons.arrow_back_outlined,
+                            color: AppColors.onPrimary,
+                            size: 25,
+                          ),
+                        ),
+                      ],
+                    ),
+                    viewIncomes(context),
+                  ];
+                } else if (snapshot.hasError) {
                   children = <Widget>[
                     Container(
                       width: sWidth * 0.97,
                       height: sHeight,
                       alignment: Alignment.center,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 6,
-                        color: AppColors.primary,
-                        backgroundColor: AppColors.button,
+                      child: Text(
+                        "${snapshot.error}",
+                        style: TextStyle(
+                          fontSize: 15,
+                        ),
                       ),
                     )
                   ];
-                } else if (snapshot.connectionState == ConnectionState.done) {
-                  if (snapshot.hasData) {
-                    children = <Widget>[
-                      Stack(
-                        alignment: Alignment.topLeft,
-                        children: [
-                          Stack(
-                            alignment: Alignment.bottomLeft,
-                            children: [
-                              Stack(
-                                children: [
-                                  ClipRRect(
-                                    child: Image(
-                                      width: sWidth,
-                                      height: sHeight * .3,
-                                      fit: BoxFit.cover,
-                                      image: AssetImage(
-                                        "image/category/${widget.category}.jpg",
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    width: sWidth,
-                                    height: sHeight * .3,
-                                    decoration: BoxDecoration(
-                                      boxShadow: const [
-                                        BoxShadow(
-                                          color: Colors.black38,
-                                          spreadRadius: 1,
-                                          blurRadius: 5,
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: sWidth * 0.015,
-                                  vertical: 5,
-                                ),
-                                child: RichText(
-                                  text: TextSpan(
-                                    text:
-                                        "${widget.category} (Rs. $incomeAmount)",
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      color: AppColors.onPrimary,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                          IconButton(
-                            padding: EdgeInsets.all(5.0),
-                            constraints: BoxConstraints(),
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            icon: Icon(
-                              Icons.arrow_back_outlined,
-                              color: AppColors.onPrimary,
-                              size: 25,
-                            ),
-                          ),
-                        ],
-                      ),
-                      getButtons(context),
-                      viewIncomes(context),
-                    ];
-                  } else if (snapshot.hasError) {
-                    children = <Widget>[
-                      Container(
-                        width: sWidth * 0.97,
-                        height: sHeight,
-                        alignment: Alignment.center,
-                        child: Text(
-                          "${snapshot.error}",
-                          style: TextStyle(
-                            fontSize: 15,
-                          ),
-                        ),
-                      )
-                    ];
-                  }
                 }
+              }
 
-                return Column(
-                  children: children,
-                );
-              }),
+              return Column(
+                children: children,
+              );
+            },
+          ),
         ),
       ),
-    );
-  }
+      floatingActionButton: SizedBox(
+        height: 110,
+        child: Column(
+          children: [
+            GestureDetector(
+              onTap: () async {
+                if (incomeIndex == 0) {
+                  return;
+                }
 
-  Widget getButtons(BuildContext context) {
-    final sWidth = MediaQuery.of(context).size.width;
+                List<IncomeData> tempIncomeList =
+                    await IncomeHttp().getCategorizedIncome(widget.category!);
+                int tempIncomeAmount = 0;
+                for (int i = 0; i < tempIncomeList.length; i++) {
+                  tempIncomeAmount =
+                      tempIncomeAmount + tempIncomeList[i].amount!;
+                }
 
-    return Column(
-      children: [
-        Padding(
-          padding: EdgeInsets.only(
-            right: sWidth * 0.03,
-            top: 10,
-            left: sWidth * 0.03,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                onPressed: () async {
-                  if (incomeIndex == 0) {
-                    return;
-                  }
-
-                  List<IncomeData> tempIncomeList =
-                      await IncomeHttp().getCategorizedIncome(widget.category!);
-                  int tempIncomeAmount = 0;
-                  for (int i = 0; i < tempIncomeList.length; i++) {
-                    tempIncomeAmount =
-                        tempIncomeAmount + tempIncomeList[i].amount!;
-                  }
-
-                  setState(() {
-                    incomeList = tempIncomeList;
-                    incomeAmount = tempIncomeAmount;
-                    incomeIndex = 0;
-                  });
-                },
-                child: Text(
-                  "This Month",
+                setState(() {
+                  incomeList = tempIncomeList;
+                  incomeAmount = tempIncomeAmount;
+                  incomeIndex = 0;
+                });
+              },
+              child: Container(
+                height: 50,
+                width: 50,
+                decoration: BoxDecoration(
+                  color: incomeIndex == 0
+                      ? AppColors.primary
+                      : AppColors.onPrimary,
+                  borderRadius: BorderRadius.circular(25),
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.button,
+                      spreadRadius: 1,
+                      blurRadius: 5,
+                      offset: Offset(2, 5),
+                    ),
+                  ],
                 ),
-                style: ElevatedButton.styleFrom(
-                  primary:
-                      incomeIndex == 0 ? AppColors.primary : AppColors.button,
-                  onPrimary:
-                      incomeIndex == 0 ? AppColors.onPrimary : AppColors.text,
-                  minimumSize: Size.zero,
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 8,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5),
-                  ),
+                child: Icon(
+                  Icons.date_range_rounded,
+                  color: incomeIndex == 0
+                      ? AppColors.onPrimary
+                      : AppColors.primary,
                 ),
               ),
-              SizedBox(
-                width: 10,
-              ),
-              ElevatedButton(
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            SizedBox(
+              height: 50,
+              child: FloatingActionButton(
                 onPressed: () {
                   setState(() {
                     incomeList = [];
@@ -245,28 +242,20 @@ class _CategorizedIncomeState extends State<CategorizedIncome> {
                     builder: (builder) => selectDate(context, firstDate),
                   );
                 },
-                child: Text(
-                  "Select",
+                backgroundColor:
+                    incomeIndex == 1 ? AppColors.primary : AppColors.onPrimary,
+                child: Icon(
+                  Icons.search_rounded,
+                  color: incomeIndex == 1
+                      ? AppColors.onPrimary
+                      : AppColors.primary,
                 ),
-                style: ElevatedButton.styleFrom(
-                  primary:
-                      incomeIndex == 1 ? AppColors.primary : AppColors.button,
-                  onPrimary:
-                      incomeIndex == 1 ? AppColors.onPrimary : AppColors.text,
-                  minimumSize: Size.zero,
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 8,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                ),
-              )
-            ],
-          ),
+              ),
+            ),
+          ],
         ),
-      ],
+      ),
+      bottomNavigationBar: PageNavigator(pageIndex: 0),
     );
   }
 
@@ -274,6 +263,7 @@ class _CategorizedIncomeState extends State<CategorizedIncome> {
     String startDate = "", endDate = "";
 
     return SimpleDialog(
+      backgroundColor: AppColors.background,
       children: [
         SimpleDialogOption(
           padding: EdgeInsets.only(
@@ -302,8 +292,11 @@ class _CategorizedIncomeState extends State<CategorizedIncome> {
                 },
                 decoration: InputDecoration(
                   filled: true,
-                  fillColor: AppColors.form,
+                  fillColor: AppColors.button,
                   hintText: "Start Date",
+                  hintStyle: TextStyle(
+                    color: AppColors.iconHeading,
+                  ),
                   enabledBorder: formBorder,
                   focusedBorder: formBorder,
                   errorBorder: formBorder,
@@ -332,8 +325,11 @@ class _CategorizedIncomeState extends State<CategorizedIncome> {
                 },
                 decoration: InputDecoration(
                   filled: true,
-                  fillColor: AppColors.form,
+                  fillColor: AppColors.button,
                   hintText: "End Date",
+                  hintStyle: TextStyle(
+                    color: AppColors.iconHeading,
+                  ),
                   enabledBorder: formBorder,
                   focusedBorder: formBorder,
                   errorBorder: formBorder,
@@ -391,6 +387,7 @@ class _CategorizedIncomeState extends State<CategorizedIncome> {
                     horizontal: 10,
                     vertical: 8,
                   ),
+                  elevation: 5,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5),
                   ),
@@ -413,7 +410,7 @@ class _CategorizedIncomeState extends State<CategorizedIncome> {
               child: Text(
                 "No incomes",
                 style: TextStyle(
-                  color: AppColors.text,
+                  color: AppColors.iconHeading,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -439,27 +436,27 @@ class _CategorizedIncomeState extends State<CategorizedIncome> {
                   leading: Text(
                     (index + 1).toString() + ".",
                     style: TextStyle(
-                      color: AppColors.text,
+                      color: AppColors.iconHeading,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   title: Text(
                     incomeList[index].name!,
                     style: TextStyle(
-                      color: AppColors.text,
+                      color: AppColors.iconHeading,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   subtitle: Text(
                     incomeList[index].createdAt!.split("T")[0],
                     style: TextStyle(
-                      color: AppColors.text,
+                      color: AppColors.iconHeading,
                     ),
                   ),
                   trailing: Text(
                     "Rs. " + incomeList[index].amount!.toString(),
                     style: TextStyle(
-                      color: AppColors.text,
+                      color: AppColors.iconHeading,
                       fontWeight: FontWeight.bold,
                     ),
                   ),

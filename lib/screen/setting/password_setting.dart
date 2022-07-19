@@ -36,7 +36,7 @@ class _PasswordSettingState extends State<PasswordSetting> {
         title: Text(
           "Password",
           style: TextStyle(
-            color: AppColors.text,
+            color: AppColors.iconHeading,
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
@@ -48,7 +48,7 @@ class _PasswordSettingState extends State<PasswordSetting> {
           },
           icon: Icon(
             Icons.arrow_back,
-            color: AppColors.text,
+            color: AppColors.iconHeading,
           ),
         ),
         elevation: 0,
@@ -79,12 +79,15 @@ class _PasswordSettingState extends State<PasswordSetting> {
                         ]),
                         obscureText: curP,
                         style: TextStyle(
-                          color: AppColors.text,
+                          color: AppColors.iconHeading,
                         ),
                         decoration: InputDecoration(
                           filled: true,
-                          fillColor: AppColors.form,
+                          fillColor: AppColors.button,
                           hintText: "Enter your current password.....",
+                          hintStyle: TextStyle(
+                            color: AppColors.iconHeading,
+                          ),
                           enabledBorder: formBorder,
                           focusedBorder: formBorder,
                           errorBorder: formBorder,
@@ -102,8 +105,8 @@ class _PasswordSettingState extends State<PasswordSetting> {
                           curP
                               ? FontAwesomeIcons.solidEyeSlash
                               : FontAwesomeIcons.solidEye,
-                          size: 20,
-                          color: AppColors.primary,
+                          size: 18,
+                          color: AppColors.iconHeading,
                         ),
                       ),
                     ],
@@ -125,12 +128,15 @@ class _PasswordSettingState extends State<PasswordSetting> {
                         ]),
                         obscureText: newP,
                         style: TextStyle(
-                          color: AppColors.text,
+                          color: AppColors.iconHeading,
                         ),
                         decoration: InputDecoration(
                           filled: true,
-                          fillColor: AppColors.form,
+                          fillColor: AppColors.button,
                           hintText: "Enter your New password.....",
+                          hintStyle: TextStyle(
+                            color: AppColors.iconHeading,
+                          ),
                           enabledBorder: formBorder,
                           focusedBorder: formBorder,
                           errorBorder: formBorder,
@@ -148,8 +154,8 @@ class _PasswordSettingState extends State<PasswordSetting> {
                           newP
                               ? FontAwesomeIcons.solidEyeSlash
                               : FontAwesomeIcons.solidEye,
-                          size: 20,
-                          color: AppColors.primary,
+                          size: 18,
+                          color: AppColors.iconHeading,
                         ),
                       ),
                     ],
@@ -171,12 +177,15 @@ class _PasswordSettingState extends State<PasswordSetting> {
                         ]),
                         obscureText: conP,
                         style: TextStyle(
-                          color: AppColors.text,
+                          color: AppColors.iconHeading,
                         ),
                         decoration: InputDecoration(
                           filled: true,
-                          fillColor: AppColors.form,
+                          fillColor: AppColors.button,
                           hintText: "Confirm New Password......",
+                          hintStyle: TextStyle(
+                            color: AppColors.iconHeading,
+                          ),
                           enabledBorder: formBorder,
                           focusedBorder: formBorder,
                           errorBorder: formBorder,
@@ -194,8 +203,8 @@ class _PasswordSettingState extends State<PasswordSetting> {
                           conP
                               ? FontAwesomeIcons.solidEyeSlash
                               : FontAwesomeIcons.solidEye,
-                          size: 20,
-                          color: AppColors.primary,
+                          size: 18,
+                          color: AppColors.iconHeading,
                         ),
                       ),
                     ],
@@ -255,10 +264,9 @@ class _PasswordSettingState extends State<PasswordSetting> {
                     ),
                     style: ElevatedButton.styleFrom(
                       primary: AppColors.primary,
-                      elevation: 10,
-                      shadowColor: Colors.black,
+                      elevation: 5,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(5),
                       ),
                     ),
                   ),

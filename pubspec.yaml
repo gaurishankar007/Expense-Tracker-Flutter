@@ -36,7 +36,6 @@ dependencies:
   cupertino_icons: ^1.0.2
   http: ^0.13.4
   shared_preferences: ^2.0.15
-  file_picker: ^4.5.1
   fluttertoast: ^8.0.9
   json_serializable: ^6.2.0
   json_annotation: ^4.5.0
@@ -46,6 +45,7 @@ dependencies:
   fl_chart: ^0.55.0
   datetime_picker_formfield: ^2.0.0
   font_awesome_flutter: ^10.1.0
+  image_picker: ^0.8.5+3
 
 flutter_icons:
   android: true

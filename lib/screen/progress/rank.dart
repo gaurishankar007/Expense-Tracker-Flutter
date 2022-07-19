@@ -1,5 +1,6 @@
 import 'package:expense_tracker/api/http/progress_http.dart';
 import 'package:expense_tracker/api/res/progress_res.dart';
+import 'package:expense_tracker/widget/navigator.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -14,6 +15,9 @@ class RankingSystem extends StatefulWidget {
 
 class _RankingSystemState extends State<RankingSystem> {
   late Future<TopProgress> usersProgress;
+  List<Progress> progressPoints = [];
+  List<Progress> tmpPoints = [];
+  List<Progress> pmpPoints = [];
   List<Progress> progressList = [];
   List<String> pointList = [];
   int progressIndex = 0;
@@ -21,6 +25,9 @@ class _RankingSystemState extends State<RankingSystem> {
   void topUsersProgress() {
     usersProgress = ProgressHttp().topUsersProgress();
     usersProgress.then((value) {
+      progressPoints = value.progressPoints!;
+      tmpPoints = value.tmpPoints!;
+      pmpPoints = value.pmpPoints!;
       progressList = value.progressPoints!;
 
       for (int i = 0; i < progressList.length; i++) {
@@ -53,13 +60,13 @@ class _RankingSystemState extends State<RankingSystem> {
           },
           icon: Icon(
             Icons.arrow_back,
-            color: AppColors.text,
+            color: AppColors.iconHeading,
           ),
         ),
         title: Text(
           "Progress Point Ranking",
           style: TextStyle(
-            color: AppColors.text,
+            color: AppColors.iconHeading,
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
@@ -72,7 +79,7 @@ class _RankingSystemState extends State<RankingSystem> {
         padding: EdgeInsets.only(
           right: sWidth * 0.03,
           left: sWidth * 0.03,
-          bottom: 10,
+          bottom: 30,
         ),
         child: FutureBuilder<TopProgress>(
           future: usersProgress,
@@ -94,12 +101,6 @@ class _RankingSystemState extends State<RankingSystem> {
               ];
             } else if (snapshot.connectionState == ConnectionState.done) {
               children = <Widget>[
-                getButtons(
-                  context,
-                  snapshot.data!.progressPoints!,
-                  snapshot.data!.tmpPoints!,
-                  snapshot.data!.pmpPoints!,
-                ),
                 rankedUsers(context),
               ];
               if (snapshot.hasData) {
@@ -154,152 +155,161 @@ class _RankingSystemState extends State<RankingSystem> {
           }),
         ),
       ),
+      floatingActionButton: getButtons(context),
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
+      bottomNavigationBar: PageNavigator(
+        pageIndex: 3,
+      ),
     );
   }
 
-  Widget getButtons(
-    BuildContext context,
-    List<Progress> progressPoints,
-    List<Progress> tmpPoints,
-    List<Progress> pmpPoints,
-  ) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        ElevatedButton(
-          onPressed: () {
-            if (progressIndex == 0) {
-              return;
-            }
+  Widget getButtons(BuildContext context) {
+    return SizedBox(
+      width: 155,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          ElevatedButton(
+            onPressed: () {
+              if (progressIndex == 0) {
+                return;
+              }
 
-            List<String> tempPoints = [];
+              List<String> tempPoints = [];
 
-            for (int i = 0; i < progressPoints.length; i++) {
-              String point = "";
-              point = progressPoints[i].progress! > 1000
-                  ? (progressPoints[i].progress! / 1000).toStringAsFixed(1) +
-                      " K"
-                  : progressPoints[i].progress!.toString();
-              tempPoints.add(point);
-            }
+              for (int i = 0; i < progressPoints.length; i++) {
+                String point = "";
+                point = progressPoints[i].progress! > 1000
+                    ? (progressPoints[i].progress! / 1000).toStringAsFixed(1) +
+                        " K"
+                    : progressPoints[i].progress!.toString();
+                tempPoints.add(point);
+              }
 
-            setState(() {
-              progressList = progressPoints;
-              pointList = tempPoints;
-              progressIndex = 0;
-            });
-          },
-          child: Text(
-            "Total",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
+              setState(() {
+                progressList = progressPoints;
+                pointList = tempPoints;
+                progressIndex = 0;
+              });
+            },
+            child: Text(
+              "Total",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            style: ElevatedButton.styleFrom(
+              primary:
+                  progressIndex == 0 ? AppColors.primary : AppColors.button,
+              onPrimary: progressIndex == 0
+                  ? AppColors.onPrimary
+                  : AppColors.iconHeading,
+              minimumSize: Size.zero,
+              padding: EdgeInsets.symmetric(
+                horizontal: 10,
+                vertical: 8,
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
             ),
           ),
-          style: ElevatedButton.styleFrom(
-            primary: progressIndex == 0 ? AppColors.primary : AppColors.button,
-            onPrimary:
-                progressIndex == 0 ? AppColors.onPrimary : AppColors.text,
-            minimumSize: Size.zero,
-            padding: EdgeInsets.symmetric(
-              horizontal: 10,
-              vertical: 8,
+          SizedBox(
+            width: 3,
+          ),
+          ElevatedButton(
+            onPressed: () {
+              if (progressIndex == 1) {
+                return;
+              }
+
+              List<String> tempPoints = [];
+
+              for (int i = 0; i < tmpPoints.length; i++) {
+                String point = "";
+                point = tmpPoints[i].tmp! > 1000
+                    ? (tmpPoints[i].tmp! / 1000).toStringAsFixed(1) + " K"
+                    : tmpPoints[i].tmp!.toString();
+                tempPoints.add(point);
+              }
+
+              setState(() {
+                progressList = tmpPoints;
+                pointList = tempPoints;
+                progressIndex = 1;
+              });
+            },
+            child: Text(
+              "TM",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
             ),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5),
+            style: ElevatedButton.styleFrom(
+              primary:
+                  progressIndex == 1 ? AppColors.primary : AppColors.button,
+              onPrimary: progressIndex == 1
+                  ? AppColors.onPrimary
+                  : AppColors.iconHeading,
+              minimumSize: Size.zero,
+              padding: EdgeInsets.symmetric(
+                horizontal: 10,
+                vertical: 8,
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
             ),
           ),
-        ),
-        SizedBox(
-          width: 10,
-        ),
-        ElevatedButton(
-          onPressed: () {
-            if (progressIndex == 1) {
-              return;
-            }
-
-            List<String> tempPoints = [];
-
-            for (int i = 0; i < tmpPoints.length; i++) {
-              String point = "";
-              point = tmpPoints[i].tmp! > 1000
-                  ? (tmpPoints[i].tmp! / 1000).toStringAsFixed(1) + " K"
-                  : tmpPoints[i].tmp!.toString();
-              tempPoints.add(point);
-            }
-
-            setState(() {
-              progressList = tmpPoints;
-              pointList = tempPoints;
-              progressIndex = 1;
-            });
-          },
-          child: Text(
-            "This Month",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
+          SizedBox(
+            width: 3,
           ),
-          style: ElevatedButton.styleFrom(
-            primary: progressIndex == 1 ? AppColors.primary : AppColors.button,
-            onPrimary:
-                progressIndex == 1 ? AppColors.onPrimary : AppColors.text,
-            minimumSize: Size.zero,
-            padding: EdgeInsets.symmetric(
-              horizontal: 10,
-              vertical: 8,
-            ),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5),
-            ),
-          ),
-        ),
-        SizedBox(
-          width: 10,
-        ),
-        ElevatedButton(
-          onPressed: () {
-            if (progressIndex == 2) {
-              return;
-            }
+          ElevatedButton(
+            onPressed: () {
+              if (progressIndex == 2) {
+                return;
+              }
 
-            List<String> tempPoints = [];
+              List<String> tempPoints = [];
 
-            for (int i = 0; i < pmpPoints.length; i++) {
-              String point = "";
-              point = pmpPoints[i].pmp! > 1000
-                  ? (pmpPoints[i].pmp! / 1000).toStringAsFixed(1) + " K"
-                  : pmpPoints[i].pmp!.toString();
-              tempPoints.add(point);
-            }
+              for (int i = 0; i < pmpPoints.length; i++) {
+                String point = "";
+                point = pmpPoints[i].pmp! > 1000
+                    ? (pmpPoints[i].pmp! / 1000).toStringAsFixed(1) + " K"
+                    : pmpPoints[i].pmp!.toString();
+                tempPoints.add(point);
+              }
 
-            setState(() {
-              progressList = pmpPoints;
-              pointList = tempPoints;
-              progressIndex = 2;
-            });
-          },
-          child: Text(
-            "Previous Month",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
+              setState(() {
+                progressList = pmpPoints;
+                pointList = tempPoints;
+                progressIndex = 2;
+              });
+            },
+            child: Text(
+              "PM",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
-          style: ElevatedButton.styleFrom(
-            primary: progressIndex == 2 ? AppColors.primary : AppColors.button,
-            onPrimary:
-                progressIndex == 2 ? AppColors.onPrimary : AppColors.text,
-            minimumSize: Size.zero,
-            padding: EdgeInsets.symmetric(
-              horizontal: 10,
-              vertical: 8,
+            style: ElevatedButton.styleFrom(
+              primary:
+                  progressIndex == 2 ? AppColors.primary : AppColors.button,
+              onPrimary: progressIndex == 2
+                  ? AppColors.onPrimary
+                  : AppColors.iconHeading,
+              minimumSize: Size.zero,
+              padding: EdgeInsets.symmetric(
+                horizontal: 10,
+                vertical: 8,
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
             ),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5),
-            ),
-          ),
-        )
-      ],
+          )
+        ],
+      ),
     );
   }
 
@@ -321,7 +331,7 @@ class _RankingSystemState extends State<RankingSystem> {
       itemCount: progressList.length,
       itemBuilder: ((context, index) {
         return Padding(
-          padding: EdgeInsets.symmetric(vertical: 5),
+          padding: EdgeInsets.only(bottom: 10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -331,7 +341,7 @@ class _RankingSystemState extends State<RankingSystem> {
                     (index + 1).toString() + ".",
                     style: TextStyle(
                       fontSize: 16,
-                      color: AppColors.text,
+                      color: AppColors.iconHeading,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -371,7 +381,7 @@ class _RankingSystemState extends State<RankingSystem> {
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
-                            color: AppColors.text,
+                            color: AppColors.iconHeading,
                           ),
                         ),
                         SizedBox(
@@ -379,13 +389,29 @@ class _RankingSystemState extends State<RankingSystem> {
                         ),
                         Row(
                           children: [
-                            Icon(
-                              FontAwesomeIcons.medal,
-                              size: 16,
-                              color: Colors.green,
-                            ),
-                            SizedBox(
-                              width: 4,
+                            IconButton(
+                              constraints: BoxConstraints(),
+                              padding: EdgeInsets.zero,
+                              onPressed: () {
+                                if (progressList[index]
+                                    .newAchievement!
+                                    .isEmpty) {
+                                  return;
+                                }
+                                showDialog(
+                                  context: context,
+                                  builder: (builder) => userAchievements(
+                                    context,
+                                    "New Achievements",
+                                    progressList[index].newAchievement!,
+                                  ),
+                                );
+                              },
+                              icon: Icon(
+                                FontAwesomeIcons.medal,
+                                size: 16,
+                                color: Colors.green,
+                              ),
                             ),
                             Text(
                               progressList[index]
@@ -398,19 +424,35 @@ class _RankingSystemState extends State<RankingSystem> {
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
-                                color: AppColors.text,
+                                color: AppColors.iconHeading,
                               ),
                             ),
                             SizedBox(
-                              width: 8,
-                            ),
-                            Icon(
-                              FontAwesomeIcons.medal,
-                              size: 16,
-                              color: Colors.orange,
-                            ),
-                            SizedBox(
                               width: 4,
+                            ),
+                            IconButton(
+                              constraints: BoxConstraints(),
+                              padding: EdgeInsets.zero,
+                              onPressed: () {
+                                if (progressList[index]
+                                    .oldAchievement!
+                                    .isEmpty) {
+                                  return;
+                                }
+                                showDialog(
+                                  context: context,
+                                  builder: (builder) => userAchievements(
+                                    context,
+                                    "Old Achievements",
+                                    progressList[index].oldAchievement!,
+                                  ),
+                                );
+                              },
+                              icon: Icon(
+                                FontAwesomeIcons.medal,
+                                size: 16,
+                                color: Colors.orange,
+                              ),
                             ),
                             Text(
                               progressList[index]
@@ -422,7 +464,7 @@ class _RankingSystemState extends State<RankingSystem> {
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
-                                color: AppColors.text,
+                                color: AppColors.iconHeading,
                               ),
                             ),
                           ],
@@ -471,7 +513,7 @@ class _RankingSystemState extends State<RankingSystem> {
                       text: TextSpan(
                         text: pointList[index],
                         style: TextStyle(
-                          color: AppColors.text,
+                          color: AppColors.iconHeading,
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
                         ),
@@ -484,6 +526,94 @@ class _RankingSystemState extends State<RankingSystem> {
           ),
         );
       }),
+    );
+  }
+
+  Widget userAchievements(BuildContext context, String achievementType,
+      List<Achievement> achievements) {
+    final sWidth = MediaQuery.of(context).size.width;
+    final sHeight = MediaQuery.of(context).size.height;
+
+    return SimpleDialog(
+      backgroundColor: AppColors.background,
+      titlePadding: EdgeInsets.zero,
+      contentPadding: EdgeInsets.all(10),
+      children: [
+        SizedBox(
+          height: achievements.length <= 2 ? sHeight * .2 : sHeight * .4,
+          width: sWidth * .5,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Text(
+                  achievementType,
+                  style: TextStyle(
+                    color: AppColors.iconHeading,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                GridView.count(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  childAspectRatio: (sWidth - (sWidth * .53)) / (sHeight * .24),
+                  crossAxisSpacing: 5,
+                  crossAxisCount: 2,
+                  children: List.generate(
+                    achievements.length,
+                    (index) {
+                      return Column(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: Colors.black26,
+                                  spreadRadius: 1,
+                                  blurRadius: 5,
+                                  offset: Offset(2, 2),
+                                )
+                              ],
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Image(
+                                height: sHeight * 0.1,
+                                width: sWidth * 0.2,
+                                fit: BoxFit.cover,
+                                image: AssetImage(
+                                  "image/category/Clothing.jpg",
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            achievements[index].name!,
+                            textAlign: TextAlign.center,
+                            softWrap: true,
+                            style: TextStyle(
+                              color: AppColors.iconHeading,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 13,
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+        )
+      ],
     );
   }
 }

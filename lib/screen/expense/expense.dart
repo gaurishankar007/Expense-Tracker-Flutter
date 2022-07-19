@@ -20,7 +20,7 @@ class Expense extends StatefulWidget {
 
 class _ExpenseState extends State<Expense> {
   final _formKey = GlobalKey<FormState>();
-  String name = "", amount = "", category = "Other";
+  String name = "", amount = "", category = "Other", firstDate = "";
 
   OutlineInputBorder formBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(5),
@@ -50,6 +50,7 @@ class _ExpenseState extends State<Expense> {
       expenseList = value.todayExpenses!;
       expenseAmount = value.todayExpenseAmount!;
       expenseCategoryList = value.todayExpenseCategories!;
+      firstDate = value.firstExpenseDate!;
     });
   }
 
@@ -109,7 +110,7 @@ class _ExpenseState extends State<Expense> {
                               Text(
                                 "Your Expenses",
                                 style: TextStyle(
-                                  color: AppColors.text,
+                                  color: AppColors.iconHeading,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 18,
                                 ),
@@ -118,22 +119,29 @@ class _ExpenseState extends State<Expense> {
                           ),
                           IconButton(
                             onPressed: () {
+                              setState(() {
+                                expenseList = [];
+                                expenseAmount = 0;
+                                expenseCategoryList = [];
+                                expenseIndex = 3;
+                                touchedIndex = 0;
+                              });
+
                               showDialog(
                                 context: context,
-                                builder: (ctx) {
-                                  return addExpense(context);
-                                },
+                                builder: (builder) =>
+                                    selectDate(context, firstDate),
                               );
                             },
                             icon: Icon(
-                              Icons.add,
-                              color: AppColors.text,
-                              size: 35,
+                              Icons.search_rounded,
+                              color: AppColors.iconHeading,
+                              size: 30,
                             ),
                           ),
                         ],
                       ),
-                      getButtons(context, snapshot.data!.firstExpenseDate!),
+                      getButtons(context),
                       viewExpense(
                         context,
                         expenseList,
@@ -192,6 +200,24 @@ class _ExpenseState extends State<Expense> {
               },
             )),
       ),
+      floatingActionButton: SizedBox(
+        height: 50,
+        child: FloatingActionButton(
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (ctx) {
+                return addExpense(context);
+              },
+            );
+          },
+          backgroundColor: AppColors.primary,
+          child: Icon(
+            Icons.add,
+            color: AppColors.onPrimary,
+          ),
+        ),
+      ),
       bottomNavigationBar: PageNavigator(pageIndex: 1),
     );
   }
@@ -228,6 +254,7 @@ class _ExpenseState extends State<Expense> {
   Widget addExpense(BuildContext context) {
     return StatefulBuilder(builder: (context, setState1) {
       return AlertDialog(
+        backgroundColor: AppColors.background,
         title: Form(
           key: _formKey,
           child: Column(
@@ -238,7 +265,10 @@ class _ExpenseState extends State<Expense> {
                 }),
                 decoration: InputDecoration(
                   filled: true,
-                  fillColor: AppColors.form,
+                  fillColor: AppColors.button,
+                  hintStyle: TextStyle(
+                    color: AppColors.iconHeading,
+                  ),
                   hintText: "Enter name",
                   enabledBorder: formBorder,
                   focusedBorder: formBorder,
@@ -256,8 +286,11 @@ class _ExpenseState extends State<Expense> {
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                   filled: true,
-                  fillColor: AppColors.form,
+                  fillColor: AppColors.button,
                   hintText: "Enter amount",
+                  hintStyle: TextStyle(
+                    color: AppColors.iconHeading,
+                  ),
                   enabledBorder: formBorder,
                   focusedBorder: formBorder,
                   errorBorder: formBorder,
@@ -272,7 +305,7 @@ class _ExpenseState extends State<Expense> {
                   horizontal: 10,
                 ),
                 decoration: BoxDecoration(
-                  color: AppColors.form,
+                  color: AppColors.button,
                   borderRadius: BorderRadius.circular(5),
                 ),
                 child: DropdownButton(
@@ -280,11 +313,11 @@ class _ExpenseState extends State<Expense> {
                   elevation: 20,
                   underline: SizedBox(),
                   style: TextStyle(
-                    color: AppColors.text,
+                    color: AppColors.iconHeading,
                     fontSize: 15,
                   ),
                   isExpanded: true,
-                  dropdownColor: AppColors.form,
+                  dropdownColor: AppColors.button,
                   borderRadius: BorderRadius.circular(5),
                   onChanged: (String? newValue) {
                     setState1(() {
@@ -308,8 +341,7 @@ class _ExpenseState extends State<Expense> {
               primary: AppColors.primary,
               minimumSize: Size.zero,
               padding: EdgeInsets.all(8),
-              elevation: 10,
-              shadowColor: Colors.black,
+              elevation: 5,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(5),
               ),
@@ -317,6 +349,7 @@ class _ExpenseState extends State<Expense> {
             onPressed: () async {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
+                Navigator.pop(context);
 
                 final resData = await ExpenseHttp().addExpense(
                   AddExpenseIncome(
@@ -333,7 +366,6 @@ class _ExpenseState extends State<Expense> {
                   amount = "";
                   category = "Other";
 
-                  Navigator.pop(context);
                   Fluttertoast.showToast(
                     msg: resData["body"]["resM"],
                     toastLength: Toast.LENGTH_SHORT,
@@ -373,8 +405,7 @@ class _ExpenseState extends State<Expense> {
               primary: AppColors.primary,
               minimumSize: Size.zero,
               padding: EdgeInsets.all(8),
-              elevation: 10,
-              shadowColor: Colors.black,
+              elevation: 5,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(5),
               ),
@@ -390,7 +421,7 @@ class _ExpenseState extends State<Expense> {
     });
   }
 
-  Widget getButtons(BuildContext context, String firstDate) {
+  Widget getButtons(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -418,12 +449,14 @@ class _ExpenseState extends State<Expense> {
           ),
           style: ElevatedButton.styleFrom(
             primary: expenseIndex == 0 ? AppColors.primary : AppColors.button,
-            onPrimary: expenseIndex == 0 ? AppColors.onPrimary : AppColors.text,
+            onPrimary:
+                expenseIndex == 0 ? AppColors.onPrimary : AppColors.iconHeading,
             minimumSize: Size.zero,
             padding: EdgeInsets.symmetric(
               horizontal: 10,
               vertical: 8,
             ),
+            elevation: 5,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5),
             ),
@@ -456,12 +489,14 @@ class _ExpenseState extends State<Expense> {
           ),
           style: ElevatedButton.styleFrom(
             primary: expenseIndex == 1 ? AppColors.primary : AppColors.button,
-            onPrimary: expenseIndex == 1 ? AppColors.onPrimary : AppColors.text,
+            onPrimary:
+                expenseIndex == 1 ? AppColors.onPrimary : AppColors.iconHeading,
             minimumSize: Size.zero,
             padding: EdgeInsets.symmetric(
               horizontal: 10,
               vertical: 8,
             ),
+            elevation: 5,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5),
             ),
@@ -494,49 +529,14 @@ class _ExpenseState extends State<Expense> {
           ),
           style: ElevatedButton.styleFrom(
             primary: expenseIndex == 2 ? AppColors.primary : AppColors.button,
-            onPrimary: expenseIndex == 2 ? AppColors.onPrimary : AppColors.text,
+            onPrimary:
+                expenseIndex == 2 ? AppColors.onPrimary : AppColors.iconHeading,
             minimumSize: Size.zero,
             padding: EdgeInsets.symmetric(
               horizontal: 10,
               vertical: 8,
             ),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5),
-            ),
-          ),
-        ),
-        SizedBox(
-          width: 10,
-        ),
-        ElevatedButton(
-          onPressed: () {
-            setState(() {
-              expenseList = [];
-              expenseAmount = 0;
-              expenseCategoryList = [];
-              expenseIndex = 3;
-              touchedIndex = 0;
-            });
-
-            showDialog(
-              context: context,
-              builder: (builder) => selectDate(context, firstDate),
-            );
-          },
-          child: Text(
-            "Select",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          style: ElevatedButton.styleFrom(
-            primary: expenseIndex == 3 ? AppColors.primary : AppColors.button,
-            onPrimary: expenseIndex == 3 ? AppColors.onPrimary : AppColors.text,
-            minimumSize: Size.zero,
-            padding: EdgeInsets.symmetric(
-              horizontal: 10,
-              vertical: 8,
-            ),
+            elevation: 5,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5),
             ),
@@ -550,6 +550,7 @@ class _ExpenseState extends State<Expense> {
     String startDate = "", endDate = "";
 
     return SimpleDialog(
+      backgroundColor: AppColors.background,
       children: [
         SimpleDialogOption(
           padding: EdgeInsets.only(
@@ -578,8 +579,11 @@ class _ExpenseState extends State<Expense> {
                 },
                 decoration: InputDecoration(
                   filled: true,
-                  fillColor: AppColors.form,
+                  fillColor: AppColors.button,
                   hintText: "Start Date",
+                  hintStyle: TextStyle(
+                    color: AppColors.iconHeading,
+                  ),
                   enabledBorder: formBorder,
                   focusedBorder: formBorder,
                   errorBorder: formBorder,
@@ -608,8 +612,11 @@ class _ExpenseState extends State<Expense> {
                 },
                 decoration: InputDecoration(
                   filled: true,
-                  fillColor: AppColors.form,
+                  fillColor: AppColors.button,
                   hintText: "End Date",
+                  hintStyle: TextStyle(
+                    color: AppColors.iconHeading,
+                  ),
                   enabledBorder: formBorder,
                   focusedBorder: formBorder,
                   errorBorder: formBorder,
@@ -661,6 +668,7 @@ class _ExpenseState extends State<Expense> {
                     horizontal: 10,
                     vertical: 8,
                   ),
+                  elevation: 5,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5),
                   ),
@@ -694,7 +702,7 @@ class _ExpenseState extends State<Expense> {
                   "Expense Categories",
                   style: TextStyle(
                     fontSize: 18,
-                    color: AppColors.text,
+                    color: AppColors.iconHeading,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -780,7 +788,7 @@ class _ExpenseState extends State<Expense> {
                       text: TextSpan(
                         text: category[index].category!,
                         style: TextStyle(
-                          color: AppColors.text,
+                          color: AppColors.iconHeading,
                           fontWeight: FontWeight.bold,
                           fontSize: 14,
                         ),
@@ -797,7 +805,7 @@ class _ExpenseState extends State<Expense> {
                 text: TextSpan(
                   text: "= ",
                   style: TextStyle(
-                    color: AppColors.text,
+                    color: AppColors.iconHeading,
                     fontWeight: FontWeight.bold,
                     fontSize: 20,
                   ),
@@ -823,7 +831,7 @@ class _ExpenseState extends State<Expense> {
                 "Expense Items",
                 style: TextStyle(
                   fontSize: 18,
-                  color: AppColors.text,
+                  color: AppColors.iconHeading,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -862,27 +870,27 @@ class _ExpenseState extends State<Expense> {
                 leading: Text(
                   (index + 1).toString() + ".",
                   style: TextStyle(
-                    color: AppColors.text,
+                    color: AppColors.iconHeading,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 title: Text(
                   expenses[index].name!,
                   style: TextStyle(
-                    color: AppColors.text,
+                    color: AppColors.iconHeading,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 subtitle: Text(
                   expenses[index].category!,
                   style: TextStyle(
-                    color: AppColors.text,
+                    color: AppColors.iconHeading,
                   ),
                 ),
                 trailing: Text(
                   "Rs. " + expenses[index].amount!.toString(),
                   style: TextStyle(
-                    color: AppColors.text,
+                    color: AppColors.iconHeading,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -900,7 +908,7 @@ class _ExpenseState extends State<Expense> {
             Text(
               "No expenses",
               style: TextStyle(
-                color: AppColors.text,
+                color: AppColors.iconHeading,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -909,8 +917,7 @@ class _ExpenseState extends State<Expense> {
                 primary: AppColors.primary,
                 minimumSize: Size.zero,
                 padding: EdgeInsets.all(8),
-                elevation: 10,
-                shadowColor: Colors.black,
+                elevation: 5,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5),
                 ),
@@ -937,7 +944,7 @@ class _ExpenseState extends State<Expense> {
             Text(
               "No expenses",
               style: TextStyle(
-                color: AppColors.text,
+                color: AppColors.iconHeading,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -956,19 +963,11 @@ class _ExpenseState extends State<Expense> {
         horizontal: MediaQuery.of(context).size.width * .20,
       ),
       decoration: BoxDecoration(
-        color: AppColors.onPrimary,
+        color: AppColors.background,
         borderRadius: BorderRadius.only(
           topLeft: const Radius.circular(15.0),
           topRight: const Radius.circular(15.0),
         ),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.text,
-            spreadRadius: 2,
-            blurRadius: 5,
-            offset: Offset(0, 1),
-          ),
-        ],
       ),
       height: 60,
       child: Row(
@@ -979,8 +978,7 @@ class _ExpenseState extends State<Expense> {
               primary: AppColors.primary,
               minimumSize: Size.zero,
               padding: EdgeInsets.all(0),
-              elevation: 10,
-              shadowColor: Colors.black,
+              elevation: 5,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(5),
               ),
@@ -1020,8 +1018,7 @@ class _ExpenseState extends State<Expense> {
               primary: Colors.red,
               minimumSize: Size.zero,
               padding: EdgeInsets.all(0),
-              elevation: 10,
-              shadowColor: Colors.black,
+              elevation: 5,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(5),
               ),
@@ -1073,6 +1070,7 @@ class _ExpenseState extends State<Expense> {
 
     return StatefulBuilder(builder: (context, setState1) {
       return AlertDialog(
+        backgroundColor: AppColors.background,
         title: Form(
           key: _formKey,
           child: Column(
@@ -1084,8 +1082,11 @@ class _ExpenseState extends State<Expense> {
                 }),
                 decoration: InputDecoration(
                   filled: true,
-                  fillColor: AppColors.form,
+                  fillColor: AppColors.button,
                   hintText: "Enter name",
+                  hintStyle: TextStyle(
+                    color: AppColors.iconHeading,
+                  ),
                   enabledBorder: formBorder,
                   focusedBorder: formBorder,
                   errorBorder: formBorder,
@@ -1103,8 +1104,11 @@ class _ExpenseState extends State<Expense> {
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                   filled: true,
-                  fillColor: AppColors.form,
+                  fillColor: AppColors.button,
                   hintText: "Enter amount",
+                  hintStyle: TextStyle(
+                    color: AppColors.iconHeading,
+                  ),
                   enabledBorder: formBorder,
                   focusedBorder: formBorder,
                   errorBorder: formBorder,
@@ -1119,7 +1123,7 @@ class _ExpenseState extends State<Expense> {
                   horizontal: 10,
                 ),
                 decoration: BoxDecoration(
-                  color: AppColors.form,
+                  color: AppColors.button,
                   borderRadius: BorderRadius.circular(5),
                 ),
                 child: DropdownButton(
@@ -1127,11 +1131,11 @@ class _ExpenseState extends State<Expense> {
                   elevation: 20,
                   underline: SizedBox(),
                   style: TextStyle(
-                    color: AppColors.text,
+                    color: AppColors.iconHeading,
                     fontSize: 15,
                   ),
                   isExpanded: true,
-                  dropdownColor: AppColors.form,
+                  dropdownColor: AppColors.button,
                   borderRadius: BorderRadius.circular(5),
                   onChanged: (String? newValue) {
                     setState1(() {
@@ -1155,8 +1159,7 @@ class _ExpenseState extends State<Expense> {
               primary: AppColors.primary,
               minimumSize: Size.zero,
               padding: EdgeInsets.all(8),
-              elevation: 10,
-              shadowColor: Colors.black,
+              elevation: 5,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(5),
               ),
@@ -1217,8 +1220,7 @@ class _ExpenseState extends State<Expense> {
               primary: AppColors.primary,
               minimumSize: Size.zero,
               padding: EdgeInsets.all(8),
-              elevation: 10,
-              shadowColor: Colors.black,
+              elevation: 5,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(5),
               ),

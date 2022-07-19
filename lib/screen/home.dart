@@ -136,8 +136,8 @@ class _HomeState extends State<Home> {
                           Text(
                             greeting,
                             style: TextStyle(
-                              color: AppColors.text,
-                              fontSize: 20,
+                              color: AppColors.iconHeading,
+                              fontSize: 18,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -146,7 +146,7 @@ class _HomeState extends State<Home> {
                             padding: EdgeInsets.zero,
                             icon: Icon(
                               Icons.settings,
-                              color: AppColors.text,
+                              color: AppColors.iconHeading,
                             ),
                             onPressed: () {
                               Navigator.push(
@@ -337,8 +337,8 @@ class _HomeState extends State<Home> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(
-              width: 75,
-              child: Column(
+              width: 115,
+              child: Row(
                 children: [
                   Row(
                     children: [
@@ -353,7 +353,7 @@ class _HomeState extends State<Home> {
                         text: TextSpan(
                           text: "Expense",
                           style: TextStyle(
-                            color: AppColors.text,
+                            color: AppColors.iconHeading,
                             fontWeight: FontWeight.bold,
                             fontSize: 10,
                           ),
@@ -362,7 +362,7 @@ class _HomeState extends State<Home> {
                     ],
                   ),
                   SizedBox(
-                    height: 5,
+                    width: 10,
                   ),
                   Row(
                     children: [
@@ -377,7 +377,7 @@ class _HomeState extends State<Home> {
                         text: TextSpan(
                           text: "Income",
                           style: TextStyle(
-                            color: AppColors.text,
+                            color: AppColors.iconHeading,
                             fontWeight: FontWeight.bold,
                             fontSize: 10,
                           ),
@@ -452,7 +452,7 @@ class _HomeState extends State<Home> {
                       Widget text = Text(
                         titles[value.toInt()],
                         style: TextStyle(
-                          color: AppColors.text,
+                          color: AppColors.iconHeading,
                           fontWeight: FontWeight.bold,
                           fontSize: 14,
                         ),
@@ -477,7 +477,7 @@ class _HomeState extends State<Home> {
                     interval: 1,
                     getTitlesWidget: (double value, TitleMeta meta) {
                       TextStyle style = TextStyle(
-                        color: AppColors.text,
+                        color: AppColors.iconHeading,
                         fontWeight: FontWeight.bold,
                         fontSize: 10,
                       );
@@ -526,11 +526,11 @@ class _HomeState extends State<Home> {
                 show: true,
                 border: Border(
                   bottom: BorderSide(
-                    color: AppColors.text,
+                    color: AppColors.iconHeading,
                     width: 2,
                   ),
                   left: BorderSide(
-                    color: AppColors.text,
+                    color: AppColors.iconHeading,
                     width: 2,
                   ),
                   right: BorderSide(color: Colors.transparent),
@@ -577,7 +577,7 @@ class _HomeState extends State<Home> {
                     : "Previous" " Month Expenses",
                 style: TextStyle(
                   fontSize: 18,
-                  color: AppColors.text,
+                  color: AppColors.iconHeading,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -643,7 +643,7 @@ class _HomeState extends State<Home> {
                               : 28,
                       getTitlesWidget: (double value, TitleMeta meta) {
                         TextStyle style = TextStyle(
-                          color: AppColors.text,
+                          color: AppColors.iconHeading,
                           fontWeight: FontWeight.bold,
                           fontSize: 10,
                         );
@@ -708,7 +708,7 @@ class _HomeState extends State<Home> {
                       interval: 1,
                       getTitlesWidget: (double value, TitleMeta meta) {
                         TextStyle style = TextStyle(
-                          color: AppColors.text,
+                          color: AppColors.iconHeading,
                           fontWeight: FontWeight.bold,
                           fontSize: expenseDays.length > 12
                               ? expenseDays.length > 20
@@ -738,11 +738,11 @@ class _HomeState extends State<Home> {
                   show: true,
                   border: Border(
                     bottom: BorderSide(
-                      color: AppColors.text,
+                      color: AppColors.iconHeading,
                       width: 2,
                     ),
                     left: BorderSide(
-                      color: AppColors.text,
+                      color: AppColors.iconHeading,
                       width: 2,
                     ),
                     right: BorderSide(color: Colors.transparent),
@@ -813,7 +813,7 @@ class _HomeState extends State<Home> {
                           textAlign: TextAlign.justify,
                           style: TextStyle(
                             fontSize: 14,
-                            color: AppColors.text,
+                            color: AppColors.iconHeading,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -845,7 +845,7 @@ class _HomeState extends State<Home> {
                           textAlign: TextAlign.justify,
                           style: TextStyle(
                             fontSize: 14,
-                            color: AppColors.text,
+                            color: AppColors.iconHeading,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -876,7 +876,7 @@ class _HomeState extends State<Home> {
                           textAlign: TextAlign.justify,
                           style: TextStyle(
                             fontSize: 14,
-                            color: AppColors.text,
+                            color: AppColors.iconHeading,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -907,7 +907,7 @@ class _HomeState extends State<Home> {
                           textAlign: TextAlign.justify,
                           style: TextStyle(
                             fontSize: 14,
-                            color: AppColors.text,
+                            color: AppColors.iconHeading,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -937,7 +937,7 @@ class _HomeState extends State<Home> {
                           textAlign: TextAlign.justify,
                           style: TextStyle(
                             fontSize: 14,
-                            color: AppColors.text,
+                            color: AppColors.iconHeading,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -968,7 +968,7 @@ class _HomeState extends State<Home> {
                           textAlign: TextAlign.justify,
                           style: TextStyle(
                             fontSize: 14,
-                            color: AppColors.text,
+                            color: AppColors.iconHeading,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -999,7 +999,7 @@ class _HomeState extends State<Home> {
                           textAlign: TextAlign.justify,
                           style: TextStyle(
                             fontSize: 14,
-                            color: AppColors.text,
+                            color: AppColors.iconHeading,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -1031,7 +1031,7 @@ class _HomeState extends State<Home> {
                 "Expense Categories",
                 style: TextStyle(
                   fontSize: 18,
-                  color: AppColors.text,
+                  color: AppColors.iconHeading,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -1075,7 +1075,7 @@ class _HomeState extends State<Home> {
                             : AlwaysStoppedAnimation(270 / 360),
                         child: Icon(
                           Icons.arrow_back_ios_new,
-                          color: AppColors.text,
+                          color: AppColors.iconHeading,
                         ),
                       ),
                     )
@@ -1139,7 +1139,7 @@ class _HomeState extends State<Home> {
                         textAlign: TextAlign.center,
                         softWrap: true,
                         style: TextStyle(
-                          color: AppColors.text,
+                          color: AppColors.iconHeading,
                           fontWeight: FontWeight.bold,
                           fontSize: 13,
                         ),
@@ -1172,7 +1172,7 @@ class _HomeState extends State<Home> {
                 "Income Categories",
                 style: TextStyle(
                   fontSize: 18,
-                  color: AppColors.text,
+                  color: AppColors.iconHeading,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -1216,7 +1216,7 @@ class _HomeState extends State<Home> {
                             : AlwaysStoppedAnimation(270 / 360),
                         child: Icon(
                           Icons.arrow_back_ios_new,
-                          color: AppColors.text,
+                          color: AppColors.iconHeading,
                         ),
                       ),
                     )
@@ -1280,7 +1280,7 @@ class _HomeState extends State<Home> {
                         textAlign: TextAlign.center,
                         softWrap: true,
                         style: TextStyle(
-                          color: AppColors.text,
+                          color: AppColors.iconHeading,
                           fontWeight: FontWeight.bold,
                         ),
                       ),

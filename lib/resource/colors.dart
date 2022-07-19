@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 class AppColors {
   static Color primary = Color(0XFF5B86E5);
   static Color onPrimary = Color(0xFFFFFFFF);
-  static Color form = Color(0XFFEBEBEB);
-  static Color text = Color(0xFF1A1A1A);
+  static Color background = Color(0xFFF5F6FB);
+  static Color form = Color(0xFFD4D4D4);
+  static Color iconHeading = Color(0xFF1A1A1A);
+  static Color text = Color(0xFF414141);
   static Color button = Color(0xE1C8D3E7);
 }
 

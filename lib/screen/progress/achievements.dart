@@ -1,5 +1,6 @@
 import 'package:expense_tracker/api/http/achievement_http.dart';
 import 'package:expense_tracker/api/res/progress_res.dart';
+import 'package:expense_tracker/widget/navigator.dart';
 import 'package:flutter/material.dart';
 
 import '../../resource/colors.dart';
@@ -38,13 +39,13 @@ class _AllAchievementsState extends State<AllAchievements> {
           },
           icon: Icon(
             Icons.arrow_back,
-            color: AppColors.text,
+            color: AppColors.iconHeading,
           ),
         ),
         title: Text(
           "Achievements",
           style: TextStyle(
-            color: AppColors.text,
+            color: AppColors.iconHeading,
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
@@ -134,7 +135,7 @@ class _AllAchievementsState extends State<AllAchievements> {
                               textAlign: TextAlign.center,
                               softWrap: true,
                               style: TextStyle(
-                                color: AppColors.text,
+                                color: AppColors.iconHeading,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 13,
                               ),
@@ -198,6 +199,9 @@ class _AllAchievementsState extends State<AllAchievements> {
           }),
         ),
       ),
+      bottomNavigationBar: PageNavigator(
+        pageIndex: 3,
+      ),
     );
   }
 
@@ -207,58 +211,61 @@ class _AllAchievementsState extends State<AllAchievements> {
     final sHeight = MediaQuery.of(context).size.height;
 
     return SimpleDialog(
-      title: Text(
-        name,
-        style: TextStyle(
-          color: AppColors.text,
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
+      backgroundColor: AppColors.background,
+      titlePadding: EdgeInsets.zero,
+      contentPadding: EdgeInsets.all(10),
       children: [
-        Padding(
-          padding: EdgeInsets.zero,
-          child: Column(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Colors.black26,
-                      spreadRadius: 1,
-                      blurRadius: 5,
-                      offset: Offset(2, 2),
-                    )
-                  ],
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Image(
-                    height: sHeight * 0.14,
-                    width: sWidth * 0.26,
-                    fit: BoxFit.cover,
-                    image: AssetImage(
-                      "image/category/Clothing.jpg",
-                    ),
+        Column(
+          children: [
+            Text(
+              name,
+              style: TextStyle(
+                color: AppColors.iconHeading,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(
+              height: 8,
+            ),
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.black26,
+                    spreadRadius: 1,
+                    blurRadius: 5,
+                    offset: Offset(2, 2),
+                  )
+                ],
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image(
+                  height: sHeight * 0.14,
+                  width: sWidth * 0.26,
+                  fit: BoxFit.cover,
+                  image: AssetImage(
+                    "image/category/Clothing.jpg",
                   ),
                 ),
               ),
-              SizedBox(
-                height: 10,
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              description,
+              textAlign: TextAlign.center,
+              softWrap: true,
+              style: TextStyle(
+                color: AppColors.iconHeading,
+                fontWeight: FontWeight.bold,
+                fontSize: 13,
               ),
-              Text(
-                description,
-                textAlign: TextAlign.center,
-                softWrap: true,
-                style: TextStyle(
-                  color: AppColors.text,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 13,
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ],
     );

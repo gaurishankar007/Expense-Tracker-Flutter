@@ -1,4 +1,5 @@
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
+import 'package:expense_tracker/widget/navigator.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:expense_tracker/api/http/expense_http.dart';
@@ -17,11 +18,10 @@ class CategorizedExpense extends StatefulWidget {
 }
 
 class _CategorizedExpenseState extends State<CategorizedExpense> {
-  String startDate = "", endDate = "";
+  String startDate = "", endDate = "", firstDate = "";
 
   late Future<List<ExpenseData>> expenseCategories;
   late List<ExpenseData> expenseList;
-  String firstDate = "";
   int expenseAmount = 0;
   int expenseIndex = 0;
 
@@ -65,176 +65,172 @@ class _CategorizedExpenseState extends State<CategorizedExpense> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: FutureBuilder<List<ExpenseData>>(
-              future: expenseCategories,
-              builder: (context, snapshot) {
-                List<Widget> children = [];
-                if (snapshot.connectionState == ConnectionState.waiting) {
+            future: expenseCategories,
+            builder: (context, snapshot) {
+              List<Widget> children = [];
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                children = <Widget>[
+                  Container(
+                    width: sWidth * 0.97,
+                    height: sHeight,
+                    alignment: Alignment.center,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 6,
+                      color: AppColors.primary,
+                      backgroundColor: AppColors.button,
+                    ),
+                  )
+                ];
+              } else if (snapshot.connectionState == ConnectionState.done) {
+                if (snapshot.hasData) {
+                  children = <Widget>[
+                    Stack(
+                      alignment: Alignment.topLeft,
+                      children: [
+                        Stack(
+                          alignment: Alignment.bottomLeft,
+                          children: [
+                            Stack(
+                              children: [
+                                ClipRRect(
+                                  child: Image(
+                                    width: sWidth,
+                                    height: sHeight * .3,
+                                    fit: BoxFit.cover,
+                                    image: AssetImage(
+                                      "image/category/${widget.category}.jpg",
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  width: sWidth,
+                                  height: sHeight * .3,
+                                  decoration: BoxDecoration(
+                                    boxShadow: const [
+                                      BoxShadow(
+                                        color: Colors.black38,
+                                        spreadRadius: 1,
+                                        blurRadius: 5,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: sWidth * 0.015,
+                                vertical: 5,
+                              ),
+                              child: RichText(
+                                text: TextSpan(
+                                  text:
+                                      "${widget.category} (Rs. $expenseAmount)",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: AppColors.onPrimary,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                        IconButton(
+                          padding: EdgeInsets.all(5.0),
+                          constraints: BoxConstraints(),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          icon: Icon(
+                            Icons.arrow_back_outlined,
+                            color: AppColors.onPrimary,
+                            size: 25,
+                          ),
+                        ),
+                      ],
+                    ),
+                    viewExpenses(context),
+                  ];
+                } else if (snapshot.hasError) {
                   children = <Widget>[
                     Container(
                       width: sWidth * 0.97,
                       height: sHeight,
                       alignment: Alignment.center,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 6,
-                      color: AppColors.primary,
-                      backgroundColor: AppColors.button,
+                      child: Text(
+                        "${snapshot.error}",
+                        style: TextStyle(
+                          fontSize: 15,
+                        ),
                       ),
                     )
                   ];
-                } else if (snapshot.connectionState == ConnectionState.done) {
-                  if (snapshot.hasData) {
-                    children = <Widget>[
-                      Stack(
-                        alignment: Alignment.topLeft,
-                        children: [
-                          Stack(
-                            alignment: Alignment.bottomLeft,
-                            children: [
-                              Stack(
-                                children: [
-                                  ClipRRect(
-                                    child: Image(
-                                      width: sWidth,
-                                      height: sHeight * .3,
-                                      fit: BoxFit.cover,
-                                      image: AssetImage(
-                                        "image/category/${widget.category}.jpg",
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    width: sWidth,
-                                    height: sHeight * .3,
-                                    decoration: BoxDecoration(
-                                      boxShadow: const [
-                                        BoxShadow(
-                                          color: Colors.black38,
-                                          spreadRadius: 1,
-                                          blurRadius: 5,
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: sWidth * 0.015,
-                                  vertical: 5,
-                                ),
-                                child: RichText(
-                                  text: TextSpan(
-                                    text:
-                                        "${widget.category} (Rs. $expenseAmount)",
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      color: AppColors.onPrimary,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                          IconButton(
-                            padding: EdgeInsets.all(5.0),
-                            constraints: BoxConstraints(),
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            icon: Icon(
-                              Icons.arrow_back_outlined,
-                              color: AppColors.onPrimary,
-                              size: 25,
-                            ),
-                          ),
-                        ],
-                      ),
-                      getButtons(context),
-                      viewExpenses(context),
-                    ];
-                  } else if (snapshot.hasError) {
-                    children = <Widget>[
-                      Container(
-                        width: sWidth * 0.97,
-                        height: sHeight,
-                        alignment: Alignment.center,
-                        child: Text(
-                          "${snapshot.error}",
-                          style: TextStyle(
-                            fontSize: 15,
-                          ),
-                        ),
-                      )
-                    ];
-                  }
                 }
+              }
 
-                return Column(
-                  children: children,
-                );
-              }),
+              return Column(
+                children: children,
+              );
+            },
+          ),
         ),
       ),
-    );
-  }
+      floatingActionButton: SizedBox(
+        height: 110,
+        child: Column(
+          children: [
+            GestureDetector(
+              onTap: () async {
+                if (expenseIndex == 0) {
+                  return;
+                }
 
-  Widget getButtons(BuildContext context) {
-    final sWidth = MediaQuery.of(context).size.width;
+                List<ExpenseData> tempExpenseList =
+                    await ExpenseHttp().getCategorizedExpense(widget.category!);
+                int tempExpenseAmount = 0;
+                for (int i = 0; i < tempExpenseList.length; i++) {
+                  tempExpenseAmount =
+                      tempExpenseAmount + tempExpenseList[i].amount!;
+                }
 
-    return Column(
-      children: [
-        Padding(
-          padding: EdgeInsets.only(
-            right: sWidth * 0.03,
-            top: 10,
-            left: sWidth * 0.03,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                onPressed: () async {
-                  if (expenseIndex == 0) {
-                    return;
-                  }
-
-                  List<ExpenseData> tempExpenseList = await ExpenseHttp()
-                      .getCategorizedExpense(widget.category!);
-                  int tempExpenseAmount = 0;
-                  for (int i = 0; i < tempExpenseList.length; i++) {
-                    tempExpenseAmount =
-                        tempExpenseAmount + tempExpenseList[i].amount!;
-                  }
-
-                  setState(() {
-                    expenseList = tempExpenseList;
-                    expenseAmount = tempExpenseAmount;
-                    expenseIndex = 0;
-                  });
-                },
-                child: Text(
-                  "This Month",
+                setState(() {
+                  expenseList = tempExpenseList;
+                  expenseAmount = tempExpenseAmount;
+                  expenseIndex = 0;
+                });
+              },
+              child: Container(
+                height: 50,
+                width: 50,
+                decoration: BoxDecoration(
+                  color: expenseIndex == 0
+                      ? AppColors.primary
+                      : AppColors.onPrimary,
+                  borderRadius: BorderRadius.circular(25),
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.button,
+                      spreadRadius: 1,
+                      blurRadius: 5,
+                      offset: Offset(2, 5),
+                    ),
+                  ],
                 ),
-                style: ElevatedButton.styleFrom(
-                  primary:
-                      expenseIndex == 0 ? AppColors.primary : AppColors.button,
-                  onPrimary:
-                      expenseIndex == 0 ? AppColors.onPrimary : AppColors.text,
-                  minimumSize: Size.zero,
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 8,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5),
-                  ),
+                child: Icon(
+                  Icons.date_range_rounded,
+                  color: expenseIndex == 0
+                      ? AppColors.onPrimary
+                      : AppColors.primary,
                 ),
               ),
-              SizedBox(
-                width: 10,
-              ),
-              ElevatedButton(
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            SizedBox(
+              height: 50,
+              child: FloatingActionButton(
                 onPressed: () {
                   setState(() {
                     expenseList = [];
@@ -247,28 +243,20 @@ class _CategorizedExpenseState extends State<CategorizedExpense> {
                     builder: (builder) => selectDate(context, firstDate),
                   );
                 },
-                child: Text(
-                  "Select",
+                backgroundColor:
+                    expenseIndex == 1 ? AppColors.primary : AppColors.onPrimary,
+                child: Icon(
+                  Icons.search_rounded,
+                  color: expenseIndex == 1
+                      ? AppColors.onPrimary
+                      : AppColors.primary,
                 ),
-                style: ElevatedButton.styleFrom(
-                  primary:
-                      expenseIndex == 1 ? AppColors.primary : AppColors.button,
-                  onPrimary:
-                      expenseIndex == 1 ? AppColors.onPrimary : AppColors.text,
-                  minimumSize: Size.zero,
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 8,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                ),
-              )
-            ],
-          ),
-        )
-      ],
+              ),
+            ),
+          ],
+        ),
+      ),
+      bottomNavigationBar: PageNavigator(pageIndex: 0),
     );
   }
 
@@ -276,6 +264,7 @@ class _CategorizedExpenseState extends State<CategorizedExpense> {
     String startDate = "", endDate = "";
 
     return SimpleDialog(
+      backgroundColor: AppColors.background,
       children: [
         SimpleDialogOption(
           padding: EdgeInsets.only(
@@ -304,8 +293,11 @@ class _CategorizedExpenseState extends State<CategorizedExpense> {
                 },
                 decoration: InputDecoration(
                   filled: true,
-                  fillColor: AppColors.form,
+                  fillColor: AppColors.button,
                   hintText: "Start Date",
+                  hintStyle: TextStyle(
+                    color: AppColors.iconHeading,
+                  ),
                   enabledBorder: formBorder,
                   focusedBorder: formBorder,
                   errorBorder: formBorder,
@@ -334,8 +326,11 @@ class _CategorizedExpenseState extends State<CategorizedExpense> {
                 },
                 decoration: InputDecoration(
                   filled: true,
-                  fillColor: AppColors.form,
+                  fillColor: AppColors.button,
                   hintText: "End Date",
+                  hintStyle: TextStyle(
+                    color: AppColors.iconHeading,
+                  ),
                   enabledBorder: formBorder,
                   focusedBorder: formBorder,
                   errorBorder: formBorder,
@@ -393,6 +388,7 @@ class _CategorizedExpenseState extends State<CategorizedExpense> {
                     horizontal: 10,
                     vertical: 8,
                   ),
+                  elevation: 5,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5),
                   ),
@@ -415,7 +411,7 @@ class _CategorizedExpenseState extends State<CategorizedExpense> {
               child: Text(
                 "No expenses",
                 style: TextStyle(
-                  color: AppColors.text,
+                  color: AppColors.iconHeading,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -441,27 +437,27 @@ class _CategorizedExpenseState extends State<CategorizedExpense> {
                   leading: Text(
                     (index + 1).toString() + ".",
                     style: TextStyle(
-                      color: AppColors.text,
+                      color: AppColors.iconHeading,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   title: Text(
                     expenseList[index].name!,
                     style: TextStyle(
-                      color: AppColors.text,
+                      color: AppColors.iconHeading,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   subtitle: Text(
                     expenseList[index].createdAt!.split("T")[0],
                     style: TextStyle(
-                      color: AppColors.text,
+                      color: AppColors.iconHeading,
                     ),
                   ),
                   trailing: Text(
                     "Rs. " + expenseList[index].amount!.toString(),
                     style: TextStyle(
-                      color: AppColors.text,
+                      color: AppColors.iconHeading,
                       fontWeight: FontWeight.bold,
                     ),
                   ),

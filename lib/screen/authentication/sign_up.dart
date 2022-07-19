@@ -25,7 +25,7 @@ class _SignUpState extends State<SignUp> {
   OutlineInputBorder formBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(5),
     borderSide: BorderSide(
-      color: AppColors.form,
+      color: AppColors.button,
       width: 2,
       style: BorderStyle.solid,
     ),
@@ -44,7 +44,7 @@ class _SignUpState extends State<SignUp> {
         title: Text(
           'Welcome to Expense Tracker',
           style: TextStyle(
-            color: AppColors.text,
+            color: AppColors.iconHeading,
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
@@ -75,8 +75,8 @@ class _SignUpState extends State<SignUp> {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(5),
                   child: Image(
-                    height: 160,
-                    width: 175,
+                    height: 165,
+                    width: 165,
                     fit: BoxFit.cover,
                     image: AssetImage("image/logo.png"),
                   ),
@@ -97,8 +97,11 @@ class _SignUpState extends State<SignUp> {
                   },
                   decoration: InputDecoration(
                     filled: true,
-                    fillColor: AppColors.form,
+                    fillColor: AppColors.button,
                     hintText: "Enter your email.....",
+                    hintStyle: TextStyle(
+                      color: AppColors.iconHeading,
+                    ),
                     enabledBorder: formBorder,
                     focusedBorder: formBorder,
                     errorBorder: formBorder,
@@ -121,8 +124,11 @@ class _SignUpState extends State<SignUp> {
                   },
                   decoration: InputDecoration(
                     filled: true,
-                    fillColor: AppColors.form,
+                    fillColor: AppColors.button,
                     hintText: "Enter your profile name.....",
+                    hintStyle: TextStyle(
+                      color: AppColors.iconHeading,
+                    ),
                     enabledBorder: formBorder,
                     focusedBorder: formBorder,
                     errorBorder: formBorder,
@@ -148,8 +154,11 @@ class _SignUpState extends State<SignUp> {
                       obscureText: hidePass,
                       decoration: InputDecoration(
                         filled: true,
-                        fillColor: AppColors.form,
+                        fillColor: AppColors.button,
                         hintText: "Enter a password.....",
+                        hintStyle: TextStyle(
+                          color: AppColors.iconHeading,
+                        ),
                         enabledBorder: formBorder,
                         focusedBorder: formBorder,
                         errorBorder: formBorder,
@@ -166,8 +175,8 @@ class _SignUpState extends State<SignUp> {
                         hidePass
                             ? FontAwesomeIcons.solidEyeSlash
                             : FontAwesomeIcons.solidEye,
-                        size: 20,
-                        color: AppColors.primary,
+                        size: 18,
+                        color: AppColors.iconHeading,
                       ),
                     )
                   ],
@@ -193,8 +202,11 @@ class _SignUpState extends State<SignUp> {
                       obscureText: hideCPass,
                       decoration: InputDecoration(
                         filled: true,
-                        fillColor: AppColors.form,
+                        fillColor: AppColors.button,
                         hintText: "Enter the password again.....",
+                        hintStyle: TextStyle(
+                          color: AppColors.iconHeading,
+                        ),
                         enabledBorder: formBorder,
                         focusedBorder: formBorder,
                         errorBorder: formBorder,
@@ -211,8 +223,8 @@ class _SignUpState extends State<SignUp> {
                         hideCPass
                             ? FontAwesomeIcons.solidEyeSlash
                             : FontAwesomeIcons.solidEye,
-                        size: 20,
-                        color: AppColors.primary,
+                        size: 18,
+                        color: AppColors.iconHeading,
                       ),
                     )
                   ],
@@ -265,15 +277,14 @@ class _SignUpState extends State<SignUp> {
                     }
                   },
                   child: Text(
-                    "Sign Up",
+                    "Create Account",
                     style: TextStyle(
                       fontSize: 15,
                     ),
                   ),
                   style: ElevatedButton.styleFrom(
                     primary: AppColors.primary,
-                    elevation: 10,
-                    shadowColor: Colors.black,
+                    elevation: 5,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5),
                     ),

@@ -56,7 +56,9 @@ class _ExpenseTrackerState extends State<ExpenseTracker> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(),
+      theme: ThemeData(
+        scaffoldBackgroundColor: AppColors.background,
+      ),
       debugShowCheckedModeBanner: false,
       title: 'Expense Income Tracker',
       home: widget.initialPage,

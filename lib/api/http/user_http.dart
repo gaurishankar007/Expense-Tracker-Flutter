@@ -90,7 +90,7 @@ class UserHttp {
     try {
       final response = await put(
         Uri.parse(routeUrl + UserUrls.changeProfileName),
-        body: {"profile_name": profileName},
+        body: {"profileName": profileName},
         headers: {
           HttpHeaders.authorizationHeader: "Bearer $token",
         },

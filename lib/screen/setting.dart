@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../api/http/user_http.dart';
 import '../api/log_status.dart';
@@ -23,32 +23,32 @@ class _SettingState extends State<Setting> {
   late Future<User> getUser;
   bool progressPublication = false;
 
-  void _pickProfileImg() async {
-    final image = await FilePicker.platform.pickFiles(
-      allowMultiple: false,
-      type: FileType.custom,
-      allowedExtensions: [
-        'png',
-        'jpg',
-        'jpeg',
-      ],
-    );
-    if (image == null) return;
-    PlatformFile file = image.files.first;
+  // void _pickProfileImg() async {
+  //   final image = await FilePicker.platform.pickFiles(
+  //     allowMultiple: false,
+  //     type: FileType.custom,
+  //     allowedExtensions: [
+  //       'png',
+  //       'jpg',
+  //       'jpeg',
+  //     ],
+  //   );
+  //   if (image == null) return;
+  //   PlatformFile file = image.files.first;
 
-    await UserHttp().changeProfilePicture(File(file.path.toString()));
-    setState(() {
-      getUser = UserHttp().getUser();
-    });
-    Fluttertoast.showToast(
-      msg: "Your profile picture updated.",
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-      timeInSecForIosWeb: 3,
-      backgroundColor: Colors.green,
-      textColor: Colors.white,
-    );
-  }
+  //   await UserHttp().changeProfilePicture(File(file.path.toString()));
+  //   setState(() {
+  //     getUser = UserHttp().getUser();
+  //   });
+  //   Fluttertoast.showToast(
+  //     msg: "Your profile picture updated.",
+  //     toastLength: Toast.LENGTH_SHORT,
+  //     gravity: ToastGravity.BOTTOM,
+  //     timeInSecForIosWeb: 3,
+  //     backgroundColor: Colors.green,
+  //     textColor: Colors.white,
+  //   );
+  // }
 
   @override
   void initState() {
@@ -74,13 +74,13 @@ class _SettingState extends State<Setting> {
           },
           icon: Icon(
             Icons.arrow_back,
-            color: AppColors.text,
+            color: AppColors.iconHeading,
           ),
         ),
         title: Text(
           "Settings",
           style: TextStyle(
-            color: AppColors.text,
+            color: AppColors.iconHeading,
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
@@ -128,7 +128,10 @@ class _SettingState extends State<Setting> {
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          _pickProfileImg();
+                          showDialog(
+                            context: context,
+                            builder: (builder) => pickPlatform(context),
+                          );
                         },
                         child: Icon(
                           Icons.edit,
@@ -140,7 +143,7 @@ class _SettingState extends State<Setting> {
                           minimumSize: Size.zero,
                           primary: AppColors.primary,
                           elevation: 10,
-                          shadowColor: AppColors.text,
+                          shadowColor: AppColors.iconHeading,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
                           ),
@@ -154,7 +157,7 @@ class _SettingState extends State<Setting> {
                   Text(
                     snapshot.data!.profileName!,
                     style: TextStyle(
-                      color: AppColors.text,
+                      color: AppColors.iconHeading,
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
                     ),
@@ -179,7 +182,7 @@ class _SettingState extends State<Setting> {
                             Text(
                               "Profile",
                               style: TextStyle(
-                                color: AppColors.text,
+                                color: AppColors.iconHeading,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -192,7 +195,7 @@ class _SettingState extends State<Setting> {
                       ),
                       Icon(
                         Icons.person,
-                        color: AppColors.text,
+                        color: AppColors.iconHeading,
                       ),
                     ],
                   ),
@@ -216,7 +219,7 @@ class _SettingState extends State<Setting> {
                             Text(
                               "Password",
                               style: TextStyle(
-                                color: AppColors.text,
+                                color: AppColors.iconHeading,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -228,7 +231,7 @@ class _SettingState extends State<Setting> {
                         ),
                         Icon(
                           Icons.key,
-                          color: AppColors.text,
+                          color: AppColors.iconHeading,
                         ),
                       ],
                     ),
@@ -245,7 +248,7 @@ class _SettingState extends State<Setting> {
                           Text(
                             "Profile Publication",
                             style: TextStyle(
-                              color: AppColors.text,
+                              color: AppColors.iconHeading,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -261,7 +264,7 @@ class _SettingState extends State<Setting> {
                         width: 25,
                         child: Switch(
                           activeColor: AppColors.primary,
-                          inactiveThumbColor: AppColors.text,
+                          inactiveThumbColor: AppColors.iconHeading,
                           value: progressPublication,
                           onChanged: (value) async {
                             final resData = await UserHttp().publicProgress();
@@ -306,7 +309,7 @@ class _SettingState extends State<Setting> {
                             Text(
                               "Log out",
                               style: TextStyle(
-                                color: AppColors.text,
+                                color: AppColors.iconHeading,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -320,7 +323,7 @@ class _SettingState extends State<Setting> {
                         ),
                         Icon(
                           Icons.logout_outlined,
-                          color: AppColors.text,
+                          color: AppColors.iconHeading,
                         ),
                       ],
                     ),
@@ -376,6 +379,121 @@ class _SettingState extends State<Setting> {
           },
         ),
       ),
+    );
+  }
+
+  Widget pickPlatform(BuildContext context) {
+    return SimpleDialog(
+      backgroundColor: AppColors.background,
+      titlePadding: EdgeInsets.zero,
+      contentPadding: EdgeInsets.all(10),
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            ElevatedButton(
+              onPressed: () async {
+                Navigator.pop(context);
+                final image =
+                    await ImagePicker().pickImage(source: ImageSource.camera);
+
+                if (image == null) return;
+
+                await UserHttp().changeProfilePicture(File(image.path));
+                setState(() {
+                  getUser = UserHttp().getUser();
+                });
+                Fluttertoast.showToast(
+                  msg: "Your profile picture updated.",
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.BOTTOM,
+                  timeInSecForIosWeb: 3,
+                  backgroundColor: Colors.green,
+                  textColor: Colors.white,
+                );
+              },
+              child: Row(
+                children: const [
+                  Icon(
+                    Icons.camera,
+                    size: 18,
+                    color: Colors.white,
+                  ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Text(
+                    "Camera",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 15,
+                    ),
+                  )
+                ],
+              ),
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                primary: AppColors.primary,
+                elevation: 5,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+              ),
+            ),
+            SizedBox(
+              width: 5,
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                Navigator.pop(context);
+                final image =
+                    await ImagePicker().pickImage(source: ImageSource.gallery);
+                if (image == null) return;
+
+                await UserHttp().changeProfilePicture(File(image.path));
+                setState(() {
+                  getUser = UserHttp().getUser();
+                });
+                Fluttertoast.showToast(
+                  msg: "Your profile picture updated.",
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.BOTTOM,
+                  timeInSecForIosWeb: 3,
+                  backgroundColor: Colors.green,
+                  textColor: Colors.white,
+                );
+              },
+              child: Row(
+                children: const [
+                  Icon(
+                    Icons.photo_album,
+                    size: 18,
+                    color: Colors.white,
+                  ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Text(
+                    "Gallery",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 15,
+                    ),
+                  )
+                ],
+              ),
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                primary: AppColors.primary,
+                elevation: 5,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
