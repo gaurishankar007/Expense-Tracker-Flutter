@@ -103,27 +103,16 @@ class _AllAchievementsState extends State<AllAchievements> {
                         },
                         child: Column(
                           children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                boxShadow: const [
-                                  BoxShadow(
-                                    color: Colors.black26,
-                                    spreadRadius: 1,
-                                    blurRadius: 5,
-                                    offset: Offset(2, 2),
-                                  )
-                                ],
-                              ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: Image(
-                                  height: sHeight * 0.175,
-                                  width: sWidth * 0.35,
-                                  fit: BoxFit.cover,
-                                  image: AssetImage(
-                                    "image/category/Clothing.jpg",
-                                  ),
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Image(
+                                height: sHeight * 0.17,
+                                width: sWidth * 0.4,
+                                fit: BoxFit.fitWidth,
+                                image: AssetImage(
+                                  "image/achievement/" +
+                                      snapshot.data![index].name! +
+                                      ".png",
                                 ),
                               ),
                             ),
@@ -228,27 +217,14 @@ class _AllAchievementsState extends State<AllAchievements> {
             SizedBox(
               height: 8,
             ),
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: const [
-                  BoxShadow(
-                    color: Colors.black26,
-                    spreadRadius: 1,
-                    blurRadius: 5,
-                    offset: Offset(2, 2),
-                  )
-                ],
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: Image(
-                  height: sHeight * 0.14,
-                  width: sWidth * 0.26,
-                  fit: BoxFit.cover,
-                  image: AssetImage(
-                    "image/category/Clothing.jpg",
-                  ),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Image(
+                height: sHeight * 0.17,
+                width: sWidth * 0.4,
+                fit: BoxFit.fitWidth,
+                image: AssetImage(
+                  "image/achievement/" + name + ".png",
                 ),
               ),
             ),

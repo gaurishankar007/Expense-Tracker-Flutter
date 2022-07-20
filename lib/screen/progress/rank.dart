@@ -554,12 +554,12 @@ class _RankingSystemState extends State<RankingSystem> {
                   ),
                 ),
                 SizedBox(
-                  height: 8,
+                  height: 5,
                 ),
                 GridView.count(
                   physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
-                  childAspectRatio: (sWidth - (sWidth * .53)) / (sHeight * .24),
+                  childAspectRatio: (sWidth - (sWidth * .53)) / (sHeight * .25),
                   crossAxisSpacing: 5,
                   crossAxisCount: 2,
                   children: List.generate(
@@ -567,27 +567,15 @@ class _RankingSystemState extends State<RankingSystem> {
                     (index) {
                       return Column(
                         children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow: const [
-                                BoxShadow(
-                                  color: Colors.black26,
-                                  spreadRadius: 1,
-                                  blurRadius: 5,
-                                  offset: Offset(2, 2),
-                                )
-                              ],
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: Image(
-                                height: sHeight * 0.1,
-                                width: sWidth * 0.2,
-                                fit: BoxFit.cover,
-                                image: AssetImage(
-                                  "image/category/Clothing.jpg",
-                                ),
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Image(
+                              width: sWidth * 0.25,
+                              fit: BoxFit.fitWidth,
+                              image: AssetImage(
+                                "image/achievement/" +
+                                    achievements[index].name! +
+                                    ".png",
                               ),
                             ),
                           ),
@@ -601,7 +589,7 @@ class _RankingSystemState extends State<RankingSystem> {
                             style: TextStyle(
                               color: AppColors.iconHeading,
                               fontWeight: FontWeight.bold,
-                              fontSize: 13,
+                              fontSize: 10,
                             ),
                           ),
                         ],

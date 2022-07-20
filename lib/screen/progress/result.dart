@@ -125,9 +125,6 @@ class _ResultState extends State<Result> {
                       context,
                       snapshot.data!.progress!.oldAchievement!,
                     ),
-                    SizedBox(
-                      height: 10,
-                    ),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         primary: AppColors.primary,
@@ -470,7 +467,7 @@ class _ResultState extends State<Result> {
           GridView.count(
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
-            childAspectRatio: (sWidth - (sWidth * .53)) / (sHeight * .15),
+            childAspectRatio: (sWidth - (sWidth * .53)) / (sHeight * .24),
             crossAxisSpacing: 5,
             crossAxisCount: 2,
             children: List.generate(
@@ -478,27 +475,16 @@ class _ResultState extends State<Result> {
               (index) {
                 return Column(
                   children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Colors.black26,
-                            spreadRadius: 1,
-                            blurRadius: 5,
-                            offset: Offset(2, 2),
-                          )
-                        ],
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: Image(
-                          height: sHeight * 0.1,
-                          width: sWidth * 0.2,
-                          fit: BoxFit.cover,
-                          image: AssetImage(
-                            "image/category/Clothing.jpg",
-                          ),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Image(
+                        height: sHeight * 0.17,
+                        width: sWidth * 0.4,
+                        fit: BoxFit.fitWidth,
+                        image: AssetImage(
+                          "image/achievement/" +
+                              newAchievements[index].name! +
+                              ".png",
                         ),
                       ),
                     ),
@@ -553,7 +539,7 @@ class _ResultState extends State<Result> {
           GridView.count(
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
-            childAspectRatio: (sWidth - (sWidth * .53)) / (sHeight * .15),
+            childAspectRatio: (sWidth - (sWidth * .53)) / (sHeight * .24),
             crossAxisSpacing: 5,
             crossAxisCount: 2,
             children: List.generate(
@@ -561,27 +547,16 @@ class _ResultState extends State<Result> {
               (index) {
                 return Column(
                   children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Colors.black26,
-                            spreadRadius: 1,
-                            blurRadius: 5,
-                            offset: Offset(2, 2),
-                          )
-                        ],
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: Image(
-                          height: sHeight * 0.1,
-                          width: sWidth * 0.2,
-                          fit: BoxFit.cover,
-                          image: AssetImage(
-                            "image/category/Clothing.jpg",
-                          ),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Image(
+                        height: sHeight * 0.17,
+                        width: sWidth * 0.4,
+                        fit: BoxFit.fitWidth,
+                        image: AssetImage(
+                          "image/achievement/" +
+                              oldAchievements[index].name! +
+                              ".png",
                         ),
                       ),
                     ),

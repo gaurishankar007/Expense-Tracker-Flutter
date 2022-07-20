@@ -19,6 +19,7 @@ class _LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
   String email = "", password = "";
   bool hidePass = true;
+  bool checkboxValue = false;
 
   OutlineInputBorder formBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(5),
@@ -161,21 +162,51 @@ class _LoginState extends State<Login> {
                       SizedBox(
                         height: 5,
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (builder) => ForgetPassword()));
-                        },
-                        child: Text(
-                          "Forgot Password",
-                          style: TextStyle(
-                              decoration: TextDecoration.underline,
-                              fontSize: 15,
-                              color: AppColors.primary,
-                              fontWeight: FontWeight.bold),
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(
+                            width: 160,
+                            child: CheckboxListTile(
+                              contentPadding: EdgeInsets.zero,
+                              visualDensity: VisualDensity(
+                                horizontal: -4,
+                                vertical: -4,
+                              ),
+                              activeColor: AppColors.button,
+                              checkColor: AppColors.primary,
+                              title: Text(
+                                "Remember Me",
+                                style: TextStyle(
+                                  color: AppColors.iconHeading,
+                                ),
+                              ),
+                              value: checkboxValue,
+                              onChanged: (value) {
+                                setState(() {
+                                  checkboxValue = value!;
+                                });
+                              },
+                              controlAffinity: ListTileControlAffinity.leading,
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (builder) => ForgetPassword()));
+                            },
+                            child: Text(
+                              "Forgot Password",
+                              style: TextStyle(
+                                  decoration: TextDecoration.underline,
+                                  fontSize: 15,
+                                  color: AppColors.primary,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -203,7 +234,9 @@ class _LoginState extends State<Login> {
                     final resData = await LoginHttp().login(email, password);
                     if (resData["statusCode"] == 202) {
                       Navigator.pop(context);
-                      LogStatus().setToken(resData["body"]["token"]);
+                      if (checkboxValue) {
+                        LogStatus().setToken(resData["body"]["token"]);
+                      }
                       LogStatus.token = resData["body"]["token"];
                       Navigator.pushAndRemoveUntil(
                         context,
