@@ -1,4 +1,5 @@
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
+import 'package:expense_tracker/screen/progress/result.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:intl/intl.dart';
 import 'package:expense_tracker/resource/category.dart';
@@ -362,12 +363,12 @@ class _IncomeState extends State<Income> {
                   ),
                 );
 
+                name = "";
+                amount = "";
+                category = "Other";
+
                 if (resData["statusCode"] == 201) {
                   refreshPage(context);
-
-                  name = "";
-                  amount = "";
-                  category = "Other";
 
                   Fluttertoast.showToast(
                     msg: resData["body"]["resM"],
@@ -422,6 +423,64 @@ class _IncomeState extends State<Income> {
         ],
       );
     });
+  }
+
+  Widget congratulation(BuildContext context) {
+    return SimpleDialog(
+      backgroundColor: AppColors.background,
+      titlePadding: EdgeInsets.zero,
+      contentPadding: EdgeInsets.all(10),
+      children: [
+        Column(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Image(
+                fit: BoxFit.fitWidth,
+                image: AssetImage(
+                  "image/Congratulation.png",
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              "New Achievement Unlocked.",
+              style: TextStyle(
+                color: AppColors.iconHeading,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(
+              height: 8,
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: AppColors.primary,
+                minimumSize: Size.zero,
+                padding: EdgeInsets.all(8),
+                elevation: 5,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (builder) => Result(),
+                  ),
+                );
+              },
+              child: Text("Check Out"),
+            ),
+          ],
+        ),
+      ],
+    );
   }
 
   Widget getButtons(BuildContext context) {

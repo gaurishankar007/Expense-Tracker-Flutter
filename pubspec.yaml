@@ -46,6 +46,7 @@ dependencies:
   datetime_picker_formfield: ^2.0.0
   font_awesome_flutter: ^10.1.0
   image_picker: ^0.8.5+3
+  google_sign_in: ^5.4.0
 
 flutter_icons:
   android: true

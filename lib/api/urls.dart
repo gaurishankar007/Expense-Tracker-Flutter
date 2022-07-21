@@ -2,6 +2,12 @@ class ApiUrls {
   static const routeUrl = "http://10.0.2.2:8848/";
 }
 
+class Authentication {
+  static const register = "user/register";
+  static const login = "user/login";
+  static const googleSignIn = "user/googleSignIn";
+}
+
 class AchievementUrls {
   static const getAllAchievements = "achievement/getAll";
 }

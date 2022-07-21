@@ -18,8 +18,8 @@ class SignUpHttp {
         "profileName": userDetails.profileName!,
       };
 
-      final response =
-          await post(Uri.parse(routeUrl + "user/register"), body: userData);
+      final response = await post(Uri.parse(routeUrl + Authentication.register),
+          body: userData);
       return {
         "statusCode": response.statusCode,
         "body": jsonDecode(response.body) as Map,

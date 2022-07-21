@@ -10,6 +10,7 @@ import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 
 import '../../resource/colors.dart';
 import '../../widget/navigator.dart';
+import '../progress/result.dart';
 
 class Expense extends StatefulWidget {
   const Expense({Key? key}) : super(key: key);
@@ -25,7 +26,7 @@ class _ExpenseState extends State<Expense> {
   OutlineInputBorder formBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(5),
     borderSide: BorderSide(
-      color: AppColors.form,
+      color: AppColors.button,
       width: 2,
       style: BorderStyle.solid,
     ),
@@ -359,12 +360,12 @@ class _ExpenseState extends State<Expense> {
                   ),
                 );
 
+                name = "";
+                amount = "";
+                category = "Other";
+
                 if (resData["statusCode"] == 201) {
                   refreshPage(context);
-
-                  name = "";
-                  amount = "";
-                  category = "Other";
 
                   Fluttertoast.showToast(
                     msg: resData["body"]["resM"],
@@ -419,6 +420,64 @@ class _ExpenseState extends State<Expense> {
         ],
       );
     });
+  }
+
+  Widget congratulation(BuildContext context) {
+    return SimpleDialog(
+      backgroundColor: AppColors.background,
+      titlePadding: EdgeInsets.zero,
+      contentPadding: EdgeInsets.all(10),
+      children: [
+        Column(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Image(
+                fit: BoxFit.fitWidth,
+                image: AssetImage(
+                  "image/Congratulation.png",
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              "New Achievement Unlocked.",
+              style: TextStyle(
+                color: AppColors.iconHeading,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(
+              height: 8,
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: AppColors.primary,
+                minimumSize: Size.zero,
+                padding: EdgeInsets.all(8),
+                elevation: 5,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (builder) => Result(),
+                  ),
+                );
+              },
+              child: Text("Check Out"),
+            ),
+          ],
+        ),
+      ],
+    );
   }
 
   Widget getButtons(BuildContext context) {

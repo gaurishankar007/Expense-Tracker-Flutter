@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:expense_tracker/api/google/google_sign_up.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
@@ -22,33 +23,6 @@ class Setting extends StatefulWidget {
 class _SettingState extends State<Setting> {
   late Future<User> getUser;
   bool progressPublication = false;
-
-  // void _pickProfileImg() async {
-  //   final image = await FilePicker.platform.pickFiles(
-  //     allowMultiple: false,
-  //     type: FileType.custom,
-  //     allowedExtensions: [
-  //       'png',
-  //       'jpg',
-  //       'jpeg',
-  //     ],
-  //   );
-  //   if (image == null) return;
-  //   PlatformFile file = image.files.first;
-
-  //   await UserHttp().changeProfilePicture(File(file.path.toString()));
-  //   setState(() {
-  //     getUser = UserHttp().getUser();
-  //   });
-  //   Fluttertoast.showToast(
-  //     msg: "Your profile picture updated.",
-  //     toastLength: Toast.LENGTH_SHORT,
-  //     gravity: ToastGravity.BOTTOM,
-  //     timeInSecForIosWeb: 3,
-  //     backgroundColor: Colors.green,
-  //     textColor: Colors.white,
-  //   );
-  // }
 
   @override
   void initState() {
@@ -289,9 +263,15 @@ class _SettingState extends State<Setting> {
                     height: 25,
                   ),
                   GestureDetector(
-                    onTap: () {
+                    onTap: () async {
+                      bool googleSignIn = await LogStatus().googleSignIn();
+                      if (googleSignIn) {
+                        await GoogleSingInApi.logout();
+                      }
+                      LogStatus().removeGoogleSignIn();
                       LogStatus().removeToken();
                       LogStatus.token = "";
+
                       Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(

@@ -11,3 +11,15 @@ class UploadUser {
     this.profileName,
   });
 }
+
+class UploadGoogleUser {
+  String? email;
+  String? profileName;
+  String? profilePicture;
+
+  UploadGoogleUser({
+    this.email,
+    this.profileName,
+    this.profilePicture,
+  });
+}

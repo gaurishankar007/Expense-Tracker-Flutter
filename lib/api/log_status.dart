@@ -18,4 +18,20 @@ class LogStatus {
     String token = shPref.getString("token") ?? "";
     return token;
   }
+
+  void setGoogleSignIn(bool value) async {
+    final shPref = await SharedPreferences.getInstance();
+    shPref.setBool("googleSignIn", value);    
+  }
+
+  void removeGoogleSignIn() async {
+    final shPref = await SharedPreferences.getInstance();
+    shPref.remove("googleSignIn");
+  }
+
+  Future<bool> googleSignIn() async {
+    final shPref = await SharedPreferences.getInstance();
+    bool googleSignIn = shPref.getBool("googleSignIn") ?? false;
+    return googleSignIn;
+  }
 }

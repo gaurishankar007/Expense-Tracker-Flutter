@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import '../../api/google/google_sign_up.dart';
 import '../../api/http/authentication/login_http.dart';
 import '../../api/log_status.dart';
+import '../../api/model/user_model.dart';
 import '../../resource/colors.dart';
 import '../home.dart';
 import 'forget_password.dart';
@@ -296,13 +298,98 @@ class _LoginState extends State<Login> {
                     child: Text(
                       "Sign Up",
                       style: TextStyle(
-                          decoration: TextDecoration.underline,
-                          fontSize: 15,
-                          color: AppColors.primary,
-                          fontWeight: FontWeight.bold),
+                        decoration: TextDecoration.underline,
+                        fontSize: 15,
+                        color: AppColors.primary,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ],
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              ElevatedButton.icon(
+                onPressed: () async {
+                  try {
+                    final user = await GoogleSingInApi.login();
+
+                    if (user == null) {
+                      await GoogleSingInApi.logout();
+                      Fluttertoast.showToast(
+                        msg: "Sign in failed.",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.TOP,
+                        timeInSecForIosWeb: 3,
+                        backgroundColor: Colors.red,
+                        textColor: AppColors.primary,
+                        fontSize: 16.0,
+                      );
+                      return;
+                    }
+
+                    showDialog(
+                      context: context,
+                      builder: (builder) => Center(
+                        child: CircularProgressIndicator(
+                          strokeWidth: 6,
+                          color: AppColors.primary,
+                          backgroundColor: AppColors.button,
+                        ),
+                      ),
+                    );
+
+                    String? photoUrl = user.photoUrl;
+                    photoUrl ??=
+                        "https://res.cloudinary.com/gaurishankar/image/upload/v1658148482/ExpenseTracker/p3o8edl8jnwvdhk5xjmx.png";
+
+                    final resData = await LoginHttp().googleSignIn(
+                      UploadGoogleUser(
+                        email: user.email,
+                        profileName: user.displayName,
+                        profilePicture: photoUrl,
+                      ),
+                    );
+
+                    if (resData["statusCode"] == 202) {
+                      Navigator.pop(context);
+                      if (checkboxValue) {
+                        LogStatus().setToken(resData["body"]["token"]);
+                      }
+                      LogStatus().setGoogleSignIn(true);
+                      LogStatus.token = resData["body"]["token"];
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (builder) => Home(),
+                        ),
+                        (route) => false,
+                      );
+                    }
+                  } catch (error) {
+                    return;
+                  }
+                },
+                icon: Icon(
+                  FontAwesomeIcons.google,
+                  size: 25,
+                  color: AppColors.onPrimary,
+                ),
+                label: Text(
+                  "Sign In with google",
+                  style: TextStyle(
+                    color: AppColors.onPrimary,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                style: ElevatedButton.styleFrom(
+                  primary: AppColors.primary,
+                  elevation: 5,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                ),
               ),
             ],
           ),
