@@ -372,8 +372,8 @@ class _LoginState extends State<Login> {
                   }
                 },
                 child: SizedBox(
-                  width: 155,
-                  height: 35,
+                  width: 85,
+                  height: 45,
                   child: Row(
                     children: [
                       Image(
@@ -383,11 +383,11 @@ class _LoginState extends State<Login> {
                         image: AssetImage("image/Google.png"),
                       ),
                       SizedBox(
-                        width: 5,
+                        width: 10,
                       ),
                       RichText(
                         text: TextSpan(
-                          text: "Sign in with google",
+                          text: "Google",
                           style: TextStyle(
                             color: AppColors.iconHeading,
                             fontWeight: FontWeight.bold,

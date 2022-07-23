@@ -39,7 +39,7 @@ class _ResultState extends State<Result> {
           padding: EdgeInsets.only(
             top: 10,
             right: sWidth * 0.03,
-            bottom: 10,
+            bottom: 40,
             left: sWidth * 0.03,
           ),
           child: FutureBuilder<ProgressData>(
@@ -125,48 +125,6 @@ class _ResultState extends State<Result> {
                       context,
                       snapshot.data!.progress!.oldAchievement!,
                     ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        primary: AppColors.primary,
-                        minimumSize: Size.zero,
-                        padding: EdgeInsets.all(0),
-                        elevation: 5,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (builder) => AllAchievements(),
-                          ),
-                        );
-                      },
-                      child: SizedBox(
-                        height: 40,
-                        width: 145,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
-                            Icon(
-                              FontAwesomeIcons.medal,
-                              size: 20,
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                              "Achievements",
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
                   ];
                 } else if (snapshot.hasError) {
                   if ("${snapshot.error}".split("Exception: ")[0] == "Socket") {
@@ -217,6 +175,24 @@ class _ResultState extends State<Result> {
                 children: children,
               );
             }),
+          ),
+        ),
+      ),
+      floatingActionButton: SizedBox(
+        height: 50,
+        child: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (builder) => AllAchievements(),
+              ),
+            );
+          },
+          backgroundColor: AppColors.primary,
+          child: Icon(
+            FontAwesomeIcons.medal,
+            size: 20,
           ),
         ),
       ),

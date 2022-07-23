@@ -20,6 +20,7 @@ class Income extends StatefulWidget {
 }
 
 class _IncomeState extends State<Income> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final _formKey = GlobalKey<FormState>();
   String name = "", amount = "", category = "Other", firstDate = "";
 
@@ -67,12 +68,14 @@ class _IncomeState extends State<Income> {
     final sHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
+      key: _scaffoldKey,
       body: SafeArea(
         child: SingleChildScrollView(
             padding: EdgeInsets.only(
               top: 10,
               right: sWidth * 0.03,
               left: sWidth * 0.03,
+              bottom: 50,
             ),
             child: FutureBuilder<IncomeDWM>(
               future: userIncomeDetails,
@@ -272,7 +275,7 @@ class _IncomeState extends State<Income> {
                   fillColor: AppColors.button,
                   hintText: "Enter name",
                   hintStyle: TextStyle(
-                    color: AppColors.iconHeading,
+                    color: AppColors.text,
                   ),
                   enabledBorder: formBorder,
                   focusedBorder: formBorder,
@@ -293,7 +296,7 @@ class _IncomeState extends State<Income> {
                   fillColor: AppColors.button,
                   hintText: "Enter amount",
                   hintStyle: TextStyle(
-                    color: AppColors.iconHeading,
+                    color: AppColors.text,
                   ),
                   enabledBorder: formBorder,
                   focusedBorder: formBorder,
@@ -379,6 +382,14 @@ class _IncomeState extends State<Income> {
                     textColor: AppColors.primary,
                     fontSize: 16.0,
                   );
+
+                  if (resData["body"]["achievementUnlocked"]) {
+                    showDialog(
+                      context: _scaffoldKey.currentContext!,
+                      builder: (builder) =>
+                          congratulation(_scaffoldKey.currentContext!),
+                    );
+                  }
                 } else {
                   Fluttertoast.showToast(
                     msg: resData["body"]["resM"],

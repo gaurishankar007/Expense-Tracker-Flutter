@@ -150,6 +150,9 @@ class _CategorizedIncomeState extends State<CategorizedIncome> {
                       ],
                     ),
                     viewIncomes(context),
+                    SizedBox(
+                      height: 100,
+                    ),
                   ];
                 } else if (snapshot.hasError) {
                   children = <Widget>[
@@ -295,7 +298,7 @@ class _CategorizedIncomeState extends State<CategorizedIncome> {
                   fillColor: AppColors.button,
                   hintText: "Start Date",
                   hintStyle: TextStyle(
-                    color: AppColors.iconHeading,
+                    color: AppColors.text,
                   ),
                   enabledBorder: formBorder,
                   focusedBorder: formBorder,
@@ -328,7 +331,7 @@ class _CategorizedIncomeState extends State<CategorizedIncome> {
                   fillColor: AppColors.button,
                   hintText: "End Date",
                   hintStyle: TextStyle(
-                    color: AppColors.iconHeading,
+                    color: AppColors.text,
                   ),
                   enabledBorder: formBorder,
                   focusedBorder: formBorder,

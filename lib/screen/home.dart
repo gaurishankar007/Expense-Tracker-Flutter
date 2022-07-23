@@ -5,8 +5,10 @@ import 'package:expense_tracker/api/res/home_res.dart';
 import 'package:expense_tracker/resource/category.dart';
 import 'package:expense_tracker/screen/expense/categorized_expense.dart';
 import 'package:expense_tracker/screen/income/categorized_income.dart';
+import 'package:expense_tracker/screen/progress/result.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../api/res/income_res.dart';
 import '../resource/colors.dart';
@@ -77,7 +79,13 @@ class _HomeState extends State<Home> {
       }
     });
 
-    await ProgressHttp().calculateProgress();
+    final pc = await ProgressHttp().calculateProgress();
+    if (pc["achievementUnlocked"]) {
+      showDialog(
+        context: context,
+        builder: (builder) => congratulation(context),
+      );
+    }
   }
 
   @override
@@ -160,9 +168,7 @@ class _HomeState extends State<Home> {
                         ],
                       ),
                     ),
-                    SizedBox(
-                      height: 10,
-                    ),
+                    feedback(context, snapshot.data!),
                     barChart(
                       context,
                       snapshot.data!.thisMonthView!,
@@ -171,9 +177,13 @@ class _HomeState extends State<Home> {
                       snapshot.data!.previousMonthExpenseAmount!,
                       snapshot.data!.previousMonthIncomeAmount!,
                     ),
-                    feedback(context, snapshot.data!),
+                    SizedBox(
+                      height: 5,
+                    ),
                     expenseDetail(
-                        context, snapshot.data!.thisMonthExpenseCategories!),
+                      context,
+                      snapshot.data!.thisMonthExpenseCategories!,
+                    ),
                     SizedBox(
                       height: 5,
                     ),
@@ -243,6 +253,64 @@ class _HomeState extends State<Home> {
         ),
       ),
       bottomNavigationBar: PageNavigator(pageIndex: 0),
+    );
+  }
+
+  Widget congratulation(BuildContext context) {
+    return SimpleDialog(
+      backgroundColor: AppColors.background,
+      titlePadding: EdgeInsets.zero,
+      contentPadding: EdgeInsets.all(10),
+      children: [
+        Column(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Image(
+                fit: BoxFit.fitWidth,
+                image: AssetImage(
+                  "image/Congratulation.png",
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              "New Achievement Unlocked.",
+              style: TextStyle(
+                color: AppColors.iconHeading,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(
+              height: 8,
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: AppColors.primary,
+                minimumSize: Size.zero,
+                padding: EdgeInsets.all(8),
+                elevation: 5,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (builder) => Result(),
+                  ),
+                );
+              },
+              child: Text("Check Out"),
+            ),
+          ],
+        ),
+      ],
     );
   }
 
@@ -790,225 +858,252 @@ class _HomeState extends State<Home> {
         left: sWidth * 0.03,
         bottom: 15,
       ),
-      child: Column(
-        children: [
-          homeData.thisMonthExpenseAmount! < homeData.thisMonthIncomeAmount! &&
-                  homeData.thisMonthExpenseAmount != 0
-              ? Padding(
-                  padding: const EdgeInsets.only(top: 5),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.check_box_rounded,
-                        color: Colors.green,
-                        size: 25,
-                      ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      SizedBox(
-                        width: sWidth * .8,
-                        child: Text(
-                          "Expense is less than income.",
-                          textAlign: TextAlign.justify,
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: AppColors.iconHeading,
-                            fontWeight: FontWeight.bold,
-                          ),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: [
+            homeData.thisMonthExpenseAmount! <
+                        homeData.thisMonthIncomeAmount! &&
+                    homeData.thisMonthExpenseAmount != 0
+                ? Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Container(
+                      width: sWidth * .4,
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: AppColors.onPrimary,
+                        borderRadius: BorderRadius.circular(
+                          5,
                         ),
-                      ),
-                    ],
-                  ),
-                )
-              : SizedBox(),
-          homeData.previousMonthExpenseAmount! != 0 &&
-                  homeData.thisMonthExpenseRate! <
-                      homeData.previousMonthExpenseRate! &&
-                  homeData.thisMonthExpenseAmount != 0
-              ? Padding(
-                  padding: const EdgeInsets.only(top: 5),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.check_box_rounded,
-                        color: Colors.green,
-                        size: 25,
-                      ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      SizedBox(
-                        width: sWidth * .8,
-                        child: Text(
-                          "Expense amount per day (ExD) is less than previous month (Rs. ${homeData.previousMonthExpenseRate} ExD).",
-                          textAlign: TextAlign.justify,
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: AppColors.iconHeading,
-                            fontWeight: FontWeight.bold,
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppColors.button,
+                            spreadRadius: 2,
+                            blurRadius: 10,
                           ),
-                        ),
+                        ],
                       ),
-                    ],
-                  ),
-                )
-              : SizedBox(),
-          homeData.previousMonthIncomeAmount! != 0 &&
-                  homeData.thisMonthIncomeAmount! >
-                      homeData.previousMonthIncomeAmount!
-              ? Padding(
-                  padding: const EdgeInsets.only(top: 5),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.check_box_rounded,
-                        color: Colors.green,
-                        size: 25,
-                      ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      SizedBox(
-                        width: sWidth * .8,
-                        child: Text(
-                          "Income is greater than previous month (Rs. ${homeData.previousMonthIncomeAmount}).",
-                          textAlign: TextAlign.justify,
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: AppColors.iconHeading,
-                            fontWeight: FontWeight.bold,
+                      child: Column(
+                        children: [
+                          RichText(
+                            textAlign: TextAlign.center,
+                            text: TextSpan(
+                              text: "Well Done!",
+                              style: TextStyle(
+                                color: AppColors.primary,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              : SizedBox(),
-          homeData.previousMonthIncomeAmount! != 0 &&
-                  homeData.thisMonthIncomeRate! >
-                      homeData.previousMonthIncomeRate!
-              ? Padding(
-                  padding: const EdgeInsets.only(top: 5),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.check_box_rounded,
-                        color: Colors.green,
-                        size: 25,
-                      ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      SizedBox(
-                        width: sWidth * .8,
-                        child: Text(
-                          "InD is greater than previous month (Rs. ${homeData.previousMonthIncomeRate} InD).",
-                          textAlign: TextAlign.justify,
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: AppColors.iconHeading,
-                            fontWeight: FontWeight.bold,
+                          SizedBox(
+                            height: 5,
                           ),
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              : SizedBox(),
-          homeData.thisMonthExpenseAmount! > homeData.thisMonthIncomeAmount! &&
-                  homeData.thisMonthIncomeAmount != 0
-              ? Padding(
-                  padding: const EdgeInsets.only(top: 5),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.warning_amber_rounded,
-                        color: Colors.red,
-                        size: 25,
-                      ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      SizedBox(
-                        width: sWidth * .8,
-                        child: Text(
-                          "Expense is greater than income this month",
-                          textAlign: TextAlign.justify,
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: AppColors.iconHeading,
-                            fontWeight: FontWeight.bold,
+                          Icon(
+                            FontAwesomeIcons.faceSmileBeam,
+                            color: AppColors.primary,
+                            size: 50,
                           ),
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              : SizedBox(),
-          homeData.previousMonthExpenseAmount! != 0 &&
-                  homeData.thisMonthExpenseAmount! >
-                      homeData.previousMonthExpenseAmount!
-              ? Padding(
-                  padding: const EdgeInsets.only(top: 5),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.warning_amber_rounded,
-                        color: Colors.orange,
-                        size: 25,
-                      ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      SizedBox(
-                        width: sWidth * .8,
-                        child: Text(
-                          "Expense is greater than previous month (Rs. ${homeData.previousMonthExpenseAmount})",
-                          textAlign: TextAlign.justify,
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: AppColors.iconHeading,
-                            fontWeight: FontWeight.bold,
+                          SizedBox(
+                            height: 5,
                           ),
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              : SizedBox(),
-          homeData.previousMonthExpenseAmount! != 0 &&
-                  homeData.thisMonthExpenseAmount! >
-                      homeData.previousMonthExpenseAmount!
-              ? Padding(
-                  padding: const EdgeInsets.only(top: 5),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.warning_amber_rounded,
-                        color: Colors.orange,
-                        size: 25,
-                      ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      SizedBox(
-                        width: sWidth * .8,
-                        child: Text(
-                          "ExD is greater than previous month (Rs. ${homeData.previousMonthExpenseRate} ExD)",
-                          textAlign: TextAlign.justify,
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: AppColors.iconHeading,
-                            fontWeight: FontWeight.bold,
+                          RichText(
+                            textAlign: TextAlign.center,
+                            text: TextSpan(
+                              text: "Your expenses looks good.",
+                              style: TextStyle(
+                                color: AppColors.iconHeading,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ),
-                        ),
+                        ],
                       ),
-                    ],
-                  ),
-                )
-              : SizedBox()
-        ],
+                    ),
+                  )
+                : SizedBox(),
+            homeData.thisMonthExpenseAmount! >
+                        homeData.thisMonthIncomeAmount! &&
+                    homeData.thisMonthIncomeAmount != 0
+                ? Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Container(
+                      width: sWidth * .4,
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: AppColors.onPrimary,
+                        borderRadius: BorderRadius.circular(
+                          5,
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppColors.button,
+                            spreadRadius: 2,
+                            blurRadius: 10,
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        children: [
+                          RichText(
+                            textAlign: TextAlign.center,
+                            text: TextSpan(
+                              text: "Ummmm!",
+                              style: TextStyle(
+                                color: Colors.deepOrange,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Icon(
+                            FontAwesomeIcons.faceSadTear,
+                            color: Colors.deepOrange,
+                            size: 50,
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          RichText(
+                            textAlign: TextAlign.center,
+                            text: TextSpan(
+                              text: "This month expenses looks bad.",
+                              style: TextStyle(
+                                color: AppColors.iconHeading,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                : SizedBox(),
+            homeData.previousMonthExpenseAmount! != 0 &&
+                    homeData.thisMonthExpenseAmount! >
+                        homeData.previousMonthExpenseAmount!
+                ? Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Container(
+                      width: sWidth * .4,
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: AppColors.onPrimary,
+                        borderRadius: BorderRadius.circular(
+                          5,
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppColors.button,
+                            spreadRadius: 2,
+                            blurRadius: 10,
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        children: [
+                          RichText(
+                            textAlign: TextAlign.center,
+                            text: TextSpan(
+                              text: "oh!",
+                              style: TextStyle(
+                                color: Colors.orange,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Icon(
+                            FontAwesomeIcons.faceSurprise,
+                            color: Colors.orange,
+                            size: 50,
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          RichText(
+                            textAlign: TextAlign.center,
+                            text: TextSpan(
+                              text: "Last month expense was less.",
+                              style: TextStyle(
+                                color: AppColors.iconHeading,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                : SizedBox(),
+            homeData.previousMonthIncomeAmount! != 0 &&
+                    homeData.thisMonthIncomeAmount! >
+                        homeData.previousMonthIncomeAmount!
+                ? Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Container(
+                      width: sWidth * .4,
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: AppColors.onPrimary,
+                        borderRadius: BorderRadius.circular(
+                          5,
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppColors.button,
+                            spreadRadius: 2,
+                            blurRadius: 10,
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        children: [
+                          RichText(
+                            textAlign: TextAlign.center,
+                            text: TextSpan(
+                              text: "Good Job!",
+                              style: TextStyle(
+                                color: AppColors.primary,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Icon(
+                            FontAwesomeIcons.faceSmileBeam,
+                            color: AppColors.primary,
+                            size: 50,
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          RichText(
+                            textAlign: TextAlign.center,
+                            text: TextSpan(
+                              text: "This month income looks better.",
+                              style: TextStyle(
+                                color: AppColors.iconHeading,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                : SizedBox(),
+          ],
+        ),
       ),
     );
   }

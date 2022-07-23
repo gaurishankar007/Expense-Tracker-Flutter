@@ -20,6 +20,7 @@ class Expense extends StatefulWidget {
 }
 
 class _ExpenseState extends State<Expense> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final _formKey = GlobalKey<FormState>();
   String name = "", amount = "", category = "Other", firstDate = "";
 
@@ -67,12 +68,14 @@ class _ExpenseState extends State<Expense> {
     final sHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
+      key: _scaffoldKey,
       body: SafeArea(
         child: SingleChildScrollView(
             padding: EdgeInsets.only(
               top: 10,
               right: sWidth * 0.03,
               left: sWidth * 0.03,
+              bottom: 50,
             ),
             child: FutureBuilder<ExpenseDWM>(
               future: userExpenseDetails,
@@ -205,12 +208,12 @@ class _ExpenseState extends State<Expense> {
         height: 50,
         child: FloatingActionButton(
           onPressed: () {
-            if(expenseIndex==0){showDialog(
+            showDialog(
               context: context,
               builder: (ctx) {
-                return congratulation(context);
+                return addExpense(context);
               },
-            );}
+            );
           },
           backgroundColor: AppColors.primary,
           child: Icon(
@@ -268,7 +271,7 @@ class _ExpenseState extends State<Expense> {
                   filled: true,
                   fillColor: AppColors.button,
                   hintStyle: TextStyle(
-                    color: AppColors.iconHeading,
+                    color: AppColors.text,
                   ),
                   hintText: "Enter name",
                   enabledBorder: formBorder,
@@ -290,7 +293,7 @@ class _ExpenseState extends State<Expense> {
                   fillColor: AppColors.button,
                   hintText: "Enter amount",
                   hintStyle: TextStyle(
-                    color: AppColors.iconHeading,
+                    color: AppColors.text,
                   ),
                   enabledBorder: formBorder,
                   focusedBorder: formBorder,
@@ -376,6 +379,14 @@ class _ExpenseState extends State<Expense> {
                     textColor: AppColors.primary,
                     fontSize: 16.0,
                   );
+
+                  if (resData["body"]["achievementUnlocked"]) {
+                    showDialog(
+                      context: _scaffoldKey.currentContext!,
+                      builder: (builder) =>
+                          congratulation(_scaffoldKey.currentContext!),
+                    );
+                  }
                 } else {
                   Fluttertoast.showToast(
                     msg: resData["body"]["resM"],
@@ -641,7 +652,7 @@ class _ExpenseState extends State<Expense> {
                   fillColor: AppColors.button,
                   hintText: "Start Date",
                   hintStyle: TextStyle(
-                    color: AppColors.iconHeading,
+                    color: AppColors.text,
                   ),
                   enabledBorder: formBorder,
                   focusedBorder: formBorder,
@@ -674,7 +685,7 @@ class _ExpenseState extends State<Expense> {
                   fillColor: AppColors.button,
                   hintText: "End Date",
                   hintStyle: TextStyle(
-                    color: AppColors.iconHeading,
+                    color: AppColors.text,
                   ),
                   enabledBorder: formBorder,
                   focusedBorder: formBorder,
