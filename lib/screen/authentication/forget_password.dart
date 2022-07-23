@@ -66,7 +66,6 @@ class _ForgetPasswordState extends State<ForgetPassword> {
             child: Column(
               children: [
                 TextFormField(
-                  key: ValueKey("email"),
                   onSaved: (value) {
                     email = value!;
                   },
@@ -82,7 +81,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                     fillColor: AppColors.button,
                     hintText: "Enter your email.....",
                     hintStyle: TextStyle(
-                      color: AppColors.iconHeading,
+                      color: AppColors.text,
                     ),
                     enabledBorder: formBorder,
                     focusedBorder: formBorder,
@@ -97,7 +96,6 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                   alignment: Alignment.centerRight,
                   children: [
                     TextFormField(
-                      key: ValueKey("password"),
                       onChanged: (value) {
                         password = value;
                       },
@@ -114,7 +112,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                         fillColor: AppColors.button,
                         hintText: "Enter a new password.....",
                         hintStyle: TextStyle(
-                          color: AppColors.iconHeading,
+                          color: AppColors.text,
                         ),
                         enabledBorder: formBorder,
                         focusedBorder: formBorder,
@@ -146,7 +144,6 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                   alignment: Alignment.centerRight,
                   children: [
                     TextFormField(
-                      key: ValueKey("confirmPassword"),
                       onChanged: (value) {
                         confirmPassword = value;
                       },
@@ -163,7 +160,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                         fillColor: AppColors.button,
                         hintText: "Confirm New Password......",
                         hintStyle: TextStyle(
-                          color: AppColors.iconHeading,
+                          color: AppColors.text,
                         ),
                         enabledBorder: formBorder,
                         focusedBorder: formBorder,

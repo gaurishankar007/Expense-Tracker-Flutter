@@ -450,7 +450,7 @@ class _CategorizedIncomeState extends State<CategorizedIncome> {
                   subtitle: Text(
                     incomeList[index].createdAt!.split("T")[0],
                     style: TextStyle(
-                      color: AppColors.iconHeading,
+                      color: AppColors.text,
                     ),
                   ),
                   trailing: Text(

@@ -947,7 +947,7 @@ class _IncomeState extends State<Income> {
                 subtitle: Text(
                   incomes[index].category!,
                   style: TextStyle(
-                    color: AppColors.iconHeading,
+                    color: AppColors.text,
                   ),
                 ),
                 trailing: Text(

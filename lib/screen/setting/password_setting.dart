@@ -21,7 +21,7 @@ class _PasswordSettingState extends State<PasswordSetting> {
   OutlineInputBorder formBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(5),
     borderSide: BorderSide(
-      color: AppColors.form,
+      color: AppColors.button,
       width: 2,
       style: BorderStyle.solid,
     ),
@@ -86,7 +86,7 @@ class _PasswordSettingState extends State<PasswordSetting> {
                           fillColor: AppColors.button,
                           hintText: "Enter your current password.....",
                           hintStyle: TextStyle(
-                            color: AppColors.iconHeading,
+                            color: AppColors.text,
                           ),
                           enabledBorder: formBorder,
                           focusedBorder: formBorder,
@@ -135,7 +135,7 @@ class _PasswordSettingState extends State<PasswordSetting> {
                           fillColor: AppColors.button,
                           hintText: "Enter your New password.....",
                           hintStyle: TextStyle(
-                            color: AppColors.iconHeading,
+                            color: AppColors.text,
                           ),
                           enabledBorder: formBorder,
                           focusedBorder: formBorder,
@@ -184,7 +184,7 @@ class _PasswordSettingState extends State<PasswordSetting> {
                           fillColor: AppColors.button,
                           hintText: "Confirm New Password......",
                           hintStyle: TextStyle(
-                            color: AppColors.iconHeading,
+                            color: AppColors.text,
                           ),
                           enabledBorder: formBorder,
                           focusedBorder: formBorder,

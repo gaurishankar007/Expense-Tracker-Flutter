@@ -99,7 +99,7 @@ class _LoginState extends State<Login> {
                       fillColor: AppColors.button,
                       hintText: "Enter your email.....",
                       hintStyle: TextStyle(
-                        color: AppColors.iconHeading,
+                        color: AppColors.text,
                       ),
                       enabledBorder: formBorder,
                       focusedBorder: formBorder,
@@ -137,7 +137,7 @@ class _LoginState extends State<Login> {
                               fillColor: AppColors.button,
                               hintText: "Enter your password.....",
                               hintStyle: TextStyle(
-                                color: AppColors.iconHeading,
+                                color: AppColors.text,
                               ),
                               enabledBorder: formBorder,
                               focusedBorder: formBorder,
@@ -310,7 +310,7 @@ class _LoginState extends State<Login> {
               SizedBox(
                 height: 5,
               ),
-              ElevatedButton.icon(
+              ElevatedButton(
                 onPressed: () async {
                   try {
                     final user = await GoogleSingInApi.login();
@@ -371,20 +371,34 @@ class _LoginState extends State<Login> {
                     return;
                   }
                 },
-                icon: Icon(
-                  FontAwesomeIcons.google,
-                  size: 25,
-                  color: AppColors.onPrimary,
-                ),
-                label: Text(
-                  "Sign In with google",
-                  style: TextStyle(
-                    color: AppColors.onPrimary,
-                    fontWeight: FontWeight.bold,
+                child: SizedBox(
+                  width: 155,
+                  height: 35,
+                  child: Row(
+                    children: [
+                      Image(
+                        height: 30,
+                        width: 30,
+                        fit: BoxFit.cover,
+                        image: AssetImage("image/Google.png"),
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      RichText(
+                        text: TextSpan(
+                          text: "Sign in with google",
+                          style: TextStyle(
+                            color: AppColors.iconHeading,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      )
+                    ],
                   ),
                 ),
                 style: ElevatedButton.styleFrom(
-                  primary: AppColors.primary,
+                  primary: AppColors.onPrimary,
                   elevation: 5,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5),

@@ -589,7 +589,7 @@ class _RankingSystemState extends State<RankingSystem> {
                             style: TextStyle(
                               color: AppColors.iconHeading,
                               fontWeight: FontWeight.bold,
-                              fontSize: 10,
+                              fontSize: 12,
                             ),
                           ),
                         ],

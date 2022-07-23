@@ -1,8 +1,10 @@
 import 'dart:io';
 
 import 'package:expense_tracker/api/google/google_sign_up.dart';
+import 'package:expense_tracker/screen/help.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../api/http/user_http.dart';
@@ -163,7 +165,12 @@ class _SettingState extends State<Setting> {
                             SizedBox(
                               height: 5,
                             ),
-                            Text("Update your personal information."),
+                            Text(
+                              "Update your personal information",
+                              style: TextStyle(
+                                color: AppColors.text,
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -200,12 +207,18 @@ class _SettingState extends State<Setting> {
                             SizedBox(
                               height: 5,
                             ),
-                            Text("Change your password."),
+                            Text(
+                              "Change your password",
+                              style: TextStyle(
+                                color: AppColors.text,
+                              ),
+                            ),
                           ],
                         ),
                         Icon(
-                          Icons.key,
+                          FontAwesomeIcons.lock,
                           color: AppColors.iconHeading,
+                          size: 18,
                         ),
                       ],
                     ),
@@ -231,6 +244,9 @@ class _SettingState extends State<Setting> {
                           ),
                           Text(
                             "Publish Profile Information",
+                            style: TextStyle(
+                              color: AppColors.text,
+                            ),
                           ),
                         ],
                       ),
@@ -263,12 +279,55 @@ class _SettingState extends State<Setting> {
                     height: 25,
                   ),
                   GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => Support(),
+                        ),
+                      );
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Support",
+                              style: TextStyle(
+                                color: AppColors.iconHeading,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Text(
+                              "Learn about the app",
+                              style: TextStyle(
+                                color: AppColors.text,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Icon(
+                          Icons.help_rounded,
+                          color: AppColors.iconHeading,
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 25,
+                  ),
+                  GestureDetector(
                     onTap: () async {
                       bool googleSignIn = await LogStatus().googleSignIn();
                       if (googleSignIn) {
                         await GoogleSingInApi.logout();
+                        LogStatus().removeGoogleSignIn();
                       }
-                      LogStatus().removeGoogleSignIn();
+
                       LogStatus().removeToken();
                       LogStatus.token = "";
 
@@ -296,8 +355,16 @@ class _SettingState extends State<Setting> {
                             SizedBox(
                               height: 5,
                             ),
-                            Text(
-                              "You are currently logged in",
+                            SizedBox(
+                              width: sWidth * .7,
+                              child: Text(
+                                "Logged in as " + snapshot.data!.profileName!,
+                                softWrap: true,
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  color: AppColors.text,
+                                ),
+                              ),
                             ),
                           ],
                         ),

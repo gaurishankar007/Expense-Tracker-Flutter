@@ -451,7 +451,7 @@ class _CategorizedExpenseState extends State<CategorizedExpense> {
                   subtitle: Text(
                     expenseList[index].createdAt!.split("T")[0],
                     style: TextStyle(
-                      color: AppColors.iconHeading,
+                      color: AppColors.text,
                     ),
                   ),
                   trailing: Text(

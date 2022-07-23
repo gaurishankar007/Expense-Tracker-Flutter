@@ -100,7 +100,7 @@ class _SignUpState extends State<SignUp> {
                     fillColor: AppColors.button,
                     hintText: "Enter your email.....",
                     hintStyle: TextStyle(
-                      color: AppColors.iconHeading,
+                      color: AppColors.text,
                     ),
                     enabledBorder: formBorder,
                     focusedBorder: formBorder,
@@ -127,7 +127,7 @@ class _SignUpState extends State<SignUp> {
                     fillColor: AppColors.button,
                     hintText: "Enter your profile name.....",
                     hintStyle: TextStyle(
-                      color: AppColors.iconHeading,
+                      color: AppColors.text,
                     ),
                     enabledBorder: formBorder,
                     focusedBorder: formBorder,
@@ -157,7 +157,7 @@ class _SignUpState extends State<SignUp> {
                         fillColor: AppColors.button,
                         hintText: "Enter a password.....",
                         hintStyle: TextStyle(
-                          color: AppColors.iconHeading,
+                          color: AppColors.text,
                         ),
                         enabledBorder: formBorder,
                         focusedBorder: formBorder,
@@ -205,7 +205,7 @@ class _SignUpState extends State<SignUp> {
                         fillColor: AppColors.button,
                         hintText: "Enter the password again.....",
                         hintStyle: TextStyle(
-                          color: AppColors.iconHeading,
+                          color: AppColors.text,
                         ),
                         enabledBorder: formBorder,
                         focusedBorder: formBorder,

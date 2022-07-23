@@ -205,12 +205,12 @@ class _ExpenseState extends State<Expense> {
         height: 50,
         child: FloatingActionButton(
           onPressed: () {
-            showDialog(
+            if(expenseIndex==0){showDialog(
               context: context,
               builder: (ctx) {
-                return addExpense(context);
+                return congratulation(context);
               },
-            );
+            );}
           },
           backgroundColor: AppColors.primary,
           child: Icon(
@@ -943,7 +943,7 @@ class _ExpenseState extends State<Expense> {
                 subtitle: Text(
                   expenses[index].category!,
                   style: TextStyle(
-                    color: AppColors.iconHeading,
+                    color: AppColors.text,
                   ),
                 ),
                 trailing: Text(

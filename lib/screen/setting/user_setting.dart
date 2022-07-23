@@ -162,7 +162,7 @@ class _UserSettingState extends State<UserSetting> {
                                 fillColor: AppColors.button,
                                 hintText: "Enter new Profile Name",
                                 hintStyle: TextStyle(
-                                  color: AppColors.iconHeading,
+                                  color: AppColors.text,
                                 ),
                                 enabledBorder: formBorder,
                                 focusedBorder: formBorder,
@@ -231,7 +231,7 @@ class _UserSettingState extends State<UserSetting> {
                                       fillColor: AppColors.button,
                                       hintText: "Enter new Email",
                                       hintStyle: TextStyle(
-                                        color: AppColors.iconHeading,
+                                        color: AppColors.text,
                                       ),
                                       enabledBorder: formBorder,
                                       focusedBorder: formBorder,

@@ -6,7 +6,7 @@ class AppColors {
   static Color background = Color(0xFFF5F6FB);
   static Color form = Color(0xFFD4D4D4);
   static Color iconHeading = Color(0xFF1A1A1A);
-  static Color text = Color(0xFF414141);
+  static Color text = Color(0xFF5F6368);
   static Color button = Color(0xE1C8D3E7);
 }
 
