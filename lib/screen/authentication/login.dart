@@ -33,7 +33,7 @@ class _LoginState extends State<Login> {
   );
   TextStyle textStyle = TextStyle(
     fontWeight: FontWeight.bold,
-    fontSize: 18,
+    fontSize: 16,
     color: Colors.black87,
   );
 
@@ -67,8 +67,8 @@ class _LoginState extends State<Login> {
               ClipRRect(
                 borderRadius: BorderRadius.circular(5),
                 child: Image(
-                  height: 165,
-                  width: 165,
+                  height: 120,
+                  width: 120,
                   fit: BoxFit.cover,
                   image: AssetImage("image/logo.png"),
                 ),
@@ -95,6 +95,7 @@ class _LoginState extends State<Login> {
                       RequiredValidator(errorText: "Email is required!"),
                     ]),
                     decoration: InputDecoration(
+                      isDense: true,
                       filled: true,
                       fillColor: AppColors.button,
                       hintText: "Enter your email.....",
@@ -133,6 +134,7 @@ class _LoginState extends State<Login> {
                             ]),
                             obscureText: hidePass,
                             decoration: InputDecoration(
+                              isDense: true,
                               filled: true,
                               fillColor: AppColors.button,
                               hintText: "Enter your password.....",
@@ -200,12 +202,13 @@ class _LoginState extends State<Login> {
                                       builder: (builder) => ForgetPassword()));
                             },
                             child: Text(
-                              "Forgot Password",
+                              "Forgot Password?",
                               style: TextStyle(
-                                  decoration: TextDecoration.underline,
-                                  fontSize: 15,
-                                  color: AppColors.primary,
-                                  fontWeight: FontWeight.bold),
+                                decoration: TextDecoration.underline,
+                                fontSize: 15,
+                                color: AppColors.primary,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ],
@@ -215,65 +218,171 @@ class _LoginState extends State<Login> {
                 ],
               ),
               SizedBox(
-                height: 5,
+                height: 10,
               ),
-              ElevatedButton(
-                onPressed: () async {
-                  if (_formKey.currentState!.validate()) {
-                    _formKey.currentState!.save();
+              SizedBox(
+                width: double.maxFinite,
+                child: ElevatedButton(
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate()) {
+                      _formKey.currentState!.save();
 
-                    showDialog(
-                      context: context,
-                      builder: (builder) => Center(
-                        child: CircularProgressIndicator(
-                          strokeWidth: 6,
-                          color: AppColors.primary,
-                          backgroundColor: AppColors.button,
+                      showDialog(
+                        context: context,
+                        builder: (builder) => Center(
+                          child: CircularProgressIndicator(
+                            strokeWidth: 6,
+                            color: AppColors.primary,
+                            backgroundColor: AppColors.button,
+                          ),
                         ),
-                      ),
-                    );
+                      );
 
-                    final resData = await LoginHttp().login(email, password);
-                    if (resData["statusCode"] == 202) {
-                      Navigator.pop(context);
-                      if (checkboxValue) {
-                        LogStatus().setToken(resData["body"]["token"]);
+                      final resData = await LoginHttp().login(email, password);
+                      if (resData["statusCode"] == 202) {
+                        Navigator.pop(context);
+                        if (checkboxValue) {
+                          LogStatus().setToken(resData["body"]["token"]);
+                        }
+                        LogStatus.token = resData["body"]["token"];
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (builder) => Home(),
+                          ),
+                          (route) => false,
+                        );
+                      } else {
+                        Navigator.pop(context);
+                        Fluttertoast.showToast(
+                          msg: resData["body"]["resM"],
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.TOP,
+                          timeInSecForIosWeb: 3,
+                          backgroundColor: Colors.red,
+                          textColor: AppColors.primary,
+                          fontSize: 16.0,
+                        );
                       }
-                      LogStatus.token = resData["body"]["token"];
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                          builder: (builder) => Home(),
-                        ),
-                        (route) => false,
-                      );
-                    } else {
-                      Navigator.pop(context);
-                      Fluttertoast.showToast(
-                        msg: resData["body"]["resM"],
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.TOP,
-                        timeInSecForIosWeb: 3,
-                        backgroundColor: Colors.red,
-                        textColor: AppColors.primary,
-                        fontSize: 16.0,
-                      );
                     }
-                  }
-                },
-                child: Text(
-                  "Log In",
-                  style: TextStyle(
-                    fontSize: 15,
+                  },
+                  child: Text(
+                    "Login",
+                    style: TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    primary: AppColors.primary,
+                    padding: EdgeInsets.symmetric(vertical: 10),
+                    elevation: 5,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
                   ),
                 ),
-                style: ElevatedButton.styleFrom(
-                  primary: AppColors.primary,
-                  elevation: 5,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              SizedBox(
+                width: double.maxFinite,
+                child: ElevatedButton(
+                  onPressed: () async {
+                    try {
+                      final user = await GoogleSingInApi.login();
+
+                      if (user == null) {
+                        await GoogleSingInApi.logout();
+                        Fluttertoast.showToast(
+                          msg: "Sign in failed.",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.TOP,
+                          timeInSecForIosWeb: 3,
+                          backgroundColor: Colors.red,
+                          textColor: AppColors.primary,
+                          fontSize: 16.0,
+                        );
+                        return;
+                      }
+
+                      showDialog(
+                        context: context,
+                        builder: (builder) => Center(
+                          child: CircularProgressIndicator(
+                            strokeWidth: 6,
+                            color: AppColors.primary,
+                            backgroundColor: AppColors.button,
+                          ),
+                        ),
+                      );
+
+                      String? photoUrl = user.photoUrl;
+                      photoUrl ??=
+                          "https://res.cloudinary.com/gaurishankar/image/upload/v1658148482/ExpenseTracker/p3o8edl8jnwvdhk5xjmx.png";
+
+                      final resData = await LoginHttp().googleSignIn(
+                        UploadGoogleUser(
+                          email: user.email,
+                          profileName: user.displayName,
+                          profilePicture: photoUrl,
+                        ),
+                      );
+
+                      if (resData["statusCode"] == 202) {
+                        Navigator.pop(context);
+                        if (checkboxValue) {
+                          LogStatus().setToken(resData["body"]["token"]);
+                        }
+                        LogStatus().setGoogleSignIn(true);
+                        LogStatus.token = resData["body"]["token"];
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (builder) => Home(),
+                          ),
+                          (route) => false,
+                        );
+                      }
+                    } catch (error) {
+                      return;
+                    }
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image(
+                        height: 30,
+                        width: 30,
+                        fit: BoxFit.cover,
+                        image: AssetImage("image/Google.png"),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      RichText(
+                        text: TextSpan(
+                          text: "Login with google",
+                          style: TextStyle(
+                            color: AppColors.iconHeading,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    primary: AppColors.onPrimary,
+                    padding: EdgeInsets.symmetric(vertical: 5),
+                    elevation: 5,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
                   ),
                 ),
+              ),
+              SizedBox(
+                height: 5,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -296,7 +405,7 @@ class _LoginState extends State<Login> {
                       );
                     },
                     child: Text(
-                      "Sign Up",
+                      "Register",
                       style: TextStyle(
                         decoration: TextDecoration.underline,
                         fontSize: 15,
@@ -306,104 +415,6 @@ class _LoginState extends State<Login> {
                     ),
                   ),
                 ],
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              ElevatedButton(
-                onPressed: () async {
-                  try {
-                    final user = await GoogleSingInApi.login();
-
-                    if (user == null) {
-                      await GoogleSingInApi.logout();
-                      Fluttertoast.showToast(
-                        msg: "Sign in failed.",
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.TOP,
-                        timeInSecForIosWeb: 3,
-                        backgroundColor: Colors.red,
-                        textColor: AppColors.primary,
-                        fontSize: 16.0,
-                      );
-                      return;
-                    }
-
-                    showDialog(
-                      context: context,
-                      builder: (builder) => Center(
-                        child: CircularProgressIndicator(
-                          strokeWidth: 6,
-                          color: AppColors.primary,
-                          backgroundColor: AppColors.button,
-                        ),
-                      ),
-                    );
-
-                    String? photoUrl = user.photoUrl;
-                    photoUrl ??=
-                        "https://res.cloudinary.com/gaurishankar/image/upload/v1658148482/ExpenseTracker/p3o8edl8jnwvdhk5xjmx.png";
-
-                    final resData = await LoginHttp().googleSignIn(
-                      UploadGoogleUser(
-                        email: user.email,
-                        profileName: user.displayName,
-                        profilePicture: photoUrl,
-                      ),
-                    );
-
-                    if (resData["statusCode"] == 202) {
-                      Navigator.pop(context);
-                      if (checkboxValue) {
-                        LogStatus().setToken(resData["body"]["token"]);
-                      }
-                      LogStatus().setGoogleSignIn(true);
-                      LogStatus.token = resData["body"]["token"];
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                          builder: (builder) => Home(),
-                        ),
-                        (route) => false,
-                      );
-                    }
-                  } catch (error) {
-                    return;
-                  }
-                },
-                child: SizedBox(
-                  width: 85,
-                  height: 45,
-                  child: Row(
-                    children: [
-                      Image(
-                        height: 30,
-                        width: 30,
-                        fit: BoxFit.cover,
-                        image: AssetImage("image/Google.png"),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      RichText(
-                        text: TextSpan(
-                          text: "Google",
-                          style: TextStyle(
-                            color: AppColors.iconHeading,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                style: ElevatedButton.styleFrom(
-                  primary: AppColors.onPrimary,
-                  elevation: 5,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                ),
               ),
             ],
           ),

@@ -15,8 +15,8 @@ class PasswordSetting extends StatefulWidget {
 
 class _PasswordSettingState extends State<PasswordSetting> {
   final _formKey = GlobalKey<FormState>();
-  String currentPassword = "", newPassword = "", confirmPassword = "";
-  bool curP = true, newP = true, conP = true;
+  String currentPassword = "", newPassword = "";
+  bool curP = true, newP = true;
 
   OutlineInputBorder formBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(5),
@@ -82,6 +82,7 @@ class _PasswordSettingState extends State<PasswordSetting> {
                           color: AppColors.iconHeading,
                         ),
                         decoration: InputDecoration(
+                          isDense: true,
                           filled: true,
                           fillColor: AppColors.button,
                           hintText: "Enter your current password.....",
@@ -112,10 +113,10 @@ class _PasswordSettingState extends State<PasswordSetting> {
                     ],
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 15,
                   ),
                   Stack(
-                    alignment: Alignment.centerRight,
+                    alignment: Alignment.topRight,
                     children: [
                       TextFormField(
                         key: Key("NewPassword"),
@@ -131,11 +132,18 @@ class _PasswordSettingState extends State<PasswordSetting> {
                           color: AppColors.iconHeading,
                         ),
                         decoration: InputDecoration(
+                          isDense: true,
                           filled: true,
                           fillColor: AppColors.button,
                           hintText: "Enter your New password.....",
                           hintStyle: TextStyle(
                             color: AppColors.text,
+                          ),
+                          helperText:
+                              "Most contain at least one upper case, lower case, number, special character, and 5 to 15 characters.",
+                          helperMaxLines: 2,
+                          helperStyle: TextStyle(
+                            color: AppColors.primary,
                           ),
                           enabledBorder: formBorder,
                           focusedBorder: formBorder,
@@ -149,7 +157,6 @@ class _PasswordSettingState extends State<PasswordSetting> {
                             newP = !newP;
                           });
                         },
-                        constraints: BoxConstraints(),
                         icon: Icon(
                           newP
                               ? FontAwesomeIcons.solidEyeSlash
@@ -163,110 +170,52 @@ class _PasswordSettingState extends State<PasswordSetting> {
                   SizedBox(
                     height: 10,
                   ),
-                  Stack(
-                    alignment: Alignment.centerRight,
-                    children: [
-                      TextFormField(
-                        key: Key("ConfirmPassword"),
-                        onChanged: (value) {
-                          confirmPassword = value;
-                        },
-                        validator: MultiValidator([
-                          RequiredValidator(
-                              errorText: "Confirm password is required!"),
-                        ]),
-                        obscureText: conP,
-                        style: TextStyle(
-                          color: AppColors.iconHeading,
-                        ),
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: AppColors.button,
-                          hintText: "Confirm New Password......",
-                          hintStyle: TextStyle(
-                            color: AppColors.text,
-                          ),
-                          enabledBorder: formBorder,
-                          focusedBorder: formBorder,
-                          errorBorder: formBorder,
-                          focusedErrorBorder: formBorder,
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          setState(() {
-                            conP = !conP;
-                          });
-                        },
-                        constraints: BoxConstraints(),
-                        icon: Icon(
-                          conP
-                              ? FontAwesomeIcons.solidEyeSlash
-                              : FontAwesomeIcons.solidEye,
-                          size: 18,
-                          color: AppColors.iconHeading,
-                        ),
-                      ),
-                    ],
-                  ),
                   SizedBox(
-                    height: 10,
-                  ),
-                  ElevatedButton(
-                    onPressed: () async {
-                      if (_formKey.currentState!.validate()) {
-                        _formKey.currentState!.save();
+                    width: double.maxFinite,
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          _formKey.currentState!.save();
 
-                        if (confirmPassword != newPassword) {
-                          Fluttertoast.showToast(
-                            toastLength: Toast.LENGTH_SHORT,
-                            gravity: ToastGravity.BOTTOM,
-                            timeInSecForIosWeb: 3,
-                            backgroundColor: Colors.red,
-                            textColor: Colors.white,
-                            msg:
-                                "Confirm password and new password must be same",
-                          );
-                          return;
+                          final resData = await UserHttp()
+                              .changePassword(currentPassword, newPassword);
+
+                          if (resData["statusCode"] == 200) {
+                            Navigator.pop(context);
+                            Fluttertoast.showToast(
+                              msg: "Your password has been changed.",
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.BOTTOM,
+                              timeInSecForIosWeb: 3,
+                              backgroundColor: Colors.green,
+                              textColor: Colors.white,
+                            );
+                          } else {
+                            Fluttertoast.showToast(
+                              msg: resData["body"]["resM"],
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.TOP,
+                              timeInSecForIosWeb: 3,
+                              backgroundColor: Colors.red,
+                              textColor: Colors.white,
+                              fontSize: 16.0,
+                            );
+                          }
                         }
-
-                        final resData = await UserHttp()
-                            .changePassword(currentPassword, newPassword);
-
-                        if (resData["statusCode"] == 200) {
-                          Navigator.pop(context);
-                          Fluttertoast.showToast(
-                            msg: "Your password has been changed.",
-                            toastLength: Toast.LENGTH_SHORT,
-                            gravity: ToastGravity.BOTTOM,
-                            timeInSecForIosWeb: 3,
-                            backgroundColor: Colors.green,
-                            textColor: Colors.white,
-                          );
-                        } else {
-                          Fluttertoast.showToast(
-                            msg: resData["body"]["resM"],
-                            toastLength: Toast.LENGTH_SHORT,
-                            gravity: ToastGravity.TOP,
-                            timeInSecForIosWeb: 3,
-                            backgroundColor: Colors.red,
-                            textColor: Colors.white,
-                            fontSize: 16.0,
-                          );
-                        }
-                      }
-                    },
-                    child: Text(
-                      "Change Password",
-                      style: TextStyle(
-                        fontSize: 15,
+                      },
+                      child: Text(
+                        "Change Password",
+                        style: TextStyle(
+                          fontSize: 15,
+                        ),
                       ),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      primary: AppColors.primary,
-                      elevation: 5,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
+                      style: ElevatedButton.styleFrom(
+                        primary: AppColors.primary,
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                        elevation: 5,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
                       ),
                     ),
                   ),

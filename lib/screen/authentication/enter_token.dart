@@ -36,6 +36,7 @@ class _VerifyTokenState extends State<VerifyToken> {
           "Verify Token",
           style: TextStyle(
             color: AppColors.iconHeading,
+            fontSize: 18,
           ),
         ),
         centerTitle: true,
@@ -77,6 +78,7 @@ class _VerifyTokenState extends State<VerifyToken> {
                     return null;
                   },
                   decoration: InputDecoration(
+                    isDense: true,
                     filled: true,
                     fillColor: AppColors.button,
                     hintText: "Enter the token.....",
@@ -92,54 +94,58 @@ class _VerifyTokenState extends State<VerifyToken> {
                 SizedBox(
                   height: 10,
                 ),
-                ElevatedButton(
-                  onPressed: () async {
-                    if (_formKey.currentState!.validate()) {
-                      _formKey.currentState!.save();
+                SizedBox(
+                  width: double.maxFinite,
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        _formKey.currentState!.save();
 
-                      final resData =
-                          await TokenHttp().verifyToken(token, widget.userId!);
+                        final resData = await TokenHttp()
+                            .verifyToken(token, widget.userId!);
 
-                      if (resData["statusCode"] == 200) {
-                        Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                            builder: (builder) => Login(),
-                          ),
-                          (route) => false,
-                        );
-                        Fluttertoast.showToast(
-                          msg: resData["body"]["resM"],
-                          toastLength: Toast.LENGTH_SHORT,
-                          gravity: ToastGravity.BOTTOM,
-                          timeInSecForIosWeb: 5,
-                          backgroundColor: Colors.green,
-                          textColor: AppColors.primary,
-                        );
-                      } else {
-                        Fluttertoast.showToast(
-                          msg: resData["body"]["resM"],
-                          toastLength: Toast.LENGTH_SHORT,
-                          gravity: ToastGravity.TOP,
-                          timeInSecForIosWeb: 3,
-                          backgroundColor: Colors.red,
-                          textColor: AppColors.primary,
-                          fontSize: 16.0,
-                        );
+                        if (resData["statusCode"] == 200) {
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (builder) => Login(),
+                            ),
+                            (route) => false,
+                          );
+                          Fluttertoast.showToast(
+                            msg: resData["body"]["resM"],
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                            timeInSecForIosWeb: 5,
+                            backgroundColor: Colors.green,
+                            textColor: AppColors.primary,
+                          );
+                        } else {
+                          Fluttertoast.showToast(
+                            msg: resData["body"]["resM"],
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.TOP,
+                            timeInSecForIosWeb: 3,
+                            backgroundColor: Colors.red,
+                            textColor: AppColors.primary,
+                            fontSize: 16.0,
+                          );
+                        }
                       }
-                    }
-                  },
-                  child: Text(
-                    "Change Password",
-                    style: TextStyle(
-                      fontSize: 15,
+                    },
+                    child: Text(
+                      "Change Password",
+                      style: TextStyle(
+                        fontSize: 15,
+                      ),
                     ),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    primary: AppColors.primary,
-                    elevation: 5,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5),
+                    style: ElevatedButton.styleFrom(
+                      primary: AppColors.primary,
+                      padding: EdgeInsets.symmetric(vertical: 10),
+                      elevation: 5,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
                     ),
                   ),
                 ),

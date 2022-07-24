@@ -16,9 +16,9 @@ class ForgetPassword extends StatefulWidget {
 
 class _ForgetPasswordState extends State<ForgetPassword> {
   final _formKey = GlobalKey<FormState>();
-  String email = "", password = "", confirmPassword = "";
+  String email = "", password = "";
 
-  bool p = true, conP = true;
+  bool p = true;
   OutlineInputBorder formBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(5),
     borderSide: BorderSide(
@@ -77,6 +77,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                     return null;
                   },
                   decoration: InputDecoration(
+                    isDense: true,
                     filled: true,
                     fillColor: AppColors.button,
                     hintText: "Enter your email.....",
@@ -93,7 +94,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                   height: 10,
                 ),
                 Stack(
-                  alignment: Alignment.centerRight,
+                  alignment: Alignment.topRight,
                   children: [
                     TextFormField(
                       onChanged: (value) {
@@ -108,11 +109,18 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                         color: AppColors.iconHeading,
                       ),
                       decoration: InputDecoration(
+                        isDense: true,
                         filled: true,
                         fillColor: AppColors.button,
                         hintText: "Enter a new password.....",
                         hintStyle: TextStyle(
                           color: AppColors.text,
+                        ),
+                        helperText:
+                            "Most contain at least one upper case, lower case, number, special character, and 5 to 15 characters.",
+                        helperMaxLines: 2,
+                        helperStyle: TextStyle(
+                          color: AppColors.primary,
                         ),
                         enabledBorder: formBorder,
                         focusedBorder: formBorder,
@@ -126,7 +134,6 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                           p = !p;
                         });
                       },
-                      constraints: BoxConstraints(),
                       icon: Icon(
                         p
                             ? FontAwesomeIcons.solidEyeSlash
@@ -140,115 +147,59 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                 SizedBox(
                   height: 10,
                 ),
-                Stack(
-                  alignment: Alignment.centerRight,
-                  children: [
-                    TextFormField(
-                      onChanged: (value) {
-                        confirmPassword = value;
-                      },
-                      validator: MultiValidator([
-                        RequiredValidator(
-                            errorText: "Confirm password is required!"),
-                      ]),
-                      obscureText: conP,
-                      style: TextStyle(
-                        color: AppColors.iconHeading,
-                      ),
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: AppColors.button,
-                        hintText: "Confirm New Password......",
-                        hintStyle: TextStyle(
-                          color: AppColors.text,
-                        ),
-                        enabledBorder: formBorder,
-                        focusedBorder: formBorder,
-                        errorBorder: formBorder,
-                        focusedErrorBorder: formBorder,
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        setState(() {
-                          conP = !conP;
-                        });
-                      },
-                      constraints: BoxConstraints(),
-                      icon: Icon(
-                        conP
-                            ? FontAwesomeIcons.solidEyeSlash
-                            : FontAwesomeIcons.solidEye,
-                        size: 18,
-                        color: AppColors.iconHeading,
-                      ),
-                    ),
-                  ],
-                ),
                 SizedBox(
-                  height: 5,
-                ),
-                ElevatedButton(
-                  onPressed: () async {
-                    if (_formKey.currentState!.validate()) {
-                      _formKey.currentState!.save();
+                  width: double.maxFinite,
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        _formKey.currentState!.save();
 
-                      if (password != confirmPassword) {
-                        Fluttertoast.showToast(
-                          toastLength: Toast.LENGTH_SHORT,
-                          gravity: ToastGravity.BOTTOM,
-                          timeInSecForIosWeb: 3,
-                          backgroundColor: Colors.red,
-                          textColor: AppColors.primary,
-                          msg: "Password and confirm password must be same",
-                        );
-                        return;
-                      }
+                        final resData =
+                            await TokenHttp().generateToken(email, password);
 
-                      final resData =
-                          await TokenHttp().generateToken(email, password);
-
-                      if (resData["statusCode"] == 201) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (builder) => VerifyToken(
-                              userId: resData["body"]["userId"],
+                        if (resData["statusCode"] == 201) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (builder) => VerifyToken(
+                                userId: resData["body"]["userId"],
+                              ),
                             ),
-                          ),
-                        );
-                        Fluttertoast.showToast(
-                          msg: "Token generated. Check your email.",
-                          toastLength: Toast.LENGTH_SHORT,
-                          gravity: ToastGravity.BOTTOM,
-                          timeInSecForIosWeb: 3,
-                          backgroundColor: Colors.green,
-                          textColor: AppColors.primary,
-                        );
-                      } else {
-                        Fluttertoast.showToast(
-                          msg: resData["body"]["resM"],
-                          toastLength: Toast.LENGTH_SHORT,
-                          gravity: ToastGravity.TOP,
-                          timeInSecForIosWeb: 3,
-                          backgroundColor: Colors.red,
-                          textColor: AppColors.primary,
-                          fontSize: 16.0,
-                        );
+                          );
+                          Fluttertoast.showToast(
+                            msg: "Token generated. Check your email.",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                            timeInSecForIosWeb: 3,
+                            backgroundColor: Colors.green,
+                            textColor: AppColors.primary,
+                          );
+                        } else {
+                          Fluttertoast.showToast(
+                            msg: resData["body"]["resM"],
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.TOP,
+                            timeInSecForIosWeb: 3,
+                            backgroundColor: Colors.red,
+                            textColor: AppColors.primary,
+                            fontSize: 16.0,
+                          );
+                        }
                       }
-                    }
-                  },
-                  child: Text(
-                    "Submit",
-                    style: TextStyle(
-                      fontSize: 15,
+                    },
+                    child: Text(
+                      "Submit",
+                      style: TextStyle(
+                        fontSize: 15,
+                      ),
                     ),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    primary: AppColors.primary,
-                    elevation: 5,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5),
+                    style: ElevatedButton.styleFrom(
+                      primary: AppColors.primary,
+                      padding: EdgeInsets.symmetric(vertical: 10),
+                      elevation: 5,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
                     ),
                   ),
                 ),

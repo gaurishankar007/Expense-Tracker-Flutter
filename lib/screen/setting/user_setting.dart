@@ -22,9 +22,7 @@ class _UserSettingState extends State<UserSetting> {
 
   bool editEmail = true;
 
-  final pKey = GlobalKey<FormState>(),
-      bKey = GlobalKey<FormState>(),
-      eKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
 
   late Future<User> getUser;
 
@@ -125,76 +123,11 @@ class _UserSettingState extends State<UserSetting> {
               } else if (snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.hasData) {
                   children = <Widget>[
-                    ListTile(
-                      contentPadding:
-                          EdgeInsets.only(left: 0, right: 0, bottom: 10),
-                      minLeadingWidth: 0,
-                      title: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                    Form(
+                      key: _formKey,
+                      child: Column(
                         children: [
-                          Text(
-                            "Profile Name:",
-                            style: TextStyle(
-                              color: AppColors.iconHeading,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 8,
-                          ),
-                          Form(
-                            key: pKey,
-                            child: TextFormField(
-                              controller: profileNameController,
-                              onChanged: (value) {
-                                profileName = value.trim();
-                              },
-                              validator: MultiValidator([
-                                RequiredValidator(
-                                    errorText: "New profile ame is required"),
-                              ]),
-                              style: TextStyle(
-                                color: AppColors.iconHeading,
-                              ),
-                              decoration: InputDecoration(
-                                filled: true,
-                                fillColor: AppColors.button,
-                                hintText: "Enter new Profile Name",
-                                hintStyle: TextStyle(
-                                  color: AppColors.text,
-                                ),
-                                enabledBorder: formBorder,
-                                focusedBorder: formBorder,
-                                errorBorder: formBorder,
-                                focusedErrorBorder: formBorder,
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                      trailing: ElevatedButton(
-                        onPressed: () async {
-                          if (pKey.currentState!.validate()) {
-                            final resData =
-                                await UserHttp().changeProfileName(profileName);
-                            Fluttertoast.showToast(
-                              msg: resData["body"]["resM"],
-                              toastLength: Toast.LENGTH_SHORT,
-                              gravity: ToastGravity.BOTTOM,
-                              timeInSecForIosWeb: 3,
-                              backgroundColor: Colors.green,
-                              textColor: Colors.white,
-                            );
-                            Navigator.pop(context);
-                          }
-                        },
-                        child: Icon(Icons.edit),
-                        style: buttonStyle,
-                      ),
-                    ),
-                    editEmail
-                        ? ListTile(
+                          ListTile(
                             contentPadding:
                                 EdgeInsets.only(left: 0, right: 0, bottom: 10),
                             minLeadingWidth: 0,
@@ -202,7 +135,7 @@ class _UserSettingState extends State<UserSetting> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "Email:",
+                                  "Profile Name:",
                                   style: TextStyle(
                                     color: AppColors.iconHeading,
                                     fontWeight: FontWeight.bold,
@@ -212,58 +145,96 @@ class _UserSettingState extends State<UserSetting> {
                                 SizedBox(
                                   height: 8,
                                 ),
-                                Form(
-                                  key: eKey,
-                                  child: TextFormField(
-                                    controller: emailController,
-                                    onSaved: (value) {
-                                      email = value!.trim();
-                                    },
-                                    validator: MultiValidator([
-                                      RequiredValidator(
-                                          errorText: "New email is required"),
-                                    ]),
-                                    style: TextStyle(
-                                      color: AppColors.iconHeading,
+                                TextFormField(
+                                  controller: profileNameController,
+                                  onChanged: (value) {
+                                    profileName = value.trim();
+                                  },
+                                  validator: MultiValidator([
+                                    RequiredValidator(
+                                        errorText:
+                                            "New profile ame is required"),
+                                  ]),
+                                  style: TextStyle(
+                                    color: AppColors.iconHeading,
+                                  ),
+                                  decoration: InputDecoration(
+                                    isDense: true,
+                                    filled: true,
+                                    fillColor: AppColors.button,
+                                    hintText: "Enter new Profile Name",
+                                    hintStyle: TextStyle(
+                                      color: AppColors.text,
                                     ),
-                                    decoration: InputDecoration(
-                                      filled: true,
-                                      fillColor: AppColors.button,
-                                      hintText: "Enter new Email",
-                                      hintStyle: TextStyle(
-                                        color: AppColors.text,
-                                      ),
-                                      enabledBorder: formBorder,
-                                      focusedBorder: formBorder,
-                                      errorBorder: formBorder,
-                                      focusedErrorBorder: formBorder,
+                                    helperText:
+                                        "Most have 3 to 20 characters. Special characters and numbers are not accepted.",
+                                    helperMaxLines: 2,
+                                    helperStyle: TextStyle(
+                                      color: AppColors.primary,
                                     ),
+                                    enabledBorder: formBorder,
+                                    focusedBorder: formBorder,
+                                    errorBorder: formBorder,
+                                    focusedErrorBorder: formBorder,
                                   ),
                                 )
                               ],
                             ),
-                            trailing: ElevatedButton(
-                              onPressed: () async {
-                                if (eKey.currentState!.validate()) {
-                                  eKey.currentState!.save();
-                                  final resData =
-                                      await UserHttp().changeEmail(email);
-                                  Fluttertoast.showToast(
-                                    msg: resData["body"]["resM"],
-                                    toastLength: Toast.LENGTH_SHORT,
-                                    gravity: ToastGravity.BOTTOM,
-                                    timeInSecForIosWeb: 3,
-                                    backgroundColor: Colors.green,
-                                    textColor: Colors.white,
-                                  );
-                                  Navigator.pop(context);
-                                }
-                              },
-                              child: Icon(Icons.edit),
-                              style: buttonStyle,
-                            ),
-                          )
-                        : SizedBox(),
+                          ),
+                          editEmail
+                              ? ListTile(
+                                  contentPadding: EdgeInsets.only(
+                                      left: 0, right: 0, bottom: 10),
+                                  minLeadingWidth: 0,
+                                  title: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Email:",
+                                        style: TextStyle(
+                                          color: AppColors.iconHeading,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 8,
+                                      ),
+                                      TextFormField(
+                                        controller: emailController,
+                                        onSaved: (value) {
+                                          email = value!.trim();
+                                        },
+                                        validator: MultiValidator([
+                                          RequiredValidator(
+                                              errorText:
+                                                  "New email is required"),
+                                        ]),
+                                        style: TextStyle(
+                                          color: AppColors.iconHeading,
+                                        ),
+                                        decoration: InputDecoration(
+                                          isDense: true,
+                                          filled: true,
+                                          fillColor: AppColors.button,
+                                          hintText: "Enter new Email",
+                                          hintStyle: TextStyle(
+                                            color: AppColors.text,
+                                          ),
+                                          enabledBorder: formBorder,
+                                          focusedBorder: formBorder,
+                                          errorBorder: formBorder,
+                                          focusedErrorBorder: formBorder,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                )
+                              : SizedBox(),
+                        ],
+                      ),
+                    ),
                     ListTile(
                       contentPadding:
                           EdgeInsets.only(left: 0, right: 0, bottom: 10),
@@ -339,33 +310,57 @@ class _UserSettingState extends State<UserSetting> {
                           )
                         ],
                       ),
-                      trailing: ElevatedButton(
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    SizedBox(
+                      width: double.maxFinite,
+                      child: ElevatedButton(
                         onPressed: () async {
-                          if (gender != null) {
-                            final resData =
-                                await UserHttp().changeGender(gender!);
-                            Fluttertoast.showToast(
-                              msg: resData["body"]["resM"],
-                              toastLength: Toast.LENGTH_SHORT,
-                              gravity: ToastGravity.BOTTOM,
-                              timeInSecForIosWeb: 3,
-                              backgroundColor: Colors.green,
-                              textColor: Colors.white,
-                            );
-                            Navigator.pop(context);
-                          } else {
-                            Fluttertoast.showToast(
-                              msg: "Gender not selected",
-                              toastLength: Toast.LENGTH_SHORT,
-                              gravity: ToastGravity.BOTTOM,
-                              timeInSecForIosWeb: 3,
-                              backgroundColor: Colors.red,
-                              textColor: Colors.white,
-                            );
+                          if (_formKey.currentState!.validate()) {
+                            _formKey.currentState!.save();
+
+                            final resData = await UserHttp()
+                                .changeProfileInfo(email, profileName, gender!);
+
+                            if (resData["statusCode"] == 200) {
+                              Navigator.pop(context);
+                              Fluttertoast.showToast(
+                                msg: resData["body"]["resM"],
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.BOTTOM,
+                                timeInSecForIosWeb: 3,
+                                backgroundColor: Colors.green,
+                                textColor: Colors.white,
+                              );
+                            } else {
+                              Fluttertoast.showToast(
+                                msg: resData["body"]["resM"],
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.TOP,
+                                timeInSecForIosWeb: 3,
+                                backgroundColor: Colors.red,
+                                textColor: Colors.white,
+                                fontSize: 16.0,
+                              );
+                            }
                           }
                         },
-                        child: Icon(Icons.edit),
-                        style: buttonStyle,
+                        child: Text(
+                          "Update",
+                          style: TextStyle(
+                            fontSize: 15,
+                          ),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          primary: AppColors.primary,
+                          padding: EdgeInsets.symmetric(vertical: 10),
+                          elevation: 5,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                        ),
                       ),
                     ),
                   ];

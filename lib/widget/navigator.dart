@@ -77,10 +77,10 @@ class PageNavigator extends StatelessWidget {
             label: "Progress",
           ),
         ],
-        height: 50,
+        height: 55,
         selectedIndex: pageIndex!,
         backgroundColor: AppColors.background,
-        labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
+        labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
         onDestinationSelected: (int index) {
           if (index == 0) {
             Navigator.push(

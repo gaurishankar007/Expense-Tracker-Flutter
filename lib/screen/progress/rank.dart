@@ -79,7 +79,7 @@ class _RankingSystemState extends State<RankingSystem> {
         padding: EdgeInsets.only(
           right: sWidth * 0.03,
           left: sWidth * 0.03,
-          bottom: 30,
+          bottom: 10,
         ),
         child: FutureBuilder<TopProgress>(
           future: usersProgress,
@@ -101,6 +101,10 @@ class _RankingSystemState extends State<RankingSystem> {
               ];
             } else if (snapshot.connectionState == ConnectionState.done) {
               children = <Widget>[
+                getButtons(context),
+                SizedBox(
+                  height: 10,
+                ),
                 rankedUsers(context),
               ];
               if (snapshot.hasData) {
@@ -155,8 +159,6 @@ class _RankingSystemState extends State<RankingSystem> {
           }),
         ),
       ),
-      floatingActionButton: getButtons(context),
-      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
       bottomNavigationBar: PageNavigator(
         pageIndex: 3,
       ),
@@ -164,12 +166,14 @@ class _RankingSystemState extends State<RankingSystem> {
   }
 
   Widget getButtons(BuildContext context) {
-    return SizedBox(
-      width: 155,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          ElevatedButton(
+    final sWidth = MediaQuery.of(context).size.width;
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        SizedBox(
+          width: sWidth * .30,
+          child: ElevatedButton(
             onPressed: () {
               if (progressIndex == 0) {
                 return;
@@ -206,18 +210,17 @@ class _RankingSystemState extends State<RankingSystem> {
                   : AppColors.iconHeading,
               minimumSize: Size.zero,
               padding: EdgeInsets.symmetric(
-                horizontal: 10,
-                vertical: 8,
+                vertical: 10,
               ),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(5),
               ),
             ),
           ),
-          SizedBox(
-            width: 3,
-          ),
-          ElevatedButton(
+        ),
+        SizedBox(
+          width: sWidth * .30,
+          child: ElevatedButton(
             onPressed: () {
               if (progressIndex == 1) {
                 return;
@@ -240,7 +243,7 @@ class _RankingSystemState extends State<RankingSystem> {
               });
             },
             child: Text(
-              "TM",
+              "This Month",
               style: TextStyle(
                 fontWeight: FontWeight.bold,
               ),
@@ -253,18 +256,17 @@ class _RankingSystemState extends State<RankingSystem> {
                   : AppColors.iconHeading,
               minimumSize: Size.zero,
               padding: EdgeInsets.symmetric(
-                horizontal: 10,
-                vertical: 8,
+                vertical: 10,
               ),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(5),
               ),
             ),
           ),
-          SizedBox(
-            width: 3,
-          ),
-          ElevatedButton(
+        ),
+        SizedBox(
+          width: sWidth * .30,
+          child: ElevatedButton(
             onPressed: () {
               if (progressIndex == 2) {
                 return;
@@ -287,7 +289,7 @@ class _RankingSystemState extends State<RankingSystem> {
               });
             },
             child: Text(
-              "PM",
+              "Last Month",
               style: TextStyle(
                 fontWeight: FontWeight.bold,
               ),
@@ -300,16 +302,15 @@ class _RankingSystemState extends State<RankingSystem> {
                   : AppColors.iconHeading,
               minimumSize: Size.zero,
               padding: EdgeInsets.symmetric(
-                horizontal: 10,
-                vertical: 8,
+                vertical: 10,
               ),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(5),
               ),
             ),
-          )
-        ],
-      ),
+          ),
+        )
+      ],
     );
   }
 

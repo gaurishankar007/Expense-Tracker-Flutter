@@ -147,6 +147,9 @@ class _IncomeState extends State<Income> {
                         ],
                       ),
                       getButtons(context),
+                      SizedBox(
+                        height: 10,
+                      ),
                       viewIncome(
                         context,
                         incomeList,
@@ -495,123 +498,128 @@ class _IncomeState extends State<Income> {
   }
 
   Widget getButtons(BuildContext context) {
+    final sWidth = MediaQuery.of(context).size.width;
+
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        ElevatedButton(
-          onPressed: () {
-            if (incomeIndex == 0) {
-              return;
-            }
+        SizedBox(
+          width: sWidth * .30,
+          child: ElevatedButton(
+            onPressed: () {
+              if (incomeIndex == 0) {
+                return;
+              }
 
-            userIncomeDetails.then((value) {
-              setState(() {
-                incomeList = value.todayIncomes!;
-                incomeAmount = value.todayIncomeAmount!;
-                incomeCategoryList = value.todayIncomeCategories!;
-                incomeIndex = 0;
-                touchedIndex = 0;
+              userIncomeDetails.then((value) {
+                setState(() {
+                  incomeList = value.todayIncomes!;
+                  incomeAmount = value.todayIncomeAmount!;
+                  incomeCategoryList = value.todayIncomeCategories!;
+                  incomeIndex = 0;
+                  touchedIndex = 0;
+                });
               });
-            });
-          },
-          child: Text(
-            "Today",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
+            },
+            child: Text(
+              "Today",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
-          style: ElevatedButton.styleFrom(
-            primary: incomeIndex == 0 ? AppColors.primary : AppColors.button,
-            onPrimary:
-                incomeIndex == 0 ? AppColors.onPrimary : AppColors.iconHeading,
-            minimumSize: Size.zero,
-            padding: EdgeInsets.symmetric(
-              horizontal: 10,
-              vertical: 8,
-            ),
-            elevation: 5,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5),
+            style: ElevatedButton.styleFrom(
+              primary: incomeIndex == 0 ? AppColors.primary : AppColors.button,
+              onPrimary: incomeIndex == 0
+                  ? AppColors.onPrimary
+                  : AppColors.iconHeading,
+              minimumSize: Size.zero,
+              padding: EdgeInsets.symmetric(
+                vertical: 10,
+              ),
+              elevation: 5,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5),
+              ),
             ),
           ),
         ),
         SizedBox(
-          width: 10,
-        ),
-        ElevatedButton(
-          onPressed: () {
-            if (incomeIndex == 1) {
-              return;
-            }
+          width: sWidth * .30,
+          child: ElevatedButton(
+            onPressed: () {
+              if (incomeIndex == 1) {
+                return;
+              }
 
-            userIncomeDetails.then((value) {
-              setState(() {
-                incomeList = value.thisWeekIncomes!;
-                incomeAmount = value.thisWeekIncomeAmount!;
-                incomeCategoryList = value.thisWeekIncomeCategories!;
-                incomeIndex = 1;
-                touchedIndex = 0;
+              userIncomeDetails.then((value) {
+                setState(() {
+                  incomeList = value.thisWeekIncomes!;
+                  incomeAmount = value.thisWeekIncomeAmount!;
+                  incomeCategoryList = value.thisWeekIncomeCategories!;
+                  incomeIndex = 1;
+                  touchedIndex = 0;
+                });
               });
-            });
-          },
-          child: Text(
-            "This Week",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
+            },
+            child: Text(
+              "This Week",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
-          style: ElevatedButton.styleFrom(
-            primary: incomeIndex == 1 ? AppColors.primary : AppColors.button,
-            onPrimary:
-                incomeIndex == 1 ? AppColors.onPrimary : AppColors.iconHeading,
-            minimumSize: Size.zero,
-            padding: EdgeInsets.symmetric(
-              horizontal: 10,
-              vertical: 8,
-            ),
-            elevation: 5,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5),
+            style: ElevatedButton.styleFrom(
+              primary: incomeIndex == 1 ? AppColors.primary : AppColors.button,
+              onPrimary: incomeIndex == 1
+                  ? AppColors.onPrimary
+                  : AppColors.iconHeading,
+              minimumSize: Size.zero,
+              padding: EdgeInsets.symmetric(
+                vertical: 10,
+              ),
+              elevation: 5,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5),
+              ),
             ),
           ),
         ),
         SizedBox(
-          width: 10,
-        ),
-        ElevatedButton(
-          onPressed: () {
-            if (incomeIndex == 2) {
-              return;
-            }
+          width: sWidth * .30,
+          child: ElevatedButton(
+            onPressed: () {
+              if (incomeIndex == 2) {
+                return;
+              }
 
-            userIncomeDetails.then((value) {
-              setState(() {
-                incomeList = value.thisMonthIncomes!;
-                incomeAmount = value.thisMonthIncomeAmount!;
-                incomeCategoryList = value.thisMonthIncomeCategories!;
-                incomeIndex = 2;
-                touchedIndex = 0;
+              userIncomeDetails.then((value) {
+                setState(() {
+                  incomeList = value.thisMonthIncomes!;
+                  incomeAmount = value.thisMonthIncomeAmount!;
+                  incomeCategoryList = value.thisMonthIncomeCategories!;
+                  incomeIndex = 2;
+                  touchedIndex = 0;
+                });
               });
-            });
-          },
-          child: Text(
-            "This Month",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
+            },
+            child: Text(
+              "This Month",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
-          style: ElevatedButton.styleFrom(
-            primary: incomeIndex == 2 ? AppColors.primary : AppColors.button,
-            onPrimary:
-                incomeIndex == 2 ? AppColors.onPrimary : AppColors.iconHeading,
-            minimumSize: Size.zero,
-            padding: EdgeInsets.symmetric(
-              horizontal: 10,
-              vertical: 8,
-            ),
-            elevation: 5,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5),
+            style: ElevatedButton.styleFrom(
+              primary: incomeIndex == 2 ? AppColors.primary : AppColors.button,
+              onPrimary: incomeIndex == 2
+                  ? AppColors.onPrimary
+                  : AppColors.iconHeading,
+              minimumSize: Size.zero,
+              padding: EdgeInsets.symmetric(
+                vertical: 10,
+              ),
+              elevation: 5,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5),
+              ),
             ),
           ),
         ),
@@ -990,7 +998,7 @@ class _IncomeState extends State<Income> {
               style: ElevatedButton.styleFrom(
                 primary: AppColors.primary,
                 minimumSize: Size.zero,
-                padding: EdgeInsets.all(8),
+                padding: EdgeInsets.all(10),
                 elevation: 5,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5),

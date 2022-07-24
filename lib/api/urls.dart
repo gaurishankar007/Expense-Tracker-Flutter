@@ -53,8 +53,6 @@ class UserUrls {
   static const changePassword = "user/changePassword";
   static const getUser = "user/view";
   static const changeProfilePicture = "user/changeProfilePicture";
-  static const changeProfileName = "user/changeProfileName";
-  static const changeEmail = "user/changeEmail";
-  static const changeGender = "user/changeGender";
+  static const changeProfileInfo = "user/changeProfileInfo";
   static const publicProgress = "user/progressPublication";
 }

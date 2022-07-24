@@ -112,16 +112,16 @@ class _SettingState extends State<Setting> {
                         child: Icon(
                           Icons.edit,
                           color: AppColors.onPrimary,
-                          size: 25,
+                          size: 30,
                         ),
                         style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.all(4),
+                          padding: EdgeInsets.all(10),
                           minimumSize: Size.zero,
                           primary: AppColors.primary,
                           elevation: 10,
                           shadowColor: AppColors.iconHeading,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(25),
                           ),
                         ),
                       ),
@@ -139,51 +139,43 @@ class _SettingState extends State<Setting> {
                     ),
                   ),
                   SizedBox(
-                    height: 25,
+                    height: 15,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => UserSetting(),
-                            ),
-                          );
-                        },
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Profile",
-                              style: TextStyle(
-                                color: AppColors.iconHeading,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Text(
-                              "Update your personal information",
-                              style: TextStyle(
-                                color: AppColors.text,
-                              ),
-                            ),
-                          ],
+                  ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    horizontalTitleGap: 0,
+                    minVerticalPadding: 0,
+                    visualDensity: VisualDensity(horizontal: -4, vertical: -2),
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => UserSetting(),
                         ),
-                      ),
-                      Icon(
-                        Icons.person,
+                      );
+                    },
+                    leading: Icon(
+                      Icons.person,
+                      color: AppColors.iconHeading,
+                    ),
+                    title: Text(
+                      "Profile",
+                      style: TextStyle(
                         color: AppColors.iconHeading,
+                        fontWeight: FontWeight.bold,
                       ),
-                    ],
+                    ),
+                    subtitle: Text(
+                      "Update your personal information",
+                      style: TextStyle(
+                        color: AppColors.text,
+                      ),
+                    ),
                   ),
-                  SizedBox(
-                    height: 25,
-                  ),
-                  GestureDetector(
+                  ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    horizontalTitleGap: 0,
+                    minVerticalPadding: 0,
+                    visualDensity: VisualDensity(horizontal: -4, vertical: -2),
                     onTap: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
@@ -191,94 +183,92 @@ class _SettingState extends State<Setting> {
                         ),
                       );
                     },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Password",
-                              style: TextStyle(
-                                color: AppColors.iconHeading,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Text(
-                              "Change your password",
-                              style: TextStyle(
-                                color: AppColors.text,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Icon(
-                          FontAwesomeIcons.lock,
-                          color: AppColors.iconHeading,
-                          size: 18,
-                        ),
-                      ],
+                    leading: Icon(
+                      FontAwesomeIcons.lock,
+                      color: AppColors.iconHeading,
+                      size: 18,
+                    ),
+                    title: Text(
+                      "Password",
+                      style: TextStyle(
+                        color: AppColors.iconHeading,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    subtitle: Text(
+                      "Change your password",
+                      style: TextStyle(
+                        color: AppColors.text,
+                      ),
                     ),
                   ),
-                  SizedBox(
-                    height: 25,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Profile Publication",
-                            style: TextStyle(
-                              color: AppColors.iconHeading,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            "Publish Profile Information",
-                            style: TextStyle(
-                              color: AppColors.text,
-                            ),
-                          ),
-                        ],
+                  ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    horizontalTitleGap: 0,
+                    minVerticalPadding: 0,
+                    visualDensity: VisualDensity(horizontal: -4, vertical: -2),
+                    onTap: () async {
+                      final resData = await UserHttp().publicProgress();
+                      Fluttertoast.showToast(
+                        msg: resData["resM"],
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.TOP,
+                        timeInSecForIosWeb: 2,
+                        backgroundColor: Colors.white,
+                        textColor: Colors.black,
+                        fontSize: 16.0,
+                      );
+                      setState(() {
+                        progressPublication = !progressPublication;
+                      });
+                    },
+                    leading: Icon(
+                      FontAwesomeIcons.earthAsia,
+                      color: AppColors.iconHeading,
+                      size: 18,
+                    ),
+                    title: Text(
+                      "Profile Publication",
+                      style: TextStyle(
+                        color: AppColors.iconHeading,
+                        fontWeight: FontWeight.bold,
                       ),
-                      SizedBox(
-                        width: 25,
-                        child: Switch(
-                          activeColor: AppColors.primary,
-                          inactiveThumbColor: AppColors.iconHeading,
-                          value: progressPublication,
-                          onChanged: (value) async {
-                            final resData = await UserHttp().publicProgress();
-                            Fluttertoast.showToast(
-                              msg: resData["resM"],
-                              toastLength: Toast.LENGTH_SHORT,
-                              gravity: ToastGravity.TOP,
-                              timeInSecForIosWeb: 2,
-                              backgroundColor: Colors.white,
-                              textColor: Colors.black,
-                              fontSize: 16.0,
-                            );
-                            setState(() {
-                              progressPublication = value;
-                            });
-                          },
-                        ),
-                      )
-                    ],
+                    ),
+                    subtitle: Text(
+                      "Publish progress and achievements",
+                      style: TextStyle(
+                        color: AppColors.text,
+                      ),
+                    ),
+                    trailing: SizedBox(
+                      width: 25,
+                      child: Switch(
+                        activeColor: AppColors.primary,
+                        inactiveThumbColor: AppColors.iconHeading,
+                        value: progressPublication,
+                        onChanged: (value) async {
+                          final resData = await UserHttp().publicProgress();
+                          Fluttertoast.showToast(
+                            msg: resData["resM"],
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.TOP,
+                            timeInSecForIosWeb: 2,
+                            backgroundColor: Colors.white,
+                            textColor: Colors.black,
+                            fontSize: 16.0,
+                          );
+                          setState(() {
+                            progressPublication = value;
+                          });
+                        },
+                      ),
+                    ),
                   ),
-                  SizedBox(
-                    height: 25,
-                  ),
-                  GestureDetector(
+                  ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    horizontalTitleGap: 0,
+                    minVerticalPadding: 0,
+                    visualDensity: VisualDensity(horizontal: -4, vertical: -2),
                     onTap: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
@@ -286,41 +276,29 @@ class _SettingState extends State<Setting> {
                         ),
                       );
                     },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Support",
-                              style: TextStyle(
-                                color: AppColors.iconHeading,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Text(
-                              "Learn about the app",
-                              style: TextStyle(
-                                color: AppColors.text,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Icon(
-                          Icons.help_rounded,
-                          color: AppColors.iconHeading,
-                        ),
-                      ],
+                    leading: Icon(
+                      Icons.help_rounded,
+                      color: AppColors.iconHeading,
+                    ),
+                    title: Text(
+                      "Support",
+                      style: TextStyle(
+                        color: AppColors.iconHeading,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    subtitle: Text(
+                      "Learn about the app",
+                      style: TextStyle(
+                        color: AppColors.text,
+                      ),
                     ),
                   ),
-                  SizedBox(
-                    height: 25,
-                  ),
-                  GestureDetector(
+                  ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    horizontalTitleGap: 0,
+                    minVerticalPadding: 0,
+                    visualDensity: VisualDensity(horizontal: -4, vertical: -2),
                     onTap: () async {
                       bool googleSignIn = await LogStatus().googleSignIn();
                       if (googleSignIn) {
@@ -339,40 +317,24 @@ class _SettingState extends State<Setting> {
                         (route) => false,
                       );
                     },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Log out",
-                              style: TextStyle(
-                                color: AppColors.iconHeading,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            SizedBox(
-                              width: sWidth * .7,
-                              child: Text(
-                                "Logged in as " + snapshot.data!.profileName!,
-                                softWrap: true,
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                  color: AppColors.text,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Icon(
-                          Icons.logout_outlined,
-                          color: AppColors.iconHeading,
-                        ),
-                      ],
+                    leading: Icon(
+                      Icons.logout_outlined,
+                      color: AppColors.iconHeading,
+                    ),
+                    title: Text(
+                      "Log out",
+                      style: TextStyle(
+                        color: AppColors.iconHeading,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    subtitle: Text(
+                      "Logged in as " + snapshot.data!.profileName!,
+                      softWrap: true,
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        color: AppColors.text,
+                      ),
                     ),
                   ),
                 ];
@@ -435,8 +397,7 @@ class _SettingState extends State<Setting> {
       titlePadding: EdgeInsets.zero,
       contentPadding: EdgeInsets.all(10),
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+        Column(
           children: [
             ElevatedButton(
               onPressed: () async {
@@ -460,10 +421,11 @@ class _SettingState extends State<Setting> {
                 );
               },
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: const [
                   Icon(
                     Icons.camera,
-                    size: 18,
+                    size: 25,
                     color: Colors.white,
                   ),
                   SizedBox(
@@ -473,7 +435,7 @@ class _SettingState extends State<Setting> {
                     "Camera",
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 15,
+                      fontSize: 16,
                     ),
                   )
                 ],
@@ -488,7 +450,7 @@ class _SettingState extends State<Setting> {
               ),
             ),
             SizedBox(
-              width: 5,
+              width: 10,
             ),
             ElevatedButton(
               onPressed: () async {
@@ -511,10 +473,11 @@ class _SettingState extends State<Setting> {
                 );
               },
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: const [
                   Icon(
                     Icons.photo_album,
-                    size: 18,
+                    size: 25,
                     color: Colors.white,
                   ),
                   SizedBox(
@@ -524,7 +487,7 @@ class _SettingState extends State<Setting> {
                     "Gallery",
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 15,
+                      fontSize: 16,
                     ),
                   )
                 ],

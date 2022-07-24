@@ -146,6 +146,9 @@ class _ExpenseState extends State<Expense> {
                         ],
                       ),
                       getButtons(context),
+                      SizedBox(
+                        height: 10,
+                      ),
                       viewExpense(
                         context,
                         expenseList,
@@ -492,123 +495,128 @@ class _ExpenseState extends State<Expense> {
   }
 
   Widget getButtons(BuildContext context) {
+    final sWidth = MediaQuery.of(context).size.width;
+
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        ElevatedButton(
-          onPressed: () {
-            if (expenseIndex == 0) {
-              return;
-            }
+        SizedBox(
+          width: sWidth * .30,
+          child: ElevatedButton(
+            onPressed: () {
+              if (expenseIndex == 0) {
+                return;
+              }
 
-            userExpenseDetails.then((value) {
-              setState(() {
-                expenseList = value.todayExpenses!;
-                expenseAmount = value.todayExpenseAmount!;
-                expenseCategoryList = value.todayExpenseCategories!;
-                expenseIndex = 0;
-                touchedIndex = 0;
+              userExpenseDetails.then((value) {
+                setState(() {
+                  expenseList = value.todayExpenses!;
+                  expenseAmount = value.todayExpenseAmount!;
+                  expenseCategoryList = value.todayExpenseCategories!;
+                  expenseIndex = 0;
+                  touchedIndex = 0;
+                });
               });
-            });
-          },
-          child: Text(
-            "Today",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
+            },
+            child: Text(
+              "Today",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
-          style: ElevatedButton.styleFrom(
-            primary: expenseIndex == 0 ? AppColors.primary : AppColors.button,
-            onPrimary:
-                expenseIndex == 0 ? AppColors.onPrimary : AppColors.iconHeading,
-            minimumSize: Size.zero,
-            padding: EdgeInsets.symmetric(
-              horizontal: 10,
-              vertical: 8,
-            ),
-            elevation: 5,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5),
+            style: ElevatedButton.styleFrom(
+              primary: expenseIndex == 0 ? AppColors.primary : AppColors.button,
+              onPrimary: expenseIndex == 0
+                  ? AppColors.onPrimary
+                  : AppColors.iconHeading,
+              minimumSize: Size.zero,
+              padding: EdgeInsets.symmetric(
+                vertical: 10,
+              ),
+              elevation: 5,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5),
+              ),
             ),
           ),
         ),
         SizedBox(
-          width: 10,
-        ),
-        ElevatedButton(
-          onPressed: () {
-            if (expenseIndex == 1) {
-              return;
-            }
+          width: sWidth * .30,
+          child: ElevatedButton(
+            onPressed: () {
+              if (expenseIndex == 1) {
+                return;
+              }
 
-            userExpenseDetails.then((value) {
-              setState(() {
-                expenseList = value.thisWeekExpenses!;
-                expenseAmount = value.thisWeekExpenseAmount!;
-                expenseCategoryList = value.thisWeekExpenseCategories!;
-                expenseIndex = 1;
-                touchedIndex = 0;
+              userExpenseDetails.then((value) {
+                setState(() {
+                  expenseList = value.thisWeekExpenses!;
+                  expenseAmount = value.thisWeekExpenseAmount!;
+                  expenseCategoryList = value.thisWeekExpenseCategories!;
+                  expenseIndex = 1;
+                  touchedIndex = 0;
+                });
               });
-            });
-          },
-          child: Text(
-            "This Week",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
+            },
+            child: Text(
+              "This Week",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
-          style: ElevatedButton.styleFrom(
-            primary: expenseIndex == 1 ? AppColors.primary : AppColors.button,
-            onPrimary:
-                expenseIndex == 1 ? AppColors.onPrimary : AppColors.iconHeading,
-            minimumSize: Size.zero,
-            padding: EdgeInsets.symmetric(
-              horizontal: 10,
-              vertical: 8,
-            ),
-            elevation: 5,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5),
+            style: ElevatedButton.styleFrom(
+              primary: expenseIndex == 1 ? AppColors.primary : AppColors.button,
+              onPrimary: expenseIndex == 1
+                  ? AppColors.onPrimary
+                  : AppColors.iconHeading,
+              minimumSize: Size.zero,
+              padding: EdgeInsets.symmetric(
+                vertical: 10,
+              ),
+              elevation: 5,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5),
+              ),
             ),
           ),
         ),
         SizedBox(
-          width: 10,
-        ),
-        ElevatedButton(
-          onPressed: () {
-            if (expenseIndex == 2) {
-              return;
-            }
+          width: sWidth * .30,
+          child: ElevatedButton(
+            onPressed: () {
+              if (expenseIndex == 2) {
+                return;
+              }
 
-            userExpenseDetails.then((value) {
-              setState(() {
-                expenseList = value.thisMonthExpenses!;
-                expenseAmount = value.thisMonthExpenseAmount!;
-                expenseCategoryList = value.thisMonthExpenseCategories!;
-                expenseIndex = 2;
-                touchedIndex = 0;
+              userExpenseDetails.then((value) {
+                setState(() {
+                  expenseList = value.thisMonthExpenses!;
+                  expenseAmount = value.thisMonthExpenseAmount!;
+                  expenseCategoryList = value.thisMonthExpenseCategories!;
+                  expenseIndex = 2;
+                  touchedIndex = 0;
+                });
               });
-            });
-          },
-          child: Text(
-            "This Month",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
+            },
+            child: Text(
+              "This Month",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
-          style: ElevatedButton.styleFrom(
-            primary: expenseIndex == 2 ? AppColors.primary : AppColors.button,
-            onPrimary:
-                expenseIndex == 2 ? AppColors.onPrimary : AppColors.iconHeading,
-            minimumSize: Size.zero,
-            padding: EdgeInsets.symmetric(
-              horizontal: 10,
-              vertical: 8,
-            ),
-            elevation: 5,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5),
+            style: ElevatedButton.styleFrom(
+              primary: expenseIndex == 2 ? AppColors.primary : AppColors.button,
+              onPrimary: expenseIndex == 2
+                  ? AppColors.onPrimary
+                  : AppColors.iconHeading,
+              minimumSize: Size.zero,
+              padding: EdgeInsets.symmetric(
+                vertical: 10,
+              ),
+              elevation: 5,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5),
+              ),
             ),
           ),
         )
@@ -986,7 +994,7 @@ class _ExpenseState extends State<Expense> {
               style: ElevatedButton.styleFrom(
                 primary: AppColors.primary,
                 minimumSize: Size.zero,
-                padding: EdgeInsets.all(8),
+                padding: EdgeInsets.all(10),
                 elevation: 5,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5),

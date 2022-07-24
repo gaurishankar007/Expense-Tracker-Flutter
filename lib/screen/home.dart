@@ -168,7 +168,9 @@ class _HomeState extends State<Home> {
                         ],
                       ),
                     ),
-                    feedback(context, snapshot.data!),
+                    SizedBox(
+                      height: 10,
+                    ),
                     barChart(
                       context,
                       snapshot.data!.thisMonthView!,
@@ -178,7 +180,11 @@ class _HomeState extends State<Home> {
                       snapshot.data!.previousMonthIncomeAmount!,
                     ),
                     SizedBox(
-                      height: 5,
+                      height: 10,
+                    ),
+                    feedback(context, snapshot.data!),
+                    SizedBox(
+                      height: 10,
                     ),
                     expenseDetail(
                       context,
@@ -404,57 +410,54 @@ class _HomeState extends State<Home> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(
-              width: 115,
-              child: Row(
-                children: [
-                  Row(
-                    children: [
-                      CircleAvatar(
-                        backgroundColor: Colors.red,
-                        radius: 5,
-                      ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      RichText(
-                        text: TextSpan(
-                          text: "Expense",
-                          style: TextStyle(
-                            color: AppColors.iconHeading,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 10,
-                          ),
+            Row(
+              children: [
+                Row(
+                  children: [
+                    CircleAvatar(
+                      backgroundColor: Colors.red,
+                      radius: 5,
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    RichText(
+                      text: TextSpan(
+                        text: "Expense",
+                        style: TextStyle(
+                          color: AppColors.iconHeading,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
                         ),
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Row(
-                    children: [
-                      CircleAvatar(
-                        backgroundColor: Colors.green,
-                        radius: 5,
                       ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      RichText(
-                        text: TextSpan(
-                          text: "Income",
-                          style: TextStyle(
-                            color: AppColors.iconHeading,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 10,
-                          ),
+                    )
+                  ],
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Row(
+                  children: [
+                    CircleAvatar(
+                      backgroundColor: Colors.green,
+                      radius: 5,
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    RichText(
+                      text: TextSpan(
+                        text: "Income",
+                        style: TextStyle(
+                          color: AppColors.iconHeading,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
                         ),
-                      )
-                    ],
-                  ),
-                ],
-              ),
+                      ),
+                    )
+                  ],
+                ),
+              ],
             ),
           ],
         ),
@@ -642,7 +645,7 @@ class _HomeState extends State<Home> {
               Text(
                 thisMonthView
                     ? "This" " Month Expenses"
-                    : "Previous" " Month Expenses",
+                    : "Last" " Month Expenses",
                 style: TextStyle(
                   fontSize: 18,
                   color: AppColors.iconHeading,
@@ -652,7 +655,7 @@ class _HomeState extends State<Home> {
             ],
           ),
           SizedBox(
-            height: 10,
+            height: 15,
           ),
           SizedBox(
             height: 200,
@@ -856,254 +859,150 @@ class _HomeState extends State<Home> {
       padding: EdgeInsets.only(
         right: sWidth * 0.03,
         left: sWidth * 0.03,
-        bottom: 15,
       ),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          children: [
-            homeData.thisMonthExpenseAmount! <
-                        homeData.thisMonthIncomeAmount! &&
-                    homeData.thisMonthExpenseAmount != 0
-                ? Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Container(
-                      width: sWidth * .4,
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: AppColors.onPrimary,
-                        borderRadius: BorderRadius.circular(
-                          5,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          homeData.thisMonthExpenseAmount! < homeData.thisMonthIncomeAmount! &&
+                  homeData.thisMonthExpenseAmount != 0
+              ? Padding(
+                  padding: EdgeInsets.only(
+                    top: 10.0,
+                    bottom: 10.0,
+                    right: sWidth * .04,
+                  ),
+                  child: Container(
+                    width: sWidth * .45,
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: AppColors.onPrimary,
+                      borderRadius: BorderRadius.circular(
+                        5,
+                      ),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black26,
+                          spreadRadius: 2,
+                          blurRadius: 10,
                         ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: AppColors.button,
-                            spreadRadius: 2,
-                            blurRadius: 10,
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        children: [
-                          RichText(
-                            textAlign: TextAlign.center,
-                            text: TextSpan(
-                              text: "Well Done!",
-                              style: TextStyle(
-                                color: AppColors.primary,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Icon(
-                            FontAwesomeIcons.faceSmileBeam,
-                            color: AppColors.primary,
-                            size: 50,
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          RichText(
-                            textAlign: TextAlign.center,
-                            text: TextSpan(
-                              text: "Your expenses looks good.",
-                              style: TextStyle(
-                                color: AppColors.iconHeading,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                      ],
                     ),
-                  )
-                : SizedBox(),
-            homeData.thisMonthExpenseAmount! >
-                        homeData.thisMonthIncomeAmount! &&
-                    homeData.thisMonthIncomeAmount != 0
-                ? Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Container(
-                      width: sWidth * .4,
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: AppColors.onPrimary,
-                        borderRadius: BorderRadius.circular(
-                          5,
+                    child: Column(
+                      children: [
+                        Icon(
+                          FontAwesomeIcons.faceSmileBeam,
+                          color: AppColors.primary,
+                          size: 50,
                         ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: AppColors.button,
-                            spreadRadius: 2,
-                            blurRadius: 10,
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        children: [
-                          RichText(
-                            textAlign: TextAlign.center,
-                            text: TextSpan(
-                              text: "Ummmm!",
-                              style: TextStyle(
-                                color: Colors.deepOrange,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Icon(
-                            FontAwesomeIcons.faceSadTear,
-                            color: Colors.deepOrange,
-                            size: 50,
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          RichText(
-                            textAlign: TextAlign.center,
-                            text: TextSpan(
-                              text: "This month expenses looks bad.",
-                              style: TextStyle(
-                                color: AppColors.iconHeading,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  )
-                : SizedBox(),
-            homeData.previousMonthExpenseAmount! != 0 &&
-                    homeData.thisMonthExpenseAmount! >
-                        homeData.previousMonthExpenseAmount!
-                ? Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Container(
-                      width: sWidth * .4,
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: AppColors.onPrimary,
-                        borderRadius: BorderRadius.circular(
-                          5,
+                        SizedBox(
+                          height: 5,
                         ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: AppColors.button,
-                            spreadRadius: 2,
-                            blurRadius: 10,
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        children: [
-                          RichText(
-                            textAlign: TextAlign.center,
-                            text: TextSpan(
-                              text: "oh!",
-                              style: TextStyle(
-                                color: Colors.orange,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
-                              ),
+                        RichText(
+                          textAlign: TextAlign.center,
+                          text: TextSpan(
+                            text: "Your expenses looks good. Keep it up.",
+                            style: TextStyle(
+                              color: AppColors.iconHeading,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Icon(
-                            FontAwesomeIcons.faceSurprise,
-                            color: Colors.orange,
-                            size: 50,
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          RichText(
-                            textAlign: TextAlign.center,
-                            text: TextSpan(
-                              text: "Last month expense was less.",
-                              style: TextStyle(
-                                color: AppColors.iconHeading,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  )
-                : SizedBox(),
-            homeData.previousMonthIncomeAmount! != 0 &&
-                    homeData.thisMonthIncomeAmount! >
-                        homeData.previousMonthIncomeAmount!
-                ? Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Container(
-                      width: sWidth * .4,
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: AppColors.onPrimary,
-                        borderRadius: BorderRadius.circular(
-                          5,
                         ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: AppColors.button,
-                            spreadRadius: 2,
-                            blurRadius: 10,
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        children: [
-                          RichText(
-                            textAlign: TextAlign.center,
-                            text: TextSpan(
-                              text: "Good Job!",
-                              style: TextStyle(
-                                color: AppColors.primary,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Icon(
-                            FontAwesomeIcons.faceSmileBeam,
-                            color: AppColors.primary,
-                            size: 50,
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          RichText(
-                            textAlign: TextAlign.center,
-                            text: TextSpan(
-                              text: "This month income looks better.",
-                              style: TextStyle(
-                                color: AppColors.iconHeading,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                      ],
                     ),
-                  )
-                : SizedBox(),
-          ],
-        ),
+                  ),
+                )
+              : SizedBox(),
+          homeData.thisMonthExpenseAmount! > homeData.thisMonthIncomeAmount! &&
+                  homeData.thisMonthIncomeAmount != 0
+              ? Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10.0),
+                  child: Container(
+                    width: sWidth * .45,
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: AppColors.onPrimary,
+                      borderRadius: BorderRadius.circular(
+                        5,
+                      ),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black26,
+                          spreadRadius: 2,
+                          blurRadius: 10,
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      children: [
+                        Icon(
+                          FontAwesomeIcons.faceSadTear,
+                          color: Colors.deepOrange,
+                          size: 50,
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        RichText(
+                          textAlign: TextAlign.center,
+                          text: TextSpan(
+                            text: "Your expenses looks bad. Save money.",
+                            style: TextStyle(
+                              color: AppColors.iconHeading,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              : homeData.previousMonthExpenseAmount! != 0 &&
+                      homeData.thisMonthExpenseAmount! >
+                          homeData.previousMonthExpenseAmount!
+                  ? Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10.0),
+                      child: Container(
+                        width: sWidth * .45,
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: AppColors.onPrimary,
+                          borderRadius: BorderRadius.circular(
+                            5,
+                          ),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Colors.black26,
+                              spreadRadius: 2,
+                              blurRadius: 10,
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          children: [
+                            Icon(
+                              FontAwesomeIcons.faceSurprise,
+                              color: Colors.orange,
+                              size: 50,
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            RichText(
+                              textAlign: TextAlign.center,
+                              text: TextSpan(
+                                text: "Last month expense was less.",
+                                style: TextStyle(
+                                  color: AppColors.iconHeading,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  : SizedBox(),
+        ],
       ),
     );
   }
@@ -1130,10 +1029,81 @@ class _HomeState extends State<Home> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
+            ],
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Stack(
+            alignment: Alignment.bottomRight,
+            children: [
+              GridView.count(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                childAspectRatio: (sWidth - (sWidth * .53)) / (sHeight * .35),
+                crossAxisSpacing: 5,
+                crossAxisCount: 4,
+                children: List.generate(
+                  expenseCategories.length,
+                  (index) {
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (builder) => CategorizedExpense(
+                              category: expenseCategories[index],
+                            ),
+                          ),
+                        );
+                      },
+                      child: Column(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: Colors.black26,
+                                  spreadRadius: 1,
+                                  blurRadius: 5,
+                                  offset: Offset(2, 2),
+                                )
+                              ],
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(5),
+                              child: Image(
+                                height: sHeight * 0.1,
+                                width: sWidth * 0.2,
+                                fit: BoxFit.cover,
+                                image: AssetImage(
+                                  "image/category/${expenseCategories[index]}.jpg",
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            expenseCategories[index],
+                            textAlign: TextAlign.center,
+                            softWrap: true,
+                            style: TextStyle(
+                              color: AppColors.iconHeading,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 13,
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ),
               category.isNotEmpty
-                  ? IconButton(
-                      constraints: BoxConstraints(),
-                      padding: EdgeInsets.zero,
+                  ? TextButton.icon(
                       onPressed: () {
                         if (moreExpense) {
                           List<String> tempCategory = category
@@ -1171,79 +1141,19 @@ class _HomeState extends State<Home> {
                         child: Icon(
                           Icons.arrow_back_ios_new,
                           color: AppColors.iconHeading,
+                          size: 18,
+                        ),
+                      ),
+                      label: Text(
+                        moreExpense ? "Less" : "More",
+                        style: TextStyle(
+                          color: AppColors.iconHeading,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     )
                   : SizedBox(),
             ],
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          GridView.count(
-            physics: NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            childAspectRatio: (sWidth - (sWidth * .53)) / (sHeight * .35),
-            crossAxisSpacing: 5,
-            crossAxisCount: 4,
-            children: List.generate(
-              expenseCategories.length,
-              (index) {
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (builder) => CategorizedExpense(
-                          category: expenseCategories[index],
-                        ),
-                      ),
-                    );
-                  },
-                  child: Column(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          boxShadow: const [
-                            BoxShadow(
-                              color: Colors.black26,
-                              spreadRadius: 1,
-                              blurRadius: 5,
-                              offset: Offset(2, 2),
-                            )
-                          ],
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: Image(
-                            height: sHeight * 0.1,
-                            width: sWidth * 0.2,
-                            fit: BoxFit.cover,
-                            image: AssetImage(
-                              "image/category/${expenseCategories[index]}.jpg",
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        expenseCategories[index],
-                        textAlign: TextAlign.center,
-                        softWrap: true,
-                        style: TextStyle(
-                          color: AppColors.iconHeading,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 13,
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
           ),
         ],
       ),
@@ -1271,10 +1181,80 @@ class _HomeState extends State<Home> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
+            ],
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Stack(
+            alignment: Alignment.bottomRight,
+            children: [
+              GridView.count(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                childAspectRatio: (sWidth - (sWidth * .53)) / (sHeight * .35),
+                crossAxisSpacing: 5,
+                crossAxisCount: 4,
+                children: List.generate(
+                  incomeCategories.length,
+                  (index) {
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (builder) => CategorizedIncome(
+                              category: incomeCategories[index],
+                            ),
+                          ),
+                        );
+                      },
+                      child: Column(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: Colors.black26,
+                                  spreadRadius: 1,
+                                  blurRadius: 5,
+                                  offset: Offset(2, 2),
+                                )
+                              ],
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(5),
+                              child: Image(
+                                height: sHeight * 0.1,
+                                width: sWidth * 0.2,
+                                fit: BoxFit.cover,
+                                image: AssetImage(
+                                  "image/category/${incomeCategories[index]}.jpg",
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            incomeCategories[index],
+                            textAlign: TextAlign.center,
+                            softWrap: true,
+                            style: TextStyle(
+                              color: AppColors.iconHeading,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ),
               category.isNotEmpty
-                  ? IconButton(
-                      constraints: BoxConstraints(),
-                      padding: EdgeInsets.zero,
+                  ? TextButton.icon(
                       onPressed: () {
                         if (moreIncome) {
                           List<String> tempCategory = category
@@ -1312,78 +1292,19 @@ class _HomeState extends State<Home> {
                         child: Icon(
                           Icons.arrow_back_ios_new,
                           color: AppColors.iconHeading,
+                          size: 18,
                         ),
                       ),
-                    )
-                  : SizedBox(),
-            ],
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          GridView.count(
-            physics: NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            childAspectRatio: (sWidth - (sWidth * .53)) / (sHeight * .35),
-            crossAxisSpacing: 5,
-            crossAxisCount: 4,
-            children: List.generate(
-              incomeCategories.length,
-              (index) {
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (builder) => CategorizedIncome(
-                          category: incomeCategories[index],
-                        ),
-                      ),
-                    );
-                  },
-                  child: Column(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          boxShadow: const [
-                            BoxShadow(
-                              color: Colors.black26,
-                              spreadRadius: 1,
-                              blurRadius: 5,
-                              offset: Offset(2, 2),
-                            )
-                          ],
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: Image(
-                            height: sHeight * 0.1,
-                            width: sWidth * 0.2,
-                            fit: BoxFit.cover,
-                            image: AssetImage(
-                              "image/category/${incomeCategories[index]}.jpg",
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        incomeCategories[index],
-                        textAlign: TextAlign.center,
-                        softWrap: true,
+                      label: Text(
+                        moreIncome ? "Less" : "More",
                         style: TextStyle(
                           color: AppColors.iconHeading,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                    ],
-                  ),
-                );
-              },
-            ),
+                    )
+                  : SizedBox(),
+            ],
           ),
         ],
       ),

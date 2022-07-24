@@ -27,12 +27,6 @@ HomeData _$HomeDataFromJson(Map<String, dynamic> json) => HomeData(
       thisMonthIncomeAmount: json['thisMonthIncomeAmount'] as int?,
       previousMonthExpenseAmount: json['previousMonthExpenseAmount'] as int?,
       previousMonthIncomeAmount: json['previousMonthIncomeAmount'] as int?,
-      thisMonthExpenseRate: (json['thisMonthExpenseRate'] as num?)?.toDouble(),
-      thisMonthIncomeRate: (json['thisMonthIncomeRate'] as num?)?.toDouble(),
-      previousMonthExpenseRate:
-          (json['previousMonthExpenseRate'] as num?)?.toDouble(),
-      previousMonthIncomeRate:
-          (json['previousMonthIncomeRate'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$HomeDataToJson(HomeData instance) => <String, dynamic>{
@@ -46,8 +40,4 @@ Map<String, dynamic> _$HomeDataToJson(HomeData instance) => <String, dynamic>{
       'thisMonthIncomeAmount': instance.thisMonthIncomeAmount,
       'previousMonthExpenseAmount': instance.previousMonthExpenseAmount,
       'previousMonthIncomeAmount': instance.previousMonthIncomeAmount,
-      'thisMonthExpenseRate': instance.thisMonthExpenseRate,
-      'thisMonthIncomeRate': instance.thisMonthIncomeRate,
-      'previousMonthExpenseRate': instance.previousMonthExpenseRate,
-      'previousMonthIncomeRate': instance.previousMonthIncomeRate,
     };

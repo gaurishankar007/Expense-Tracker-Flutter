@@ -86,51 +86,16 @@ class UserHttp {
     }
   }
 
-  Future<Map> changeProfileName(String profileName) async {
+  Future<Map> changeProfileInfo(
+      String email, String profileName, String gender) async {
     try {
       final response = await put(
-        Uri.parse(routeUrl + UserUrls.changeProfileName),
-        body: {"profileName": profileName},
-        headers: {
-          HttpHeaders.authorizationHeader: "Bearer $token",
+        Uri.parse(routeUrl + UserUrls.changeProfileInfo),
+        body: {
+          "email": email,
+          "profileName": profileName,
+          "gender": gender,
         },
-      );
-
-      final responseData = jsonDecode(response.body);
-      return {
-        "statusCode": response.statusCode,
-        "body": responseData as Map,
-      };
-    } catch (error) {
-      return Future.error(error);
-    }
-  }
-
-  Future<Map> changeEmail(String email) async {
-    try {
-      final response = await put(
-        Uri.parse(routeUrl + UserUrls.changeEmail),
-        body: {"email": email},
-        headers: {
-          HttpHeaders.authorizationHeader: "Bearer $token",
-        },
-      );
-
-      final responseData = jsonDecode(response.body);
-      return {
-        "statusCode": response.statusCode,
-        "body": responseData as Map,
-      };
-    } catch (error) {
-      return Future.error(error);
-    }
-  }
-
-  Future<Map> changeGender(String gender) async {
-    try {
-      final response = await put(
-        Uri.parse(routeUrl + UserUrls.changeGender),
-        body: {"gender": gender},
         headers: {
           HttpHeaders.authorizationHeader: "Bearer $token",
         },

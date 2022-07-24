@@ -16,10 +16,6 @@ class HomeData {
   int? thisMonthIncomeAmount;
   int? previousMonthExpenseAmount;
   int? previousMonthIncomeAmount;
-  double? thisMonthExpenseRate;
-  double? thisMonthIncomeRate;
-  double? previousMonthExpenseRate;
-  double? previousMonthIncomeRate;
 
   HomeData({
     this.thisMonthView,
@@ -32,10 +28,6 @@ class HomeData {
     this.thisMonthIncomeAmount,
     this.previousMonthExpenseAmount,
     this.previousMonthIncomeAmount,
-    this.thisMonthExpenseRate,
-    this.thisMonthIncomeRate,
-    this.previousMonthExpenseRate,
-    this.previousMonthIncomeRate,
   });
 
   factory HomeData.fromJson(Map<String, dynamic> json) =>
