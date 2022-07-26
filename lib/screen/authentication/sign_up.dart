@@ -56,8 +56,8 @@ class _SignUpState extends State<SignUp> {
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.only(
-            left: _screenWidth * 0.08,
-            right: _screenWidth * 0.08,
+            left: _screenWidth * 0.05,
+            right: _screenWidth * 0.05,
           ),
           child: Form(
             key: _formKey,

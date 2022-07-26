@@ -58,8 +58,8 @@ class _PasswordSettingState extends State<PasswordSetting> {
         child: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.only(
-              left: sWidth * 0.03,
-              right: sWidth * 0.03,
+              left: sWidth * 0.05,
+              right: sWidth * 0.05,
             ),
             child: Form(
               key: _formKey,
