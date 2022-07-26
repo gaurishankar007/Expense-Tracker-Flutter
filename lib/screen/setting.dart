@@ -67,9 +67,9 @@ class _SettingState extends State<Setting> {
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.only(
-          right: sWidth * .05,
+          right: sWidth * .03,
           bottom: 25,
-          left: sWidth * .05,
+          left: sWidth * .03,
         ),
         child: FutureBuilder<User>(
           future: getUser,
@@ -214,8 +214,8 @@ class _SettingState extends State<Setting> {
                         toastLength: Toast.LENGTH_SHORT,
                         gravity: ToastGravity.TOP,
                         timeInSecForIosWeb: 2,
-                        backgroundColor: Colors.white,
-                        textColor: Colors.black,
+                        backgroundColor: Colors.green,
+                        textColor: AppColors.onPrimary,
                         fontSize: 16.0,
                       );
                       setState(() {
@@ -253,8 +253,8 @@ class _SettingState extends State<Setting> {
                             toastLength: Toast.LENGTH_SHORT,
                             gravity: ToastGravity.TOP,
                             timeInSecForIosWeb: 2,
-                            backgroundColor: Colors.white,
-                            textColor: Colors.black,
+                            backgroundColor: Colors.green,
+                            textColor: AppColors.onPrimary,
                             fontSize: 16.0,
                           );
                           setState(() {

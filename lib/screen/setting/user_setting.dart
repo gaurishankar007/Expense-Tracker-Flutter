@@ -99,9 +99,8 @@ class _UserSettingState extends State<UserSetting> {
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.only(
-            right: sWidth * .01,
-            bottom: 25,
-            left: sWidth * .05,
+            right: sWidth * .03,
+            left: sWidth * .03,
           ),
           child: FutureBuilder<User>(
             future: getUser,

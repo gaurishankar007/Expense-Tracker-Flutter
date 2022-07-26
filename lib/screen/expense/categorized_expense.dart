@@ -355,7 +355,7 @@ class _CategorizedExpenseState extends State<CategorizedExpense> {
                       gravity: ToastGravity.BOTTOM,
                       timeInSecForIosWeb: 3,
                       backgroundColor: Colors.red,
-                      textColor: AppColors.primary,
+                      textColor: AppColors.onPrimary,
                       fontSize: 16.0,
                     );
                   } else {

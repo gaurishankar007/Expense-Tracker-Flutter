@@ -382,7 +382,7 @@ class _IncomeState extends State<Income> {
                     gravity: ToastGravity.TOP,
                     timeInSecForIosWeb: 3,
                     backgroundColor: Colors.green,
-                    textColor: AppColors.primary,
+                    textColor: AppColors.onPrimary,
                     fontSize: 16.0,
                   );
 
@@ -400,7 +400,7 @@ class _IncomeState extends State<Income> {
                     gravity: ToastGravity.TOP,
                     timeInSecForIosWeb: 3,
                     backgroundColor: Colors.red,
-                    textColor: AppColors.primary,
+                    textColor: AppColors.onPrimary,
                     fontSize: 16.0,
                   );
                 }
@@ -411,7 +411,7 @@ class _IncomeState extends State<Income> {
                   gravity: ToastGravity.BOTTOM,
                   timeInSecForIosWeb: 3,
                   backgroundColor: Colors.red,
-                  textColor: AppColors.primary,
+                  textColor: AppColors.onPrimary,
                   fontSize: 16.0,
                 );
               }
@@ -719,7 +719,7 @@ class _IncomeState extends State<Income> {
                       gravity: ToastGravity.BOTTOM,
                       timeInSecForIosWeb: 3,
                       backgroundColor: Colors.red,
-                      textColor: AppColors.primary,
+                      textColor: AppColors.onPrimary,
                       fontSize: 16.0,
                     );
                   } else {
@@ -1115,7 +1115,7 @@ class _IncomeState extends State<Income> {
                 gravity: ToastGravity.TOP,
                 timeInSecForIosWeb: 3,
                 backgroundColor: AppColors.primary,
-                textColor: Colors.black,
+                textColor: AppColors.onPrimary,
                 fontSize: 16.0,
               );
             },
@@ -1268,7 +1268,7 @@ class _IncomeState extends State<Income> {
                     gravity: ToastGravity.TOP,
                     timeInSecForIosWeb: 3,
                     backgroundColor: Colors.green,
-                    textColor: AppColors.primary,
+                    textColor: AppColors.onPrimary,
                     fontSize: 16.0,
                   );
                 } else {
@@ -1278,7 +1278,7 @@ class _IncomeState extends State<Income> {
                     gravity: ToastGravity.TOP,
                     timeInSecForIosWeb: 3,
                     backgroundColor: Colors.red,
-                    textColor: AppColors.primary,
+                    textColor: AppColors.onPrimary,
                     fontSize: 16.0,
                   );
                 }
@@ -1289,7 +1289,7 @@ class _IncomeState extends State<Income> {
                   gravity: ToastGravity.BOTTOM,
                   timeInSecForIosWeb: 3,
                   backgroundColor: Colors.red,
-                  textColor: AppColors.primary,
+                  textColor: AppColors.onPrimary,
                   fontSize: 16.0,
                 );
               }
