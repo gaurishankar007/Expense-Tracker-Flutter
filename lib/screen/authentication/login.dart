@@ -240,6 +240,12 @@ class _LoginState extends State<Login> {
 
                       final resData = await LoginHttp().login(email, password);
                       if (resData["statusCode"] == 202) {
+                        bool googleSignIn = await LogStatus().googleSignIn();
+                        if (googleSignIn) {
+                          await GoogleSingInApi.logout();
+                          LogStatus().removeGoogleSignIn();
+                        }
+
                         Navigator.pop(context);
                         if (checkboxValue) {
                           LogStatus().setToken(resData["body"]["token"]);
