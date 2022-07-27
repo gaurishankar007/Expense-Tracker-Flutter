@@ -101,7 +101,7 @@ class _SignUpState extends State<SignUp> {
                   ),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 15,
                 ),
                 TextFormField(
                   onSaved: (value) {
@@ -135,7 +135,7 @@ class _SignUpState extends State<SignUp> {
                   ),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 15,
                 ),
                 TextFormField(
                   onSaved: (value) {
@@ -169,7 +169,7 @@ class _SignUpState extends State<SignUp> {
                   ),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 15,
                 ),
                 TextFormField(
                   onSaved: (value) {
@@ -199,7 +199,7 @@ class _SignUpState extends State<SignUp> {
                   ),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 15,
                 ),
                 SizedBox(
                   width: double.maxFinite,

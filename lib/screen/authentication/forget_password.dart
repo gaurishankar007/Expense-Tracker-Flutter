@@ -91,7 +91,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                   ),
                 ),
                 SizedBox(
-                  height: 10,
+                  height: 15,
                 ),
                 Stack(
                   alignment: Alignment.topRight,
@@ -139,13 +139,13 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                             ? FontAwesomeIcons.solidEyeSlash
                             : FontAwesomeIcons.solidEye,
                         size: 18,
-                        color: AppColors.iconHeading,
+                        color: AppColors.primary,
                       ),
                     ),
                   ],
                 ),
                 SizedBox(
-                  height: 10,
+                  height: 15,
                 ),
                 SizedBox(
                   width: double.maxFinite,

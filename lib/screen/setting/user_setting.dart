@@ -142,7 +142,7 @@ class _UserSettingState extends State<UserSetting> {
                                   ),
                                 ),
                                 SizedBox(
-                                  height: 8,
+                                  height: 5,
                                 ),
                                 TextFormField(
                                   controller: profileNameController,
@@ -198,7 +198,7 @@ class _UserSettingState extends State<UserSetting> {
                                         ),
                                       ),
                                       SizedBox(
-                                        height: 8,
+                                        height: 5,
                                       ),
                                       TextFormField(
                                         controller: emailController,
@@ -250,7 +250,7 @@ class _UserSettingState extends State<UserSetting> {
                             ),
                           ),
                           SizedBox(
-                            height: 8,
+                            height: 5,
                           ),
                           Row(
                             children: [
@@ -311,7 +311,7 @@ class _UserSettingState extends State<UserSetting> {
                       ),
                     ),
                     SizedBox(
-                      height: 10,
+                      height: 15,
                     ),
                     SizedBox(
                       width: double.maxFinite,

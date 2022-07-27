@@ -109,7 +109,7 @@ class _LoginState extends State<Login> {
                     ),
                   ),
                   SizedBox(
-                    height: 20,
+                    height: 15,
                   ),
                   Text(
                     "Password",
@@ -158,7 +158,7 @@ class _LoginState extends State<Login> {
                                   ? FontAwesomeIcons.solidEyeSlash
                                   : FontAwesomeIcons.solidEye,
                               size: 18,
-                              color: AppColors.iconHeading,
+                              color: AppColors.primary,
                             ),
                           )
                         ],
@@ -352,8 +352,8 @@ class _LoginState extends State<Login> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Image(
-                        height: 30,
-                        width: 30,
+                        height: 25,
+                        width: 25,
                         fit: BoxFit.cover,
                         image: AssetImage("image/Google.png"),
                       ),
@@ -366,7 +366,7 @@ class _LoginState extends State<Login> {
                           style: TextStyle(
                             color: AppColors.iconHeading,
                             fontWeight: FontWeight.bold,
-                            fontSize: 15,
+                            fontSize: 13,
                           ),
                         ),
                       )
@@ -374,7 +374,7 @@ class _LoginState extends State<Login> {
                   ),
                   style: ElevatedButton.styleFrom(
                     primary: AppColors.onPrimary,
-                    padding: EdgeInsets.symmetric(vertical: 5),
+                    padding: EdgeInsets.symmetric(vertical: 8),
                     elevation: 5,
                     shadowColor: Colors.black45,
                     shape: RoundedRectangleBorder(

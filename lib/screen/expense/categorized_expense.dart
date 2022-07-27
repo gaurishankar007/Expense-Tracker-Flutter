@@ -1,6 +1,7 @@
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:expense_tracker/widget/navigator.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:expense_tracker/api/http/expense_http.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +29,7 @@ class _CategorizedExpenseState extends State<CategorizedExpense> {
   OutlineInputBorder formBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(5),
     borderSide: BorderSide(
-      color: AppColors.form,
+      color: AppColors.button,
       width: 2,
       style: BorderStyle.solid,
     ),
@@ -277,68 +278,92 @@ class _CategorizedExpenseState extends State<CategorizedExpense> {
           ),
           child: Column(
             children: [
-              DateTimeField(
-                onChanged: (value) {
-                  startDate = value.toString().split(" ")[0];
-                },
-                format: DateFormat("yyyy-MM-dd"),
-                onShowPicker: (context, currentValue) {
-                  return showDatePicker(
-                    context: context,
-                    firstDate: DateTime(
-                      int.parse(firstDate.split("-")[0]),
-                      int.parse(firstDate.split("-")[1]),
-                      int.parse(firstDate.split("-")[2]),
+              Stack(
+                alignment: Alignment.centerRight,
+                children: [
+                  DateTimeField(
+                    onChanged: (value) {
+                      startDate = value.toString().split(" ")[0];
+                    },
+                    format: DateFormat("yyyy-MM-dd"),
+                    onShowPicker: (context, currentValue) {
+                      return showDatePicker(
+                        context: context,
+                        firstDate: DateTime(
+                          int.parse(firstDate.split("-")[0]),
+                          int.parse(firstDate.split("-")[1]),
+                          int.parse(firstDate.split("-")[2]),
+                        ),
+                        initialDate: currentValue ?? DateTime.now(),
+                        lastDate: DateTime.now(),
+                      );
+                    },
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: AppColors.button,
+                      hintText: "Start Date",
+                      hintStyle: TextStyle(
+                        color: AppColors.text,
+                      ),
+                      enabledBorder: formBorder,
+                      focusedBorder: formBorder,
+                      errorBorder: formBorder,
+                      focusedErrorBorder: formBorder,
                     ),
-                    initialDate: currentValue ?? DateTime.now(),
-                    lastDate: DateTime.now(),
-                  );
-                },
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: AppColors.button,
-                  hintText: "Start Date",
-                  hintStyle: TextStyle(
-                    color: AppColors.text,
                   ),
-                  enabledBorder: formBorder,
-                  focusedBorder: formBorder,
-                  errorBorder: formBorder,
-                  focusedErrorBorder: formBorder,
-                ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 5.0),
+                    child: Icon(
+                      FontAwesomeIcons.calendarDays,
+                      color: AppColors.primary,
+                    ),
+                  ),
+                ],
               ),
               SizedBox(
                 height: 10,
               ),
-              DateTimeField(
-                onChanged: (value) {
-                  endDate = value.toString().split(" ")[0];
-                },
-                format: DateFormat("yyyy-MM-dd"),
-                onShowPicker: (context, currentValue) {
-                  return showDatePicker(
-                    context: context,
-                    firstDate: DateTime(
-                      int.parse(firstDate.split("-")[0]),
-                      int.parse(firstDate.split("-")[1]),
-                      int.parse(firstDate.split("-")[2]),
+              Stack(
+                alignment: Alignment.centerRight,
+                children: [
+                  DateTimeField(
+                    onChanged: (value) {
+                      endDate = value.toString().split(" ")[0];
+                    },
+                    format: DateFormat("yyyy-MM-dd"),
+                    onShowPicker: (context, currentValue) {
+                      return showDatePicker(
+                        context: context,
+                        firstDate: DateTime(
+                          int.parse(firstDate.split("-")[0]),
+                          int.parse(firstDate.split("-")[1]),
+                          int.parse(firstDate.split("-")[2]),
+                        ),
+                        initialDate: currentValue ?? DateTime.now(),
+                        lastDate: DateTime.now(),
+                      );
+                    },
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: AppColors.button,
+                      hintText: "End Date",
+                      hintStyle: TextStyle(
+                        color: AppColors.text,
+                      ),
+                      enabledBorder: formBorder,
+                      focusedBorder: formBorder,
+                      errorBorder: formBorder,
+                      focusedErrorBorder: formBorder,
                     ),
-                    initialDate: currentValue ?? DateTime.now(),
-                    lastDate: DateTime.now(),
-                  );
-                },
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: AppColors.button,
-                  hintText: "End Date",
-                  hintStyle: TextStyle(
-                    color: AppColors.text,
                   ),
-                  enabledBorder: formBorder,
-                  focusedBorder: formBorder,
-                  errorBorder: formBorder,
-                  focusedErrorBorder: formBorder,
-                ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 5.0),
+                    child: Icon(
+                      FontAwesomeIcons.calendarDays,
+                      color: AppColors.primary,
+                    ),
+                  ),
+                ],
               ),
               SizedBox(
                 height: 5,

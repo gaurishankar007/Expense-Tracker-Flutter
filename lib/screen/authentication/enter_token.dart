@@ -92,7 +92,7 @@ class _VerifyTokenState extends State<VerifyToken> {
                   ),
                 ),
                 SizedBox(
-                  height: 10,
+                  height: 15,
                 ),
                 SizedBox(
                   width: double.maxFinite,

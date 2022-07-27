@@ -107,7 +107,7 @@ class _PasswordSettingState extends State<PasswordSetting> {
                               ? FontAwesomeIcons.solidEyeSlash
                               : FontAwesomeIcons.solidEye,
                           size: 18,
-                          color: AppColors.iconHeading,
+                          color: AppColors.primary,
                         ),
                       ),
                     ],
@@ -162,13 +162,13 @@ class _PasswordSettingState extends State<PasswordSetting> {
                               ? FontAwesomeIcons.solidEyeSlash
                               : FontAwesomeIcons.solidEye,
                           size: 18,
-                          color: AppColors.iconHeading,
+                          color: AppColors.primary,
                         ),
                       ),
                     ],
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 15,
                   ),
                   SizedBox(
                     width: double.maxFinite,
