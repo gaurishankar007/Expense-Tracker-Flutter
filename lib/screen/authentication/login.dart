@@ -366,6 +366,7 @@ class _LoginState extends State<Login> {
                           style: TextStyle(
                             color: AppColors.iconHeading,
                             fontWeight: FontWeight.bold,
+                            fontSize: 15,
                           ),
                         ),
                       )
@@ -375,6 +376,7 @@ class _LoginState extends State<Login> {
                     primary: AppColors.onPrimary,
                     padding: EdgeInsets.symmetric(vertical: 5),
                     elevation: 5,
+                    shadowColor: Colors.black45,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5),
                     ),

@@ -1029,79 +1029,6 @@ class _HomeState extends State<Home> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-            ],
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Stack(
-            alignment: Alignment.bottomRight,
-            children: [
-              GridView.count(
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                childAspectRatio: (sWidth - (sWidth * .53)) / (sHeight * .35),
-                crossAxisSpacing: 5,
-                crossAxisCount: 4,
-                children: List.generate(
-                  expenseCategories.length,
-                  (index) {
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (builder) => CategorizedExpense(
-                              category: expenseCategories[index],
-                            ),
-                          ),
-                        );
-                      },
-                      child: Column(
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              boxShadow: const [
-                                BoxShadow(
-                                  color: Colors.black26,
-                                  spreadRadius: 1,
-                                  blurRadius: 5,
-                                  offset: Offset(2, 2),
-                                )
-                              ],
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(5),
-                              child: Image(
-                                height: sHeight * 0.1,
-                                width: sWidth * 0.2,
-                                fit: BoxFit.cover,
-                                image: AssetImage(
-                                  "image/category/${expenseCategories[index]}.jpg",
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            expenseCategories[index],
-                            textAlign: TextAlign.center,
-                            softWrap: true,
-                            style: TextStyle(
-                              color: AppColors.iconHeading,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 13,
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              ),
               category.isNotEmpty
                   ? TextButton.icon(
                       onPressed: () {
@@ -1155,6 +1082,74 @@ class _HomeState extends State<Home> {
                   : SizedBox(),
             ],
           ),
+          SizedBox(
+            height: 10,
+          ),
+          GridView.count(
+            physics: NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            childAspectRatio: (sWidth - (sWidth * .53)) / (sHeight * .35),
+            crossAxisSpacing: 5,
+            crossAxisCount: 4,
+            children: List.generate(
+              expenseCategories.length,
+              (index) {
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (builder) => CategorizedExpense(
+                          category: expenseCategories[index],
+                        ),
+                      ),
+                    );
+                  },
+                  child: Column(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Colors.black26,
+                              spreadRadius: 1,
+                              blurRadius: 5,
+                              offset: Offset(2, 2),
+                            )
+                          ],
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(5),
+                          child: Image(
+                            height: sHeight * 0.1,
+                            width: sWidth * 0.2,
+                            fit: BoxFit.cover,
+                            image: AssetImage(
+                              "image/category/${expenseCategories[index]}.jpg",
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        expenseCategories[index],
+                        textAlign: TextAlign.center,
+                        softWrap: true,
+                        style: TextStyle(
+                          color: AppColors.iconHeading,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 13,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
         ],
       ),
     );
@@ -1179,78 +1174,6 @@ class _HomeState extends State<Home> {
                   fontSize: 18,
                   color: AppColors.iconHeading,
                   fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Stack(
-            alignment: Alignment.bottomRight,
-            children: [
-              GridView.count(
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                childAspectRatio: (sWidth - (sWidth * .53)) / (sHeight * .35),
-                crossAxisSpacing: 5,
-                crossAxisCount: 4,
-                children: List.generate(
-                  incomeCategories.length,
-                  (index) {
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (builder) => CategorizedIncome(
-                              category: incomeCategories[index],
-                            ),
-                          ),
-                        );
-                      },
-                      child: Column(
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              boxShadow: const [
-                                BoxShadow(
-                                  color: Colors.black26,
-                                  spreadRadius: 1,
-                                  blurRadius: 5,
-                                  offset: Offset(2, 2),
-                                )
-                              ],
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(5),
-                              child: Image(
-                                height: sHeight * 0.1,
-                                width: sWidth * 0.2,
-                                fit: BoxFit.cover,
-                                image: AssetImage(
-                                  "image/category/${incomeCategories[index]}.jpg",
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            incomeCategories[index],
-                            textAlign: TextAlign.center,
-                            softWrap: true,
-                            style: TextStyle(
-                              color: AppColors.iconHeading,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
                 ),
               ),
               category.isNotEmpty
@@ -1305,6 +1228,73 @@ class _HomeState extends State<Home> {
                     )
                   : SizedBox(),
             ],
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          GridView.count(
+            physics: NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            childAspectRatio: (sWidth - (sWidth * .53)) / (sHeight * .35),
+            crossAxisSpacing: 5,
+            crossAxisCount: 4,
+            children: List.generate(
+              incomeCategories.length,
+              (index) {
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (builder) => CategorizedIncome(
+                          category: incomeCategories[index],
+                        ),
+                      ),
+                    );
+                  },
+                  child: Column(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Colors.black26,
+                              spreadRadius: 1,
+                              blurRadius: 5,
+                              offset: Offset(2, 2),
+                            )
+                          ],
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(5),
+                          child: Image(
+                            height: sHeight * 0.1,
+                            width: sWidth * 0.2,
+                            fit: BoxFit.cover,
+                            image: AssetImage(
+                              "image/category/${incomeCategories[index]}.jpg",
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        incomeCategories[index],
+                        textAlign: TextAlign.center,
+                        softWrap: true,
+                        style: TextStyle(
+                          color: AppColors.iconHeading,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
           ),
         ],
       ),

@@ -228,7 +228,7 @@ class _SettingState extends State<Setting> {
                       size: 18,
                     ),
                     title: Text(
-                      "Profile Publication",
+                      "Progress Publication",
                       style: TextStyle(
                         color: AppColors.iconHeading,
                         fontWeight: FontWeight.bold,
