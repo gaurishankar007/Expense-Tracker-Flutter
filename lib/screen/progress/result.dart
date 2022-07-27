@@ -258,7 +258,7 @@ class _ResultState extends State<Result> {
                       text: pmp,
                       style: TextStyle(
                         color: AppColors.iconHeading,
-                        fontSize: 22,
+                        fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -323,7 +323,7 @@ class _ResultState extends State<Result> {
                       text: progress,
                       style: TextStyle(
                         color: AppColors.iconHeading,
-                        fontSize: 25,
+                        fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -339,7 +339,7 @@ class _ResultState extends State<Result> {
                 text: "Total",
                 style: TextStyle(
                   color: AppColors.iconHeading,
-                  fontSize: 18,
+                  fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -388,7 +388,7 @@ class _ResultState extends State<Result> {
                       text: tmp,
                       style: TextStyle(
                         color: AppColors.iconHeading,
-                        fontSize: 22,
+                        fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
                     ),

@@ -896,7 +896,7 @@ class _IncomeState extends State<Income> {
                         style: TextStyle(
                           color: AppColors.iconHeading,
                           fontWeight: FontWeight.bold,
-                          fontSize: 14,
+                          fontSize: 13,
                         ),
                       ),
                     )
@@ -920,7 +920,7 @@ class _IncomeState extends State<Income> {
                       text: "Rs.${amount.toString()}",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 14,
+                        fontSize: 13,
                       ),
                     ),
                   ],

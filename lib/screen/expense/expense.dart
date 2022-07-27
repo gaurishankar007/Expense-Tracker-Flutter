@@ -893,7 +893,7 @@ class _ExpenseState extends State<Expense> {
                         style: TextStyle(
                           color: AppColors.iconHeading,
                           fontWeight: FontWeight.bold,
-                          fontSize: 14,
+                          fontSize: 13,
                         ),
                       ),
                     )
@@ -917,7 +917,7 @@ class _ExpenseState extends State<Expense> {
                       text: "Rs.${amount.toString()}",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 14,
+                        fontSize: 13,
                       ),
                     ),
                   ],
@@ -949,7 +949,7 @@ class _ExpenseState extends State<Expense> {
                 contentPadding: EdgeInsets.zero,
                 minLeadingWidth: 5,
                 minVerticalPadding: 5,
-                visualDensity: VisualDensity(horizontal: 0, vertical: -4),
+                visualDensity: VisualDensity(horizontal: -2, vertical: -4),
                 onTap: () {
                   if (expenseIndex > 1) {
                     return;

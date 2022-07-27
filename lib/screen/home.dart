@@ -427,7 +427,7 @@ class _HomeState extends State<Home> {
                         style: TextStyle(
                           color: AppColors.iconHeading,
                           fontWeight: FontWeight.bold,
-                          fontSize: 14,
+                          fontSize: 13,
                         ),
                       ),
                     )
@@ -451,7 +451,7 @@ class _HomeState extends State<Home> {
                         style: TextStyle(
                           color: AppColors.iconHeading,
                           fontWeight: FontWeight.bold,
-                          fontSize: 14,
+                          fontSize: 13,
                         ),
                       ),
                     )
@@ -904,6 +904,7 @@ class _HomeState extends State<Home> {
                             style: TextStyle(
                               color: AppColors.iconHeading,
                               fontWeight: FontWeight.bold,
+                              fontSize: 13,
                             ),
                           ),
                         ),
@@ -949,6 +950,7 @@ class _HomeState extends State<Home> {
                             style: TextStyle(
                               color: AppColors.iconHeading,
                               fontWeight: FontWeight.bold,
+                              fontSize: 13,
                             ),
                           ),
                         ),
@@ -994,6 +996,7 @@ class _HomeState extends State<Home> {
                                 style: TextStyle(
                                   color: AppColors.iconHeading,
                                   fontWeight: FontWeight.bold,
+                                  fontSize: 13,
                                 ),
                               ),
                             ),
