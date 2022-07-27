@@ -235,7 +235,7 @@ class _SettingState extends State<Setting> {
                       ),
                     ),
                     subtitle: Text(
-                      "Publish progress and achievements",
+                      "Publish your progress points and achievements",
                       style: TextStyle(
                         color: AppColors.text,
                       ),
