@@ -407,18 +407,31 @@ class _SettingState extends State<Setting> {
 
                 if (image == null) return;
 
-                await UserHttp().changeProfilePicture(File(image.path));
-                setState(() {
-                  getUser = UserHttp().getUser();
-                });
-                Fluttertoast.showToast(
-                  msg: "Your profile picture updated.",
-                  toastLength: Toast.LENGTH_SHORT,
-                  gravity: ToastGravity.BOTTOM,
-                  timeInSecForIosWeb: 3,
-                  backgroundColor: Colors.green,
-                  textColor: Colors.white,
-                );
+                final resData =
+                    await UserHttp().changeProfilePicture(File(image.path));
+                if (resData["statusCode"] == 200) {
+                  setState(() {
+                    getUser = UserHttp().getUser();
+                  });
+
+                  Fluttertoast.showToast(
+                    msg: resData["body"]["resM"],
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 3,
+                    backgroundColor: Colors.green,
+                    textColor: Colors.white,
+                  );
+                } else {
+                  Fluttertoast.showToast(
+                    msg: resData["body"]["resM"],
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 3,
+                    backgroundColor: Colors.red,
+                    textColor: Colors.white,
+                  );
+                }
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -459,18 +472,31 @@ class _SettingState extends State<Setting> {
                     await ImagePicker().pickImage(source: ImageSource.gallery);
                 if (image == null) return;
 
-                await UserHttp().changeProfilePicture(File(image.path));
-                setState(() {
-                  getUser = UserHttp().getUser();
-                });
-                Fluttertoast.showToast(
-                  msg: "Your profile picture updated.",
-                  toastLength: Toast.LENGTH_SHORT,
-                  gravity: ToastGravity.BOTTOM,
-                  timeInSecForIosWeb: 3,
-                  backgroundColor: Colors.green,
-                  textColor: Colors.white,
-                );
+                final resData =
+                    await UserHttp().changeProfilePicture(File(image.path));
+                if (resData["statusCode"] == 200) {
+                  setState(() {
+                    getUser = UserHttp().getUser();
+                  });
+
+                  Fluttertoast.showToast(
+                    msg: resData["body"]["resM"],
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 3,
+                    backgroundColor: Colors.green,
+                    textColor: Colors.white,
+                  );
+                } else {
+                  Fluttertoast.showToast(
+                    msg: resData["body"]["resM"],
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 3,
+                    backgroundColor: Colors.red,
+                    textColor: Colors.white,
+                  );
+                }
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
