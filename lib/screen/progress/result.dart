@@ -430,7 +430,7 @@ class _ResultState extends State<Result> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "New Achievements",
+            "This Month Achievements",
             style: TextStyle(
               fontSize: 18,
               color: AppColors.iconHeading,
@@ -502,7 +502,7 @@ class _ResultState extends State<Result> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Old Achievements",
+            "Last Month Achievements",
             style: TextStyle(
               fontSize: 18,
               color: AppColors.iconHeading,

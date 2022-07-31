@@ -26,15 +26,19 @@ class _SettingState extends State<Setting> {
   late Future<User> getUser;
   bool progressPublication = false;
 
+  void userData() async {
+    getUser = UserHttp().getUser();
+    User userData = await getUser;
+
+    setState(() {
+      progressPublication = userData.progressPublication!;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
-    UserHttp().getUser().then((value) {
-      setState(() {
-        progressPublication = value.progressPublication!;
-      });
-    });
-    getUser = UserHttp().getUser();
+    userData();
   }
 
   @override
@@ -64,6 +68,7 @@ class _SettingState extends State<Setting> {
         elevation: 0,
         centerTitle: true,
         backgroundColor: Colors.transparent,
+        toolbarHeight: 40,
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.only(
@@ -155,7 +160,7 @@ class _SettingState extends State<Setting> {
                     },
                     leading: Icon(
                       Icons.person,
-                      color: AppColors.iconHeading,
+                      color: AppColors.primary,
                     ),
                     title: Text(
                       "Profile",
@@ -185,7 +190,7 @@ class _SettingState extends State<Setting> {
                     },
                     leading: Icon(
                       FontAwesomeIcons.lock,
-                      color: AppColors.iconHeading,
+                      color: AppColors.primary,
                       size: 18,
                     ),
                     title: Text(
@@ -224,7 +229,7 @@ class _SettingState extends State<Setting> {
                     },
                     leading: Icon(
                       FontAwesomeIcons.earthAsia,
-                      color: AppColors.iconHeading,
+                      color: AppColors.primary,
                       size: 18,
                     ),
                     title: Text(
@@ -235,7 +240,7 @@ class _SettingState extends State<Setting> {
                       ),
                     ),
                     subtitle: Text(
-                      "Publish your progress points and achievements",
+                      "Share your progress points and achievements",
                       style: TextStyle(
                         color: AppColors.text,
                       ),
@@ -272,16 +277,17 @@ class _SettingState extends State<Setting> {
                     onTap: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => Support(),
+                          builder: (context) => Help(),
                         ),
                       );
                     },
                     leading: Icon(
                       Icons.help_rounded,
-                      color: AppColors.iconHeading,
+                      color: AppColors.primary,
+                      size: 22,
                     ),
                     title: Text(
-                      "Support",
+                      "Help",
                       style: TextStyle(
                         color: AppColors.iconHeading,
                         fontWeight: FontWeight.bold,
@@ -319,7 +325,8 @@ class _SettingState extends State<Setting> {
                     },
                     leading: Icon(
                       Icons.logout_outlined,
-                      color: AppColors.iconHeading,
+                      color: AppColors.primary,
+                      size: 22,
                     ),
                     title: Text(
                       "Log out",

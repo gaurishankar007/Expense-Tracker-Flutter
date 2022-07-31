@@ -266,166 +266,176 @@ class _CategorizedIncomeState extends State<CategorizedIncome> {
   Widget selectDate(BuildContext context, String firstDate) {
     String startDate = "", endDate = "";
 
-    return SimpleDialog(
-      backgroundColor: AppColors.background,
-      children: [
-        SimpleDialogOption(
-          padding: EdgeInsets.only(
-            top: 5,
-            left: 15,
-            right: 15,
-          ),
-          child: Column(
-            children: [
-              Stack(
-                alignment: Alignment.centerRight,
-                children: [
-                  DateTimeField(
-                    onChanged: (value) {
-                      startDate = value.toString().split(" ")[0];
-                    },
-                    format: DateFormat("yyyy-MM-dd"),
-                    onShowPicker: (context, currentValue) {
-                      return showDatePicker(
-                        context: context,
-                        firstDate: DateTime(
-                          int.parse(firstDate.split("-")[0]),
-                          int.parse(firstDate.split("-")[1]),
-                          int.parse(firstDate.split("-")[2]),
+    return StatefulBuilder(builder: (context, setState1) {
+      return SimpleDialog(
+        backgroundColor: AppColors.background,
+        children: [
+          SimpleDialogOption(
+            padding: EdgeInsets.only(
+              top: 5,
+              left: 15,
+              right: 15,
+            ),
+            child: Column(
+              children: [
+                Stack(
+                  alignment: Alignment.centerRight,
+                  children: [
+                    DateTimeField(
+                      onChanged: (value) {
+                        setState1(() {
+                          startDate = value.toString().split(" ")[0];
+                        });
+                      },
+                      format: DateFormat("yyyy-MM-dd"),
+                      onShowPicker: (context, currentValue) {
+                        return showDatePicker(
+                          context: context,
+                          firstDate: DateTime(
+                            int.parse(firstDate.split("-")[0]),
+                            int.parse(firstDate.split("-")[1]),
+                            int.parse(firstDate.split("-")[2]),
+                          ),
+                          initialDate: currentValue ?? DateTime.now(),
+                          lastDate: DateTime.now(),
+                        );
+                      },
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: AppColors.button,
+                        hintText: "Start Date",
+                        hintStyle: TextStyle(
+                          color: AppColors.text,
                         ),
-                        initialDate: currentValue ?? DateTime.now(),
-                        lastDate: DateTime.now(),
-                      );
-                    },
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: AppColors.button,
-                      hintText: "Start Date",
-                      hintStyle: TextStyle(
-                        color: AppColors.text,
+                        enabledBorder: formBorder,
+                        focusedBorder: formBorder,
+                        errorBorder: formBorder,
+                        focusedErrorBorder: formBorder,
                       ),
-                      enabledBorder: formBorder,
-                      focusedBorder: formBorder,
-                      errorBorder: formBorder,
-                      focusedErrorBorder: formBorder,
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 5.0),
-                    child: Icon(
-                      FontAwesomeIcons.calendarDays,
-                      color: AppColors.primary,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Stack(
-                alignment: Alignment.centerRight,
-                children: [
-                  DateTimeField(
-                    onChanged: (value) {
-                      endDate = value.toString().split(" ")[0];
-                    },
-                    format: DateFormat("yyyy-MM-dd"),
-                    onShowPicker: (context, currentValue) {
-                      return showDatePicker(
-                        context: context,
-                        firstDate: DateTime(
-                          int.parse(firstDate.split("-")[0]),
-                          int.parse(firstDate.split("-")[1]),
-                          int.parse(firstDate.split("-")[2]),
+                    startDate == "" || startDate == "null"
+                        ? Padding(
+                            padding: const EdgeInsets.only(right: 5.0),
+                            child: Icon(
+                              FontAwesomeIcons.calendarDays,
+                              color: AppColors.primary,
+                            ),
+                          )
+                        : SizedBox(),
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Stack(
+                  alignment: Alignment.centerRight,
+                  children: [
+                    DateTimeField(
+                      onChanged: (value) {
+                        setState1(() {
+                          endDate = value.toString().split(" ")[0];
+                        });
+                      },
+                      format: DateFormat("yyyy-MM-dd"),
+                      onShowPicker: (context, currentValue) {
+                        return showDatePicker(
+                          context: context,
+                          firstDate: DateTime(
+                            int.parse(firstDate.split("-")[0]),
+                            int.parse(firstDate.split("-")[1]),
+                            int.parse(firstDate.split("-")[2]),
+                          ),
+                          initialDate: currentValue ?? DateTime.now(),
+                          lastDate: DateTime.now(),
+                        );
+                      },
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: AppColors.button,
+                        hintText: "End Date",
+                        hintStyle: TextStyle(
+                          color: AppColors.text,
                         ),
-                        initialDate: currentValue ?? DateTime.now(),
-                        lastDate: DateTime.now(),
-                      );
-                    },
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: AppColors.button,
-                      hintText: "End Date",
-                      hintStyle: TextStyle(
-                        color: AppColors.text,
+                        enabledBorder: formBorder,
+                        focusedBorder: formBorder,
+                        errorBorder: formBorder,
+                        focusedErrorBorder: formBorder,
                       ),
-                      enabledBorder: formBorder,
-                      focusedBorder: formBorder,
-                      errorBorder: formBorder,
-                      focusedErrorBorder: formBorder,
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 5.0),
-                    child: Icon(
-                      FontAwesomeIcons.calendarDays,
-                      color: AppColors.primary,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              ElevatedButton(
-                onPressed: () async {
-                  if (startDate == "" ||
-                      startDate == "null" ||
-                      endDate == "" ||
-                      endDate == "null") {
-                    Fluttertoast.showToast(
-                      msg: "Both start and end date is required.",
-                      toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity.BOTTOM,
-                      timeInSecForIosWeb: 3,
-                      backgroundColor: Colors.red,
-                      textColor: AppColors.onPrimary,
-                      fontSize: 16.0,
-                    );
-                  } else {
-                    List<IncomeData> tempIncomeList = await IncomeHttp()
-                        .getCategorizedSpecificIncome(
-                            widget.category!, startDate, endDate);
+                    endDate == "" || endDate == "null"
+                        ? Padding(
+                            padding: const EdgeInsets.only(right: 5.0),
+                            child: Icon(
+                              FontAwesomeIcons.calendarDays,
+                              color: AppColors.primary,
+                            ),
+                          )
+                        : SizedBox(),
+                  ],
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    if (startDate == "" ||
+                        startDate == "null" ||
+                        endDate == "" ||
+                        endDate == "null") {
+                      Fluttertoast.showToast(
+                        msg: "Both start and end date is required.",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.BOTTOM,
+                        timeInSecForIosWeb: 3,
+                        backgroundColor: Colors.red,
+                        textColor: AppColors.onPrimary,
+                        fontSize: 16.0,
+                      );
+                    } else {
+                      List<IncomeData> tempIncomeList = await IncomeHttp()
+                          .getCategorizedSpecificIncome(
+                              widget.category!, startDate, endDate);
 
-                    int tempIncomeAmount = 0;
-                    for (int i = 0; i < tempIncomeList.length; i++) {
-                      tempIncomeAmount =
-                          tempIncomeAmount + tempIncomeList[i].amount!;
+                      int tempIncomeAmount = 0;
+                      for (int i = 0; i < tempIncomeList.length; i++) {
+                        tempIncomeAmount =
+                            tempIncomeAmount + tempIncomeList[i].amount!;
+                      }
+
+                      setState(() {
+                        incomeList = tempIncomeList;
+                        incomeAmount = tempIncomeAmount;
+                      });
+
+                      Navigator.pop(context);
                     }
-
-                    setState(() {
-                      incomeList = tempIncomeList;
-                      incomeAmount = tempIncomeAmount;
-                    });
-
-                    Navigator.pop(context);
-                  }
-                },
-                child: Text(
-                  "Search",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
+                  },
+                  child: Text(
+                    "Search",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                style: ElevatedButton.styleFrom(
-                  primary: AppColors.primary,
-                  onPrimary: AppColors.onPrimary,
-                  minimumSize: Size.zero,
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 8,
+                  style: ElevatedButton.styleFrom(
+                    primary: AppColors.primary,
+                    onPrimary: AppColors.onPrimary,
+                    minimumSize: Size.zero,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 8,
+                    ),
+                    elevation: 5,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
                   ),
-                  elevation: 5,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           ),
-        ),
-      ],
-    );
+        ],
+      );
+    });
   }
 
   Widget viewIncomes(BuildContext context) {

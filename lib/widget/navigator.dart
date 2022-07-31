@@ -39,19 +39,6 @@ class PageNavigator extends StatelessWidget {
           ),
           NavigationDestination(
             icon: Icon(
-              FontAwesomeIcons.circleDollarToSlot,
-              color: AppColors.iconHeading,
-              size: 25,
-            ),
-            selectedIcon: Icon(
-              FontAwesomeIcons.circleDollarToSlot,
-              color: AppColors.primary,
-              size: 25,
-            ),
-            label: "Expense",
-          ),
-          NavigationDestination(
-            icon: Icon(
               FontAwesomeIcons.sackDollar,
               color: AppColors.iconHeading,
               size: 25,
@@ -62,6 +49,19 @@ class PageNavigator extends StatelessWidget {
               size: 25,
             ),
             label: "Income",
+          ),
+          NavigationDestination(
+            icon: Icon(
+              FontAwesomeIcons.circleDollarToSlot,
+              color: AppColors.iconHeading,
+              size: 25,
+            ),
+            selectedIcon: Icon(
+              FontAwesomeIcons.circleDollarToSlot,
+              color: AppColors.primary,
+              size: 25,
+            ),
+            label: "Expense",
           ),
           NavigationDestination(
             icon: Icon(
@@ -93,14 +93,14 @@ class PageNavigator extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (builder) => Expense(),
+                builder: (builder) => Income(),
               ),
             );
           } else if (index == 2) {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (builder) => Income(),
+                builder: (builder) => Expense(),
               ),
             );
           } else if (index == 3) {

@@ -95,6 +95,7 @@ class _UserSettingState extends State<UserSetting> {
         ),
         elevation: 0,
         backgroundColor: Colors.transparent,
+        toolbarHeight: 40,
       ),
       body: SingleChildScrollView(
         child: Padding(

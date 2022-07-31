@@ -53,11 +53,13 @@ class _PasswordSettingState extends State<PasswordSetting> {
         ),
         elevation: 0,
         backgroundColor: Colors.transparent,
+        toolbarHeight: 40,
       ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.only(
+              top: 10,
               left: sWidth * 0.05,
               right: sWidth * 0.05,
             ),

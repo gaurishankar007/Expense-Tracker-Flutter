@@ -53,6 +53,7 @@ class _AllAchievementsState extends State<AllAchievements> {
         elevation: 0,
         centerTitle: true,
         backgroundColor: Colors.transparent,
+        toolbarHeight: 40,
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.only(

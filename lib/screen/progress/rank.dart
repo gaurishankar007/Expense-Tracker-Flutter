@@ -74,6 +74,7 @@ class _RankingSystemState extends State<RankingSystem> {
         elevation: 0,
         centerTitle: true,
         backgroundColor: Colors.transparent,
+        toolbarHeight: 40,
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.only(
