@@ -510,16 +510,7 @@ class _HomeState extends State<Home> {
                     showTitles: true,
                     reservedSize: 20,
                     getTitlesWidget: (double value, TitleMeta meta) {
-                      List<String> titles = [];
-
-                      if (thisMonthExpenseAmount != 0 ||
-                          thisMonthIncomeAmount != 0) {
-                        titles.add("This Month");
-                      }
-                      if (previousMonthExpenseAmount != 0 ||
-                          previousMonthIncomeAmount != 0) {
-                        titles.add("Last Month");
-                      }
+                      List<String> titles = ["This Month", "Last Month"];
 
                       Widget text = Text(
                         titles[value.toInt()],
@@ -833,10 +824,9 @@ class _HomeState extends State<Home> {
                           });
                         }
                       },
-                      icon: RotationTransition(
-                        turns: moreIncome
-                            ? AlwaysStoppedAnimation(90 / 360)
-                            : AlwaysStoppedAnimation(270 / 360),
+                      icon: AnimatedRotation(
+                        turns: moreIncome ? (90 / 360) : (270 / 360),
+                        duration: Duration(milliseconds: 500),
                         child: Icon(
                           Icons.arrow_back_ios_new,
                           color: AppColors.iconHeading,
@@ -981,10 +971,9 @@ class _HomeState extends State<Home> {
                           });
                         }
                       },
-                      icon: RotationTransition(
-                        turns: moreExpense
-                            ? AlwaysStoppedAnimation(90 / 360)
-                            : AlwaysStoppedAnimation(270 / 360),
+                      icon: AnimatedRotation(
+                        turns: moreExpense ? (90 / 360) : (270 / 360),
+                        duration: Duration(milliseconds: 500),
                         child: Icon(
                           Icons.arrow_back_ios_new,
                           color: AppColors.iconHeading,

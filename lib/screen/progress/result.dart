@@ -271,7 +271,7 @@ class _ResultState extends State<Result> {
             ),
             RichText(
               text: TextSpan(
-                text: "PM",
+                text: "Last Month",
                 style: TextStyle(
                   color: AppColors.iconHeading,
                   fontSize: 16,
@@ -401,7 +401,7 @@ class _ResultState extends State<Result> {
             ),
             RichText(
               text: TextSpan(
-                text: "TM",
+                text: "This Month",
                 style: TextStyle(
                   color: AppColors.iconHeading,
                   fontSize: 16,

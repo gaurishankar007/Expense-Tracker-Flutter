@@ -98,6 +98,7 @@ class _AllAchievementsState extends State<AllAchievements> {
                             builder: (builder) => achievementDetail(
                               context,
                               snapshot.data![index].name!,
+                              snapshot.data![index].progressPoint!,
                               snapshot.data![index].description!,
                             ),
                           );
@@ -195,8 +196,8 @@ class _AllAchievementsState extends State<AllAchievements> {
     );
   }
 
-  Widget achievementDetail(
-      BuildContext context, String name, String description) {
+  Widget achievementDetail(BuildContext context, String name, int progressPoint,
+      String description) {
     final sWidth = MediaQuery.of(context).size.width;
     final sHeight = MediaQuery.of(context).size.height;
 
@@ -227,6 +228,19 @@ class _AllAchievementsState extends State<AllAchievements> {
                 image: AssetImage(
                   "image/achievement/" + name + ".png",
                 ),
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              "Progress Point: " + progressPoint.toString(),
+              textAlign: TextAlign.center,
+              softWrap: true,
+              style: TextStyle(
+                color: AppColors.text,
+                fontWeight: FontWeight.bold,
+                fontSize: 13,
               ),
             ),
             SizedBox(
