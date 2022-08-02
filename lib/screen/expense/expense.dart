@@ -348,7 +348,7 @@ class _ExpenseState extends State<Expense> {
             style: ElevatedButton.styleFrom(
               primary: AppColors.primary,
               minimumSize: Size.zero,
-              padding: EdgeInsets.all(8),
+              padding: EdgeInsets.all(10),
               elevation: 5,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(5),
@@ -416,12 +416,16 @@ class _ExpenseState extends State<Expense> {
             },
             child: Text("Add"),
           ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
+          OutlinedButton(
+            style: OutlinedButton.styleFrom(
               primary: AppColors.primary,
               minimumSize: Size.zero,
-              padding: EdgeInsets.all(8),
-              elevation: 5,
+              padding: EdgeInsets.all(10),
+              side: BorderSide(
+                color: AppColors.primary,
+                width: 2,
+                style: BorderStyle.solid,
+              ),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(5),
               ),
@@ -663,6 +667,7 @@ class _ExpenseState extends State<Expense> {
                         );
                       },
                       decoration: InputDecoration(
+                        isDense: true,
                         filled: true,
                         fillColor: AppColors.button,
                         hintText: "Start Date",
@@ -687,7 +692,7 @@ class _ExpenseState extends State<Expense> {
                   ],
                 ),
                 SizedBox(
-                  height: 10,
+                  height: 15,
                 ),
                 Stack(
                   alignment: Alignment.centerRight,
@@ -712,6 +717,7 @@ class _ExpenseState extends State<Expense> {
                         );
                       },
                       decoration: InputDecoration(
+                        isDense: true,
                         filled: true,
                         fillColor: AppColors.button,
                         hintText: "End Date",
@@ -736,7 +742,7 @@ class _ExpenseState extends State<Expense> {
                   ],
                 ),
                 SizedBox(
-                  height: 5,
+                  height: 15,
                 ),
                 ElevatedButton(
                   onPressed: () async {
@@ -776,10 +782,7 @@ class _ExpenseState extends State<Expense> {
                     primary: AppColors.primary,
                     onPrimary: AppColors.onPrimary,
                     minimumSize: Size.zero,
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 8,
-                    ),
+                    padding: EdgeInsets.all(10),
                     elevation: 5,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5),

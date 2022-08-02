@@ -59,21 +59,37 @@ class _HelpState extends State<Help> {
                 });
               },
               child: Container(
-                height: 25,
+                height: 40,
                 color: AppColors.background,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      "Data Insertion",
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: AppColors.iconHeading,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Data Insertion",
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: AppColors.iconHeading,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          "How to insert income and expense data?",
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: AppColors.text,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
                     ),
                     AnimatedRotation(
-                      turns: dataInsertion ? (90 / 360) : (0 / 360),
+                      turns: dataInsertion ? (90 / 360) : (270 / 360),
                       duration: Duration(milliseconds: 500),
                       child: Icon(
                         Icons.arrow_forward_ios,
@@ -217,21 +233,37 @@ class _HelpState extends State<Help> {
                 });
               },
               child: Container(
-                height: 25,
+                height: 40,
                 color: AppColors.background,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      "Data Visualization",
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: AppColors.iconHeading,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Data Visualization",
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: AppColors.iconHeading,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          "How data can be viewed with dates?",
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: AppColors.text,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
                     ),
                     AnimatedRotation(
-                      turns: dataVisualization ? (90 / 360) : (0 / 360),
+                      turns: dataVisualization ? (90 / 360) : (270 / 360),
                       duration: Duration(milliseconds: 500),
                       child: Icon(
                         Icons.arrow_forward_ios,
@@ -495,21 +527,37 @@ class _HelpState extends State<Help> {
                 });
               },
               child: Container(
-                height: 25,
+                height: 40,
                 color: AppColors.background,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      "Progress Point and Achievement",
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: AppColors.iconHeading,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Progress Point and Achievement",
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: AppColors.iconHeading,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          "What is progress point and achievement?",
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: AppColors.text,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
                     ),
                     AnimatedRotation(
-                      turns: progressAndAchievement ? (90 / 360) : (0 / 360),
+                      turns: progressAndAchievement ? (90 / 360) : (270 / 360),
                       duration: Duration(milliseconds: 500),
                       child: Icon(
                         Icons.arrow_forward_ios,
@@ -793,21 +841,37 @@ class _HelpState extends State<Help> {
                 });
               },
               child: Container(
-                height: 25,
+                height: 40,
                 color: AppColors.background,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      "Data Privacy",
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: AppColors.iconHeading,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Data Privacy",
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: AppColors.iconHeading,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          "How users' data are protected?",
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: AppColors.text,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
                     ),
                     AnimatedRotation(
-                      turns: dataPrivacy ? (90 / 360) : (0 / 360),
+                      turns: dataPrivacy ? (90 / 360) : (270 / 360),
                       duration: Duration(milliseconds: 500),
                       child: Icon(
                         Icons.arrow_forward_ios,

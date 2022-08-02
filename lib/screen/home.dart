@@ -191,11 +191,14 @@ class _HomeState extends State<Home> {
                       snapshot.data!.thisMonthIncomeCategories!,
                     ),
                     SizedBox(
-                      height: 5,
+                      height: 10,
                     ),
                     expenseDetail(
                       context,
                       snapshot.data!.thisMonthExpenseCategories!,
+                    ),
+                    SizedBox(
+                      height: 5,
                     ),
                     snapshot.data!.expenseDays!.length > 2
                         ? expenseLineChart(
@@ -471,6 +474,7 @@ class _HomeState extends State<Home> {
               barTouchData: BarTouchData(
                 touchTooltipData: BarTouchTooltipData(
                   tooltipBgColor: AppColors.primary,
+                  tooltipMargin: 25,
                   getTooltipItem: (group, groupIndex, rod, rodIndex) {
                     return BarTooltipItem(
                       "Rs." + (((rod.toY / 5) * maxAmount).round()).toString(),
@@ -616,70 +620,32 @@ class _HomeState extends State<Home> {
       return SizedBox();
     }
 
-    return Padding(
+    bool isPadding = false;
+    if (homeData.thisMonthExpenseAmount! > homeData.thisMonthIncomeAmount! &&
+        homeData.thisMonthIncomeAmount != 0) {
+      isPadding = true;
+    }
+    if (homeData.previousMonthExpenseAmount! != 0 &&
+        homeData.thisMonthExpenseAmount! >
+            homeData.previousMonthExpenseAmount!) {
+      isPadding = true;
+    }
+
+    return SingleChildScrollView(
       padding: EdgeInsets.only(
         right: sWidth * 0.03,
         left: sWidth * 0.03,
       ),
+      scrollDirection: Axis.horizontal,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          homeData.thisMonthExpenseAmount! < homeData.thisMonthIncomeAmount! &&
-                  homeData.thisMonthExpenseAmount != 0
-              ? Padding(
-                  padding: EdgeInsets.only(
-                    top: 10.0,
-                    bottom: 10.0,
-                    right: sWidth * .04,
-                  ),
-                  child: Container(
-                    width: sWidth * .45,
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: AppColors.onPrimary,
-                      borderRadius: BorderRadius.circular(
-                        5,
-                      ),
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Colors.black26,
-                          spreadRadius: 2,
-                          blurRadius: 10,
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      children: [
-                        Icon(
-                          FontAwesomeIcons.faceSmileBeam,
-                          color: AppColors.primary,
-                          size: 50,
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        RichText(
-                          textAlign: TextAlign.center,
-                          text: TextSpan(
-                            text: "Your expenses looks good. Keep it up.",
-                            style: TextStyle(
-                              color: AppColors.iconHeading,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 13,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                )
-              : SizedBox(),
           homeData.thisMonthExpenseAmount! > homeData.thisMonthIncomeAmount! &&
                   homeData.thisMonthIncomeAmount != 0
               ? Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10.0),
+                  padding: EdgeInsets.symmetric(vertical: 5.0),
                   child: Container(
-                    width: sWidth * .45,
+                    width: sWidth * .94,
                     padding: EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       color: AppColors.onPrimary,
@@ -688,30 +654,34 @@ class _HomeState extends State<Home> {
                       ),
                       boxShadow: const [
                         BoxShadow(
-                          color: Colors.black26,
-                          spreadRadius: 2,
+                          color: Colors.black12,
+                          spreadRadius: 1,
                           blurRadius: 10,
                         ),
                       ],
                     ),
-                    child: Column(
+                    child: Row(
                       children: [
-                        Icon(
-                          FontAwesomeIcons.faceSadTear,
-                          color: Colors.deepOrange,
-                          size: 50,
+                        SizedBox(
+                          width: sWidth * .14,
+                          child: Icon(
+                            FontAwesomeIcons.faceSadTear,
+                            color: Colors.deepOrange,
+                            size: 40,
+                          ),
                         ),
                         SizedBox(
-                          height: 5,
-                        ),
-                        RichText(
-                          textAlign: TextAlign.center,
-                          text: TextSpan(
-                            text: "Your expenses looks bad. Save money.",
-                            style: TextStyle(
-                              color: AppColors.iconHeading,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 13,
+                          width: sWidth * .8 - 20,
+                          child: RichText(
+                            textAlign: TextAlign.justify,
+                            text: TextSpan(
+                              text:
+                                  "This month expenses looks bad. Save money.",
+                              style: TextStyle(
+                                color: AppColors.iconHeading,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 13,
+                              ),
                             ),
                           ),
                         ),
@@ -723,9 +693,9 @@ class _HomeState extends State<Home> {
                       homeData.thisMonthExpenseAmount! >
                           homeData.previousMonthExpenseAmount!
                   ? Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10.0),
+                      padding: EdgeInsets.symmetric(vertical: 5.0),
                       child: Container(
-                        width: sWidth * .45,
+                        width: sWidth * .94,
                         padding: EdgeInsets.all(10),
                         decoration: BoxDecoration(
                           color: AppColors.onPrimary,
@@ -734,30 +704,35 @@ class _HomeState extends State<Home> {
                           ),
                           boxShadow: const [
                             BoxShadow(
-                              color: Colors.black26,
-                              spreadRadius: 2,
+                              color: Colors.black12,
+                              spreadRadius: 1,
                               blurRadius: 10,
                             ),
                           ],
                         ),
-                        child: Column(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(
-                              FontAwesomeIcons.faceSurprise,
-                              color: Colors.orange,
-                              size: 50,
+                            SizedBox(
+                              width: sWidth * .14,
+                              child: Icon(
+                                FontAwesomeIcons.faceSurprise,
+                                color: Colors.orange,
+                                size: 40,
+                              ),
                             ),
                             SizedBox(
-                              height: 5,
-                            ),
-                            RichText(
-                              textAlign: TextAlign.center,
-                              text: TextSpan(
-                                text: "Last month expense was less.",
-                                style: TextStyle(
-                                  color: AppColors.iconHeading,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 13,
+                              width: sWidth * .8 - 20,
+                              child: RichText(
+                                textAlign: TextAlign.justify,
+                                text: TextSpan(
+                                  text:
+                                      "Last month expense was less than this month.",
+                                  style: TextStyle(
+                                    color: AppColors.iconHeading,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 13,
+                                  ),
                                 ),
                               ),
                             ),
@@ -766,6 +741,60 @@ class _HomeState extends State<Home> {
                       ),
                     )
                   : SizedBox(),
+          homeData.thisMonthExpenseAmount! < homeData.thisMonthIncomeAmount! &&
+                  homeData.thisMonthExpenseAmount != 0
+              ? Padding(
+                  padding: EdgeInsets.only(
+                    top: 5.0,
+                    bottom: 5.0,
+                    left: isPadding ? 20 : 0,
+                  ),
+                  child: Container(
+                    width: sWidth * .94,
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: AppColors.onPrimary,
+                      borderRadius: BorderRadius.circular(
+                        5,
+                      ),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black12,
+                          spreadRadius: 1,
+                          blurRadius: 10,
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: sWidth * .14,
+                          child: Icon(
+                            FontAwesomeIcons.faceSmileBeam,
+                            color: AppColors.primary,
+                            size: 40,
+                          ),
+                        ),
+                        SizedBox(
+                          width: sWidth * .8 - 20,
+                          child: RichText(
+                            textAlign: TextAlign.justify,
+                            text: TextSpan(
+                              text:
+                                  "This month expenses looks good. Keep it up.",
+                              style: TextStyle(
+                                color: AppColors.iconHeading,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 13,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              : SizedBox(),
         ],
       ),
     );
@@ -844,14 +873,12 @@ class _HomeState extends State<Home> {
                   : SizedBox(),
             ],
           ),
-          SizedBox(
-            height: 10,
-          ),
           GridView.count(
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
-            childAspectRatio: (sWidth - (sWidth * .53)) / (sHeight * .35),
+            childAspectRatio: (sWidth - (sWidth * .53)) / (sHeight * .3),
             crossAxisSpacing: 5,
+            mainAxisSpacing: 10,
             crossAxisCount: 4,
             children: List.generate(
               incomeCategories.length,
@@ -868,6 +895,7 @@ class _HomeState extends State<Home> {
                     );
                   },
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
                         decoration: BoxDecoration(
@@ -899,8 +927,8 @@ class _HomeState extends State<Home> {
                       ),
                       Text(
                         incomeCategories[index],
-                        textAlign: TextAlign.center,
                         softWrap: true,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           color: AppColors.iconHeading,
                           fontWeight: FontWeight.bold,
@@ -991,14 +1019,12 @@ class _HomeState extends State<Home> {
                   : SizedBox(),
             ],
           ),
-          SizedBox(
-            height: 10,
-          ),
           GridView.count(
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
-            childAspectRatio: (sWidth - (sWidth * .53)) / (sHeight * .35),
+            childAspectRatio: (sWidth - (sWidth * .53)) / (sHeight * .3),
             crossAxisSpacing: 5,
+            mainAxisSpacing: 10,
             crossAxisCount: 4,
             children: List.generate(
               expenseCategories.length,
@@ -1015,6 +1041,7 @@ class _HomeState extends State<Home> {
                     );
                   },
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
                         decoration: BoxDecoration(
@@ -1046,8 +1073,8 @@ class _HomeState extends State<Home> {
                       ),
                       Text(
                         expenseCategories[index],
-                        textAlign: TextAlign.center,
                         softWrap: true,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           color: AppColors.iconHeading,
                           fontWeight: FontWeight.bold,
@@ -1115,6 +1142,7 @@ class _HomeState extends State<Home> {
                   handleBuiltInTouches: true,
                   touchTooltipData: LineTouchTooltipData(
                       tooltipBgColor: AppColors.primary,
+                      tooltipMargin: 50,
                       tooltipRoundedRadius: 5,
                       getTooltipItems: (List<LineBarSpot> touchedBarSpots) {
                         return touchedBarSpots.map((barSpot) {
@@ -1134,22 +1162,7 @@ class _HomeState extends State<Home> {
                       }),
                 ),
                 gridData: FlGridData(
-                  show: true,
-                  drawVerticalLine: true,
-                  horizontalInterval: 1,
-                  verticalInterval: 1,
-                  getDrawingHorizontalLine: (value) {
-                    return FlLine(
-                      color: Color(0xFFAAAEB1),
-                      strokeWidth: 1,
-                    );
-                  },
-                  getDrawingVerticalLine: (value) {
-                    return FlLine(
-                      color: Color(0xFFAAAEB1),
-                      strokeWidth: 1,
-                    );
-                  },
+                  show: false,
                 ),
                 titlesData: FlTitlesData(
                   leftTitles: AxisTitles(

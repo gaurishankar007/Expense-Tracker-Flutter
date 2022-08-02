@@ -302,6 +302,7 @@ class _CategorizedExpenseState extends State<CategorizedExpense> {
                         );
                       },
                       decoration: InputDecoration(
+                        isDense: true,
                         filled: true,
                         fillColor: AppColors.button,
                         hintText: "Start Date",
@@ -326,7 +327,7 @@ class _CategorizedExpenseState extends State<CategorizedExpense> {
                   ],
                 ),
                 SizedBox(
-                  height: 10,
+                  height: 15,
                 ),
                 Stack(
                   alignment: Alignment.centerRight,
@@ -351,6 +352,7 @@ class _CategorizedExpenseState extends State<CategorizedExpense> {
                         );
                       },
                       decoration: InputDecoration(
+                        isDense: true,
                         filled: true,
                         fillColor: AppColors.button,
                         hintText: "End Date",
@@ -375,7 +377,7 @@ class _CategorizedExpenseState extends State<CategorizedExpense> {
                   ],
                 ),
                 SizedBox(
-                  height: 5,
+                  height: 15,
                 ),
                 ElevatedButton(
                   onPressed: () async {
@@ -421,10 +423,7 @@ class _CategorizedExpenseState extends State<CategorizedExpense> {
                     primary: AppColors.primary,
                     onPrimary: AppColors.onPrimary,
                     minimumSize: Size.zero,
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 8,
-                    ),
+                    padding: EdgeInsets.all(10),
                     elevation: 5,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5),

@@ -301,6 +301,7 @@ class _CategorizedIncomeState extends State<CategorizedIncome> {
                         );
                       },
                       decoration: InputDecoration(
+                        isDense: true,
                         filled: true,
                         fillColor: AppColors.button,
                         hintText: "Start Date",
@@ -325,7 +326,7 @@ class _CategorizedIncomeState extends State<CategorizedIncome> {
                   ],
                 ),
                 SizedBox(
-                  height: 10,
+                  height: 15,
                 ),
                 Stack(
                   alignment: Alignment.centerRight,
@@ -350,6 +351,7 @@ class _CategorizedIncomeState extends State<CategorizedIncome> {
                         );
                       },
                       decoration: InputDecoration(
+                        isDense: true,
                         filled: true,
                         fillColor: AppColors.button,
                         hintText: "End Date",
@@ -374,7 +376,7 @@ class _CategorizedIncomeState extends State<CategorizedIncome> {
                   ],
                 ),
                 SizedBox(
-                  height: 5,
+                  height: 15,
                 ),
                 ElevatedButton(
                   onPressed: () async {
@@ -420,10 +422,7 @@ class _CategorizedIncomeState extends State<CategorizedIncome> {
                     primary: AppColors.primary,
                     onPrimary: AppColors.onPrimary,
                     minimumSize: Size.zero,
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 8,
-                    ),
+                    padding: EdgeInsets.all(10),
                     elevation: 5,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5),

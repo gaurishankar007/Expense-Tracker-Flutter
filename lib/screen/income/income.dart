@@ -351,7 +351,7 @@ class _IncomeState extends State<Income> {
             style: ElevatedButton.styleFrom(
               primary: AppColors.primary,
               minimumSize: Size.zero,
-              padding: EdgeInsets.all(8),
+              padding: EdgeInsets.all(10),
               elevation: 5,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(5),
@@ -419,12 +419,16 @@ class _IncomeState extends State<Income> {
             },
             child: Text("Add"),
           ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
+          OutlinedButton(
+            style: OutlinedButton.styleFrom(
               primary: AppColors.primary,
               minimumSize: Size.zero,
-              padding: EdgeInsets.all(8),
-              elevation: 5,
+              padding: EdgeInsets.all(10),
+              side: BorderSide(
+                color: AppColors.primary,
+                width: 2,
+                style: BorderStyle.solid,
+              ),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(5),
               ),
@@ -666,6 +670,7 @@ class _IncomeState extends State<Income> {
                         );
                       },
                       decoration: InputDecoration(
+                        isDense: true,
                         filled: true,
                         fillColor: AppColors.button,
                         hintText: "Start Date",
@@ -690,7 +695,7 @@ class _IncomeState extends State<Income> {
                   ],
                 ),
                 SizedBox(
-                  height: 10,
+                  height: 15,
                 ),
                 Stack(
                   alignment: Alignment.centerRight,
@@ -715,6 +720,7 @@ class _IncomeState extends State<Income> {
                         );
                       },
                       decoration: InputDecoration(
+                        isDense: true,
                         filled: true,
                         fillColor: AppColors.button,
                         hintText: "End Date",
@@ -739,7 +745,7 @@ class _IncomeState extends State<Income> {
                   ],
                 ),
                 SizedBox(
-                  height: 5,
+                  height: 15,
                 ),
                 ElevatedButton(
                   onPressed: () async {
@@ -779,10 +785,7 @@ class _IncomeState extends State<Income> {
                     primary: AppColors.primary,
                     onPrimary: AppColors.onPrimary,
                     minimumSize: Size.zero,
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 8,
-                    ),
+                    padding: EdgeInsets.all(10),
                     elevation: 5,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5),
