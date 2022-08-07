@@ -51,6 +51,7 @@ class TokenUrls {
 
 class UserUrls {
   static const changePassword = "user/changePassword";
+  static const checkPassword = "user/checkPassword";
   static const getUser = "user/view";
   static const changeProfilePicture = "user/changeProfilePicture";
   static const changeProfileInfo = "user/changeProfileInfo";

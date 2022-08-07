@@ -1,11 +1,13 @@
 import 'package:expense_tracker/api/http/home_http.dart';
 import 'package:expense_tracker/api/http/progress_http.dart';
+import 'package:expense_tracker/api/http/user_http.dart';
 import 'package:expense_tracker/api/res/expense_res.dart';
 import 'package:expense_tracker/api/res/home_res.dart';
 import 'package:expense_tracker/resource/category.dart';
 import 'package:expense_tracker/screen/expense/categorized_expense.dart';
 import 'package:expense_tracker/screen/income/categorized_income.dart';
 import 'package:expense_tracker/screen/progress/result.dart';
+import 'package:expense_tracker/screen/setting/change_password.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -50,6 +52,19 @@ class _HomeState extends State<Home> {
 
   void getUserHomeData() async {
     userHomeData = HomeHttp().viewHome();
+
+    bool checkPassword = await UserHttp().checkPassword();
+
+    if (checkPassword) {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (builder) => ChangePassword(),
+        ),
+        (route) => false,
+      );
+    }
+
     userHomeData.then((value) {
       List<ExpenseCategorized> e = value.thisMonthExpenseCategories!;
       List<IncomeCategorized> i = value.thisMonthIncomeCategories!;

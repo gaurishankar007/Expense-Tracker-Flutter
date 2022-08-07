@@ -38,6 +38,21 @@ class UserHttp {
     }
   }
 
+  Future<bool> checkPassword() async {
+    try {
+      final response = await get(
+        Uri.parse(routeUrl + UserUrls.checkPassword),
+        headers: {
+          HttpHeaders.authorizationHeader: "Bearer $token",
+        },
+      );
+
+      return jsonDecode(response.body);
+    } catch (error) {
+      return Future.error(error);
+    }
+  }
+
   Future<User> getUser() async {
     try {
       final response = await get(

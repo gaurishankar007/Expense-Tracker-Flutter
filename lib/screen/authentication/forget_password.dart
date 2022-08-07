@@ -188,7 +188,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                       }
                     },
                     child: Text(
-                      "Submit",
+                      "Get Token",
                       style: TextStyle(
                         fontSize: 15,
                       ),

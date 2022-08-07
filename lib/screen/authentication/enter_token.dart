@@ -134,7 +134,7 @@ class _VerifyTokenState extends State<VerifyToken> {
                       }
                     },
                     child: Text(
-                      "Change Password",
+                      "Reset Password",
                       style: TextStyle(
                         fontSize: 15,
                       ),
