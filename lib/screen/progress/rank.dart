@@ -378,7 +378,7 @@ class _RankingSystemState extends State<RankingSystem> {
                       children: [
                         Text(
                           progressList[index].user!.profileName!,
-                          textAlign: TextAlign.justify,
+                          textAlign: TextAlign.start,
                           softWrap: true,
                           style: TextStyle(
                             fontSize: 16,
@@ -534,7 +534,6 @@ class _RankingSystemState extends State<RankingSystem> {
   Widget userAchievements(BuildContext context, String achievementType,
       List<Achievement> achievements) {
     final sWidth = MediaQuery.of(context).size.width;
-    final sHeight = MediaQuery.of(context).size.height;
 
     return SimpleDialog(
       backgroundColor: AppColors.background,
@@ -542,7 +541,7 @@ class _RankingSystemState extends State<RankingSystem> {
       contentPadding: EdgeInsets.all(10),
       children: [
         SizedBox(
-          height: achievements.length <= 2 ? sHeight * .2 : sHeight * .4,
+          height: achievements.length <= 2 ? sWidth * .4 : sWidth * .5,
           width: sWidth * .5,
           child: SingleChildScrollView(
             child: Column(
@@ -561,7 +560,7 @@ class _RankingSystemState extends State<RankingSystem> {
                 GridView.count(
                   physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
-                  childAspectRatio: (sWidth - (sWidth * .53)) / (sHeight * .25),
+                  childAspectRatio: (sWidth - (sWidth * .53)) / (sWidth * .43),
                   crossAxisSpacing: 5,
                   crossAxisCount: 2,
                   children: List.generate(

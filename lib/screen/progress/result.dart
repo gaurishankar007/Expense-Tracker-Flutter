@@ -202,7 +202,7 @@ class _ResultState extends State<Result> {
 
   Widget progressPoints(
       BuildContext context, int progress1, int pmp1, int tmp1) {
-    final sHeight = MediaQuery.of(context).size.height;
+    final sWidth = MediaQuery.of(context).size.width;
 
     String progress = progress1 > 1000
         ? (progress1 / 1000).toStringAsFixed(1) + " K"
@@ -222,11 +222,11 @@ class _ResultState extends State<Result> {
               alignment: Alignment.center,
               children: [
                 Container(
-                  width: sHeight * .13,
-                  height: sHeight * .13,
+                  width: sWidth * .28,
+                  height: sWidth * .28,
                   decoration: BoxDecoration(
                     color: Colors.orange,
-                    borderRadius: BorderRadius.circular(sHeight * .065),
+                    borderRadius: BorderRadius.circular(sWidth * .14),
                     boxShadow: const [
                       BoxShadow(
                         color: Colors.black26,
@@ -239,11 +239,11 @@ class _ResultState extends State<Result> {
                 Container(
                   padding: EdgeInsets.all(10),
                   alignment: Alignment.center,
-                  width: sHeight * .11,
-                  height: sHeight * .11,
+                  width: sWidth * .25,
+                  height: sWidth * .25,
                   decoration: BoxDecoration(
                     color: AppColors.onPrimary,
-                    borderRadius: BorderRadius.circular(sHeight * .055),
+                    borderRadius: BorderRadius.circular(sWidth * .125),
                     boxShadow: const [
                       BoxShadow(
                         color: Colors.black26,
@@ -287,11 +287,11 @@ class _ResultState extends State<Result> {
               alignment: Alignment.center,
               children: [
                 Container(
-                  width: sHeight * .19,
-                  height: sHeight * .19,
+                  width: sWidth * .32,
+                  height: sWidth * .32,
                   decoration: BoxDecoration(
                     color: AppColors.primary,
-                    borderRadius: BorderRadius.circular(sHeight * .095),
+                    borderRadius: BorderRadius.circular(sWidth * .16),
                     boxShadow: const [
                       BoxShadow(
                         color: Colors.black26,
@@ -304,11 +304,11 @@ class _ResultState extends State<Result> {
                 Container(
                   padding: EdgeInsets.all(10),
                   alignment: Alignment.center,
-                  width: sHeight * .16,
-                  height: sHeight * .16,
+                  width: sWidth * .29,
+                  height: sWidth * .29,
                   decoration: BoxDecoration(
                     color: AppColors.onPrimary,
-                    borderRadius: BorderRadius.circular(sHeight * .08),
+                    borderRadius: BorderRadius.circular(sWidth * .145),
                     boxShadow: const [
                       BoxShadow(
                         color: Colors.black26,
@@ -352,11 +352,11 @@ class _ResultState extends State<Result> {
               alignment: Alignment.center,
               children: [
                 Container(
-                  width: sHeight * .13,
-                  height: sHeight * .13,
+                  width: sWidth * .28,
+                  height: sWidth * .28,
                   decoration: BoxDecoration(
                     color: Colors.green,
-                    borderRadius: BorderRadius.circular(sHeight * .065),
+                    borderRadius: BorderRadius.circular(sWidth * .14),
                     boxShadow: const [
                       BoxShadow(
                         color: Colors.black26,
@@ -369,11 +369,11 @@ class _ResultState extends State<Result> {
                 Container(
                   padding: EdgeInsets.all(10),
                   alignment: Alignment.center,
-                  width: sHeight * .11,
-                  height: sHeight * .11,
+                  width: sWidth * .25,
+                  height: sWidth * .25,
                   decoration: BoxDecoration(
                     color: AppColors.onPrimary,
-                    borderRadius: BorderRadius.circular(sHeight * .055),
+                    borderRadius: BorderRadius.circular(sWidth * .125),
                     boxShadow: const [
                       BoxShadow(
                         color: Colors.black26,

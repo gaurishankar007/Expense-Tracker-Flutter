@@ -817,7 +817,6 @@ class _HomeState extends State<Home> {
 
   Widget incomeDetail(BuildContext context, List<IncomeCategorized> category) {
     final sWidth = MediaQuery.of(context).size.width;
-    final sHeight = MediaQuery.of(context).size.height;
 
     return Padding(
       padding: EdgeInsets.symmetric(
@@ -891,7 +890,7 @@ class _HomeState extends State<Home> {
           GridView.count(
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
-            childAspectRatio: (sWidth - (sWidth * .53)) / (sHeight * .3),
+            childAspectRatio: (sWidth - (sWidth * .53)) / (sWidth * .58),
             crossAxisSpacing: 5,
             mainAxisSpacing: 10,
             crossAxisCount: 4,
@@ -928,7 +927,7 @@ class _HomeState extends State<Home> {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(5),
                           child: Image(
-                            height: sHeight * 0.1,
+                            height: sWidth * 0.2,
                             width: sWidth * 0.2,
                             fit: BoxFit.cover,
                             image: AssetImage(
@@ -963,7 +962,6 @@ class _HomeState extends State<Home> {
   Widget expenseDetail(
       BuildContext context, List<ExpenseCategorized> category) {
     final sWidth = MediaQuery.of(context).size.width;
-    final sHeight = MediaQuery.of(context).size.height;
 
     return Padding(
       padding: EdgeInsets.symmetric(
@@ -1037,7 +1035,7 @@ class _HomeState extends State<Home> {
           GridView.count(
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
-            childAspectRatio: (sWidth - (sWidth * .53)) / (sHeight * .3),
+            childAspectRatio: (sWidth - (sWidth * .53)) / (sWidth * .58),
             crossAxisSpacing: 5,
             mainAxisSpacing: 10,
             crossAxisCount: 4,
@@ -1074,7 +1072,7 @@ class _HomeState extends State<Home> {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(5),
                           child: Image(
-                            height: sHeight * 0.1,
+                            height: sWidth * 0.2,
                             width: sWidth * 0.2,
                             fit: BoxFit.cover,
                             image: AssetImage(
