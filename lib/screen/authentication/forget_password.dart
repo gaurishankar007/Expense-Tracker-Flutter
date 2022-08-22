@@ -172,7 +172,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                             gravity: ToastGravity.BOTTOM,
                             timeInSecForIosWeb: 3,
                             backgroundColor: Colors.green,
-                            textColor: AppColors.primary,
+                            textColor: AppColors.onPrimary,
                           );
                         } else {
                           Fluttertoast.showToast(
@@ -181,7 +181,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                             gravity: ToastGravity.TOP,
                             timeInSecForIosWeb: 3,
                             backgroundColor: Colors.red,
-                            textColor: AppColors.primary,
+                            textColor: AppColors.onPrimary,
                             fontSize: 16.0,
                           );
                         }
