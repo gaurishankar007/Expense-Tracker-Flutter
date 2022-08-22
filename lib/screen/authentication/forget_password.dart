@@ -66,6 +66,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
             child: Column(
               children: [
                 TextFormField(
+                  key: ValueKey("email"),
                   onSaved: (value) {
                     email = value!;
                   },
@@ -97,6 +98,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                   alignment: Alignment.topRight,
                   children: [
                     TextFormField(
+                      key: ValueKey("password"),
                       onChanged: (value) {
                         password = value;
                       },

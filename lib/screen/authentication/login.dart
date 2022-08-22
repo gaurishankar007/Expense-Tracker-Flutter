@@ -87,6 +87,7 @@ class _LoginState extends State<Login> {
                     height: 5,
                   ),
                   TextFormField(
+                    key: ValueKey("email"),
                     onSaved: (value) {
                       email = value!;
                     },
@@ -125,6 +126,7 @@ class _LoginState extends State<Login> {
                         alignment: Alignment.centerRight,
                         children: [
                           TextFormField(
+                            key: ValueKey("password"),
                             onSaved: (value) {
                               password = value!.trim();
                             },

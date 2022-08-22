@@ -76,6 +76,7 @@ class _SignUpState extends State<SignUp> {
                   height: 20,
                 ),
                 TextFormField(
+                  key: ValueKey("email"),
                   onSaved: (value) {
                     email = value!;
                   },
@@ -104,6 +105,7 @@ class _SignUpState extends State<SignUp> {
                   height: 15,
                 ),
                 TextFormField(
+                  key: ValueKey("profileName"),
                   onSaved: (value) {
                     profileName = value!;
                   },
@@ -138,6 +140,7 @@ class _SignUpState extends State<SignUp> {
                   height: 15,
                 ),
                 TextFormField(
+                  key: ValueKey("password"),
                   onSaved: (value) {
                     password = value!;
                   },
@@ -172,6 +175,7 @@ class _SignUpState extends State<SignUp> {
                   height: 15,
                 ),
                 TextFormField(
+                  key: ValueKey("confirmPassword"),
                   onSaved: (value) {
                     confirmPassword = value!;
                   },
