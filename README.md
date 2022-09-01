@@ -20,3 +20,21 @@ A mobile app for tracking personal expenses and incomes.
 # Future Work
 1. Offline visualization
 2. Dark mode
+
+# Screenshots
+![My Image](image/help/BarChart.png)
+![My Image](image/help/Category.png)
+![My Image](image/help/Home%Page%Congratulation.png)
+![My Image](image/help/Expense%Category.png)
+![My Image](image/help/Income%Category.png)
+![My Image](image/help/Screenshot_1659363903.png)
+![My Image](image/help/Add%Expense.png)
+![My Image](image/help/Search%Expense.png)
+![My Image](image/help/Searched%Expense.png)
+![My Image](image/help/Expense%Page%Congratulation.png)
+![My Image](image/help/Incomes.png)
+![My Image](image/help/Add%Income.png)
+![My Image](image/help/Progress%Page.png)
+![My Image](image/help/Achievement%Page.png)
+![My Image](image/help/Achievement%Detail.png)
+![My Image](image/help/Ranking%Page.png)
