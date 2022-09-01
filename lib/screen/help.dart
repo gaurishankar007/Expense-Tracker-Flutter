@@ -126,7 +126,7 @@ class _HelpState extends State<Help> {
                               textAlign: TextAlign.justify,
                               text: TextSpan(
                                 text:
-                                    "Users can add incomes and expenses daily.",
+                                    "Users can AddIncomes and expenses daily.",
                                 style: TextStyle(
                                   fontSize: 13,
                                   color: AppColors.text,
@@ -143,7 +143,7 @@ class _HelpState extends State<Help> {
                         width: sWidth * 0.4,
                         fit: BoxFit.fitWidth,
                         image: AssetImage(
-                          "image/help/Add Income.png",
+                          "image/help/AddIncome.png",
                         ),
                       ),
                       SizedBox(
@@ -185,7 +185,7 @@ class _HelpState extends State<Help> {
                         width: sWidth * 0.4,
                         fit: BoxFit.fitWidth,
                         image: AssetImage(
-                          "image/help/Add Expense.png",
+                          "image/help/AddExpense.png",
                         ),
                       ),
                       SizedBox(
@@ -362,14 +362,14 @@ class _HelpState extends State<Help> {
                             width: sWidth * 0.4,
                             fit: BoxFit.fitWidth,
                             image: AssetImage(
-                              "image/help/Search Expense.png",
+                              "image/help/SearchExpense.png",
                             ),
                           ),
                           Image(
                             width: sWidth * 0.4,
                             fit: BoxFit.fitWidth,
                             image: AssetImage(
-                              "image/help/Searched Expense.png",
+                              "image/help/SearchedExpense.png",
                             ),
                           ),
                         ],
@@ -470,14 +470,14 @@ class _HelpState extends State<Help> {
                             width: sWidth * 0.4,
                             fit: BoxFit.fitWidth,
                             image: AssetImage(
-                              "image/help/Income Category.png",
+                              "image/help/IncomeCategory.png",
                             ),
                           ),
                           Image(
                             width: sWidth * 0.4,
                             fit: BoxFit.fitWidth,
                             image: AssetImage(
-                              "image/help/Expense Category.png",
+                              "image/help/ExpenseCategory.png",
                             ),
                           ),
                         ],
@@ -646,14 +646,14 @@ class _HelpState extends State<Help> {
                             width: sWidth * 0.4,
                             fit: BoxFit.fitWidth,
                             image: AssetImage(
-                              "image/help/Expense Page Congratulation.png",
+                              "image/help/ExpensePageCongratulation.png",
                             ),
                           ),
                           Image(
                             width: sWidth * 0.4,
                             fit: BoxFit.fitWidth,
                             image: AssetImage(
-                              "image/help/Home Page Congratulation.png",
+                              "image/help/HomePageCongratulation.png",
                             ),
                           ),
                         ],
@@ -680,7 +680,7 @@ class _HelpState extends State<Help> {
                               textAlign: TextAlign.justify,
                               text: TextSpan(
                                 text:
-                                    "Users can view their progress and achievements in the progress page.",
+                                    "Users can view their progress and achievements in the ProgressPage.",
                                 style: TextStyle(
                                   fontSize: 13,
                                   color: AppColors.text,
@@ -697,7 +697,7 @@ class _HelpState extends State<Help> {
                         width: sWidth * 0.4,
                         fit: BoxFit.fitWidth,
                         image: AssetImage(
-                          "image/help/Progress Page.png",
+                          "image/help/ProgressPage.png",
                         ),
                       ),
                       SizedBox(
@@ -722,7 +722,7 @@ class _HelpState extends State<Help> {
                               textAlign: TextAlign.justify,
                               text: TextSpan(
                                 text:
-                                    "Achievements are base on expenses and incomes. Their detail are provided on the achievement page. ",
+                                    "Achievements are base on expenses and incomes. Their detail are provided on the AchievementPage. ",
                                 style: TextStyle(
                                   fontSize: 13,
                                   color: AppColors.text,
@@ -742,14 +742,14 @@ class _HelpState extends State<Help> {
                             width: sWidth * 0.4,
                             fit: BoxFit.fitWidth,
                             image: AssetImage(
-                              "image/help/Achievement Page.png",
+                              "image/help/AchievementPage.png",
                             ),
                           ),
                           Image(
                             width: sWidth * 0.4,
                             fit: BoxFit.fitWidth,
                             image: AssetImage(
-                              "image/help/Achievement Detail.png",
+                              "image/help/AchievementDetail.png",
                             ),
                           ),
                         ],
@@ -825,7 +825,7 @@ class _HelpState extends State<Help> {
                         width: sWidth * 0.4,
                         fit: BoxFit.fitWidth,
                         image: AssetImage(
-                          "image/help/Ranking Page.png",
+                          "image/help/RankingPage.png",
                         ),
                       ),
                     ],
