@@ -306,12 +306,6 @@ class _SettingState extends State<Setting> {
                     minVerticalPadding: 0,
                     visualDensity: VisualDensity(horizontal: -4, vertical: -2),
                     onTap: () async {
-                      bool googleSignIn = await LogStatus().googleSignIn();
-                      if (googleSignIn) {
-                        await GoogleSingInApi.logout();
-                        LogStatus().removeGoogleSignIn();
-                      }
-
                       LogStatus().removeToken();
                       LogStatus.token = "";
 
@@ -322,6 +316,12 @@ class _SettingState extends State<Setting> {
                         ),
                         (route) => false,
                       );
+
+                      bool googleSignIn = await LogStatus().googleSignIn();
+                      if (googleSignIn) {
+                        await GoogleSingInApi.logout();
+                        LogStatus().removeGoogleSignIn();
+                      }
                     },
                     leading: Icon(
                       Icons.logout_outlined,
