@@ -1,12 +1,12 @@
-import 'package:expense_tracker/api/http/progress_http.dart';
+import 'package:expense_tracker/data/remote/progress_http.dart';
 import 'package:expense_tracker/screen/progress/achievements.dart';
 import 'package:expense_tracker/screen/progress/rank.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../../api/res/progress_res.dart';
-import '../../resource/colors.dart';
-import '../../widget/navigator.dart';
+import '../../config/themes/constant.dart';
+import '../../data/model/progress_model.dart';
+import '../../widgets/navigator.dart';
 
 class Result extends StatefulWidget {
   const Result({Key? key}) : super(key: key);
@@ -30,17 +30,17 @@ class _ResultState extends State<Result> {
 
   @override
   Widget build(BuildContext context) {
-    final sWidth = MediaQuery.of(context).size.width;
-    final sHeight = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
 
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.only(
             top: 10,
-            right: sWidth * 0.03,
+            right: width * 0.03,
             bottom: 40,
-            left: sWidth * 0.03,
+            left: width * 0.03,
           ),
           child: FutureBuilder<ProgressData>(
             future: userProgress,
@@ -49,13 +49,13 @@ class _ResultState extends State<Result> {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 children = <Widget>[
                   Container(
-                    width: sWidth,
-                    height: sHeight,
+                    width: width,
+                    height: height,
                     alignment: Alignment.center,
                     child: CircularProgressIndicator(
                       strokeWidth: 6,
-                      color: AppColors.primary,
-                      backgroundColor: AppColors.button,
+                      color: AppColor.primary,
+                      backgroundColor: AppColor.buttonBG,
                     ),
                   )
                 ];
@@ -79,7 +79,7 @@ class _ResultState extends State<Result> {
                             Text(
                               "Your Progress",
                               style: TextStyle(
-                                color: AppColors.iconHeading,
+                                color: AppColor.text,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 18,
                               ),
@@ -103,7 +103,7 @@ class _ResultState extends State<Result> {
                               },
                               icon: Icon(
                                 FontAwesomeIcons.rankingStar,
-                                color: AppColors.iconHeading,
+                                color: AppColor.text,
                                 size: 18,
                               ),
                             ),
@@ -130,8 +130,8 @@ class _ResultState extends State<Result> {
                   if ("${snapshot.error}".split("Exception: ")[0] == "Socket") {
                     children = <Widget>[
                       Container(
-                        width: sWidth,
-                        height: sHeight,
+                        width: width,
+                        height: height,
                         alignment: Alignment.center,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -156,8 +156,8 @@ class _ResultState extends State<Result> {
                   } else {
                     children = <Widget>[
                       Container(
-                        width: sWidth,
-                        height: sHeight,
+                        width: width,
+                        height: height,
                         alignment: Alignment.center,
                         child: Text(
                           "${snapshot.error}",
@@ -189,7 +189,7 @@ class _ResultState extends State<Result> {
               ),
             );
           },
-          backgroundColor: AppColors.primary,
+          backgroundColor: AppColor.primary,
           child: Icon(
             FontAwesomeIcons.medal,
             size: 20,
@@ -202,7 +202,7 @@ class _ResultState extends State<Result> {
 
   Widget progressPoints(
       BuildContext context, int progress1, int pmp1, int tmp1) {
-    final sWidth = MediaQuery.of(context).size.width;
+    final width = MediaQuery.of(context).size.width;
 
     String progress = progress1 > 1000
         ? (progress1 / 1000).toStringAsFixed(1) + " K"
@@ -222,11 +222,11 @@ class _ResultState extends State<Result> {
               alignment: Alignment.center,
               children: [
                 Container(
-                  width: sWidth * .28,
-                  height: sWidth * .28,
+                  width: width * .28,
+                  height: width * .28,
                   decoration: BoxDecoration(
                     color: Colors.orange,
-                    borderRadius: BorderRadius.circular(sWidth * .14),
+                    borderRadius: BorderRadius.circular(width * .14),
                     boxShadow: const [
                       BoxShadow(
                         color: Colors.black26,
@@ -239,11 +239,11 @@ class _ResultState extends State<Result> {
                 Container(
                   padding: EdgeInsets.all(10),
                   alignment: Alignment.center,
-                  width: sWidth * .25,
-                  height: sWidth * .25,
+                  width: width * .25,
+                  height: width * .25,
                   decoration: BoxDecoration(
-                    color: AppColors.onPrimary,
-                    borderRadius: BorderRadius.circular(sWidth * .125),
+                    color: AppColor.onPrimary,
+                    borderRadius: BorderRadius.circular(width * .125),
                     boxShadow: const [
                       BoxShadow(
                         color: Colors.black26,
@@ -257,7 +257,7 @@ class _ResultState extends State<Result> {
                     text: TextSpan(
                       text: pmp,
                       style: TextStyle(
-                        color: AppColors.iconHeading,
+                        color: AppColor.text,
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
@@ -273,7 +273,7 @@ class _ResultState extends State<Result> {
               text: TextSpan(
                 text: "Last Month",
                 style: TextStyle(
-                  color: AppColors.iconHeading,
+                  color: AppColor.text,
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
@@ -287,11 +287,11 @@ class _ResultState extends State<Result> {
               alignment: Alignment.center,
               children: [
                 Container(
-                  width: sWidth * .32,
-                  height: sWidth * .32,
+                  width: width * .32,
+                  height: width * .32,
                   decoration: BoxDecoration(
-                    color: AppColors.primary,
-                    borderRadius: BorderRadius.circular(sWidth * .16),
+                    color: AppColor.primary,
+                    borderRadius: BorderRadius.circular(width * .16),
                     boxShadow: const [
                       BoxShadow(
                         color: Colors.black26,
@@ -304,11 +304,11 @@ class _ResultState extends State<Result> {
                 Container(
                   padding: EdgeInsets.all(10),
                   alignment: Alignment.center,
-                  width: sWidth * .29,
-                  height: sWidth * .29,
+                  width: width * .29,
+                  height: width * .29,
                   decoration: BoxDecoration(
-                    color: AppColors.onPrimary,
-                    borderRadius: BorderRadius.circular(sWidth * .145),
+                    color: AppColor.onPrimary,
+                    borderRadius: BorderRadius.circular(width * .145),
                     boxShadow: const [
                       BoxShadow(
                         color: Colors.black26,
@@ -322,7 +322,7 @@ class _ResultState extends State<Result> {
                     text: TextSpan(
                       text: progress,
                       style: TextStyle(
-                        color: AppColors.iconHeading,
+                        color: AppColor.text,
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),
@@ -338,7 +338,7 @@ class _ResultState extends State<Result> {
               text: TextSpan(
                 text: "Total",
                 style: TextStyle(
-                  color: AppColors.iconHeading,
+                  color: AppColor.text,
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
@@ -352,11 +352,11 @@ class _ResultState extends State<Result> {
               alignment: Alignment.center,
               children: [
                 Container(
-                  width: sWidth * .28,
-                  height: sWidth * .28,
+                  width: width * .28,
+                  height: width * .28,
                   decoration: BoxDecoration(
                     color: Colors.green,
-                    borderRadius: BorderRadius.circular(sWidth * .14),
+                    borderRadius: BorderRadius.circular(width * .14),
                     boxShadow: const [
                       BoxShadow(
                         color: Colors.black26,
@@ -369,11 +369,11 @@ class _ResultState extends State<Result> {
                 Container(
                   padding: EdgeInsets.all(10),
                   alignment: Alignment.center,
-                  width: sWidth * .25,
-                  height: sWidth * .25,
+                  width: width * .25,
+                  height: width * .25,
                   decoration: BoxDecoration(
-                    color: AppColors.onPrimary,
-                    borderRadius: BorderRadius.circular(sWidth * .125),
+                    color: AppColor.onPrimary,
+                    borderRadius: BorderRadius.circular(width * .125),
                     boxShadow: const [
                       BoxShadow(
                         color: Colors.black26,
@@ -387,7 +387,7 @@ class _ResultState extends State<Result> {
                     text: TextSpan(
                       text: tmp,
                       style: TextStyle(
-                        color: AppColors.iconHeading,
+                        color: AppColor.text,
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
@@ -403,7 +403,7 @@ class _ResultState extends State<Result> {
               text: TextSpan(
                 text: "This Month",
                 style: TextStyle(
-                  color: AppColors.iconHeading,
+                  color: AppColor.text,
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
@@ -417,8 +417,8 @@ class _ResultState extends State<Result> {
 
   Widget thisMonthAchievements(
       BuildContext context, List<Achievement> newAchievements) {
-    final sHeight = MediaQuery.of(context).size.height;
-    final sWidth = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
 
     if (newAchievements.isEmpty) {
       return SizedBox();
@@ -433,7 +433,7 @@ class _ResultState extends State<Result> {
             "This Month Achievements",
             style: TextStyle(
               fontSize: 18,
-              color: AppColors.iconHeading,
+              color: AppColor.text,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -443,7 +443,7 @@ class _ResultState extends State<Result> {
           GridView.count(
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
-            childAspectRatio: (sWidth - (sWidth * .53)) / (sHeight * .24),
+            childAspectRatio: (width - (width * .53)) / (height * .24),
             crossAxisSpacing: 5,
             crossAxisCount: 2,
             children: List.generate(
@@ -454,8 +454,8 @@ class _ResultState extends State<Result> {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(10),
                       child: Image(
-                        height: sHeight * 0.17,
-                        width: sWidth * 0.4,
+                        height: height * 0.17,
+                        width: width * 0.4,
                         fit: BoxFit.fitWidth,
                         image: AssetImage(
                           "image/achievement/" +
@@ -472,7 +472,7 @@ class _ResultState extends State<Result> {
                       textAlign: TextAlign.center,
                       softWrap: true,
                       style: TextStyle(
-                        color: AppColors.iconHeading,
+                        color: AppColor.text,
                         fontWeight: FontWeight.bold,
                         fontSize: 13,
                       ),
@@ -489,8 +489,8 @@ class _ResultState extends State<Result> {
 
   Widget previousMonthAchievements(
       BuildContext context, List<Achievement> oldAchievements) {
-    final sHeight = MediaQuery.of(context).size.height;
-    final sWidth = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
 
     if (oldAchievements.isEmpty) {
       return SizedBox();
@@ -505,7 +505,7 @@ class _ResultState extends State<Result> {
             "Last Month Achievements",
             style: TextStyle(
               fontSize: 18,
-              color: AppColors.iconHeading,
+              color: AppColor.text,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -515,7 +515,7 @@ class _ResultState extends State<Result> {
           GridView.count(
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
-            childAspectRatio: (sWidth - (sWidth * .53)) / (sHeight * .24),
+            childAspectRatio: (width - (width * .53)) / (height * .24),
             crossAxisSpacing: 5,
             crossAxisCount: 2,
             children: List.generate(
@@ -526,8 +526,8 @@ class _ResultState extends State<Result> {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(10),
                       child: Image(
-                        height: sHeight * 0.17,
-                        width: sWidth * 0.4,
+                        height: height * 0.17,
+                        width: width * 0.4,
                         fit: BoxFit.fitWidth,
                         image: AssetImage(
                           "image/achievement/" +
@@ -544,7 +544,7 @@ class _ResultState extends State<Result> {
                       textAlign: TextAlign.center,
                       softWrap: true,
                       style: TextStyle(
-                        color: AppColors.iconHeading,
+                        color: AppColor.text,
                         fontWeight: FontWeight.bold,
                         fontSize: 13,
                       ),

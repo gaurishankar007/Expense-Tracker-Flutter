@@ -1,17 +1,18 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:expense_tracker/config/routes/routes.dart';
 import 'package:flutter/material.dart';
 
-import 'api/log_status.dart';
-import '../resource/colors.dart';
-import 'screen/authentication/login.dart';
-import 'screen/home.dart';
+import 'data/log_status.dart';
+import 'config/themes/constant.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  CachedNetworkImage.logLevel = CacheManagerLogLevel.debug;
 
   ErrorWidget.builder = (FlutterErrorDetails details) {
     return Material(
       child: Container(
-        color: AppColors.primary,
+        color: AppColor.primary,
         child: Center(
           child: Text(
             details.exception.toString(),
@@ -33,16 +34,16 @@ void main() {
       if (value.isNotEmpty) {
         LogStatus.token = value;
 
-        runApp(const ExpenseTracker(initialPage: Home()));
+        runApp(const ExpenseTracker(initialPage: "/home"));
       } else {
-        runApp(const ExpenseTracker(initialPage: Login()));
+        runApp(const ExpenseTracker(initialPage: "/"));
       }
     },
   );
 }
 
 class ExpenseTracker extends StatefulWidget {
-  final Widget? initialPage;
+  final String? initialPage;
   const ExpenseTracker({
     Key? key,
     @required this.initialPage,
@@ -57,11 +58,12 @@ class _ExpenseTrackerState extends State<ExpenseTracker> {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        scaffoldBackgroundColor: AppColors.background,
+        scaffoldBackgroundColor: AppColor.backgroundLight,
       ),
       debugShowCheckedModeBanner: false,
       title: 'Expense Income Tracker',
-      home: widget.initialPage,
+      initialRoute: widget.initialPage,
+      onGenerateRoute: AppRoute.onGeneratedRoute,
     );
   }
 }

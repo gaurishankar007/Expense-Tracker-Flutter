@@ -1,10 +1,10 @@
-import 'package:expense_tracker/api/http/progress_http.dart';
-import 'package:expense_tracker/api/res/progress_res.dart';
-import 'package:expense_tracker/widget/navigator.dart';
+import 'package:expense_tracker/data/remote/progress_http.dart';
+import 'package:expense_tracker/widgets/navigator.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../../resource/colors.dart';
+import '../../config/themes/constant.dart';
+import '../../data/model/progress_model.dart';
 
 class RankingSystem extends StatefulWidget {
   const RankingSystem({Key? key}) : super(key: key);
@@ -49,8 +49,8 @@ class _RankingSystemState extends State<RankingSystem> {
 
   @override
   Widget build(BuildContext context) {
-    final sWidth = MediaQuery.of(context).size.width;
-    final sHeight = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
 
     return Scaffold(
       appBar: AppBar(
@@ -60,13 +60,13 @@ class _RankingSystemState extends State<RankingSystem> {
           },
           icon: Icon(
             Icons.arrow_back,
-            color: AppColors.iconHeading,
+            color: AppColor.text,
           ),
         ),
         title: Text(
           "Progress Point Ranking",
           style: TextStyle(
-            color: AppColors.iconHeading,
+            color: AppColor.text,
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
@@ -78,8 +78,8 @@ class _RankingSystemState extends State<RankingSystem> {
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.only(
-          right: sWidth * 0.03,
-          left: sWidth * 0.03,
+          right: width * 0.03,
+          left: width * 0.03,
           bottom: 10,
         ),
         child: FutureBuilder<TopProgress>(
@@ -90,13 +90,13 @@ class _RankingSystemState extends State<RankingSystem> {
             if (snapshot.connectionState == ConnectionState.waiting) {
               children = <Widget>[
                 Container(
-                  width: sWidth,
-                  height: sHeight,
+                  width: width,
+                  height: height,
                   alignment: Alignment.center,
                   child: CircularProgressIndicator(
                     strokeWidth: 6,
-                    color: AppColors.primary,
-                    backgroundColor: AppColors.button,
+                    color: AppColor.primary,
+                    backgroundColor: AppColor.buttonBG,
                   ),
                 )
               ];
@@ -113,8 +113,8 @@ class _RankingSystemState extends State<RankingSystem> {
                 if ("${snapshot.error}".split("Exception: ")[0] == "Socket") {
                   children = <Widget>[
                     Container(
-                      width: sWidth,
-                      height: sHeight,
+                      width: width,
+                      height: height,
                       alignment: Alignment.center,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -139,8 +139,8 @@ class _RankingSystemState extends State<RankingSystem> {
                 } else {
                   children = <Widget>[
                     Container(
-                      width: sWidth,
-                      height: sHeight,
+                      width: width,
+                      height: height,
                       alignment: Alignment.center,
                       child: Text(
                         "${snapshot.error}",
@@ -167,13 +167,13 @@ class _RankingSystemState extends State<RankingSystem> {
   }
 
   Widget getButtons(BuildContext context) {
-    final sWidth = MediaQuery.of(context).size.width;
+    final width = MediaQuery.of(context).size.width;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         SizedBox(
-          width: sWidth * .30,
+          width: width * .30,
           child: ElevatedButton(
             onPressed: () {
               if (progressIndex == 0) {
@@ -204,11 +204,10 @@ class _RankingSystemState extends State<RankingSystem> {
               ),
             ),
             style: ElevatedButton.styleFrom(
-              primary:
-                  progressIndex == 0 ? AppColors.primary : AppColors.button,
-              onPrimary: progressIndex == 0
-                  ? AppColors.onPrimary
-                  : AppColors.iconHeading,
+              backgroundColor:
+                  progressIndex == 0 ? AppColor.primary : AppColor.buttonBG,
+              foregroundColor:
+                  progressIndex == 0 ? AppColor.onPrimary : AppColor.text,
               minimumSize: Size.zero,
               padding: EdgeInsets.symmetric(
                 vertical: 10,
@@ -220,7 +219,7 @@ class _RankingSystemState extends State<RankingSystem> {
           ),
         ),
         SizedBox(
-          width: sWidth * .30,
+          width: width * .30,
           child: ElevatedButton(
             onPressed: () {
               if (progressIndex == 1) {
@@ -250,11 +249,10 @@ class _RankingSystemState extends State<RankingSystem> {
               ),
             ),
             style: ElevatedButton.styleFrom(
-              primary:
-                  progressIndex == 1 ? AppColors.primary : AppColors.button,
-              onPrimary: progressIndex == 1
-                  ? AppColors.onPrimary
-                  : AppColors.iconHeading,
+              backgroundColor:
+                  progressIndex == 1 ? AppColor.primary : AppColor.buttonBG,
+              foregroundColor:
+                  progressIndex == 1 ? AppColor.onPrimary : AppColor.text,
               minimumSize: Size.zero,
               padding: EdgeInsets.symmetric(
                 vertical: 10,
@@ -266,7 +264,7 @@ class _RankingSystemState extends State<RankingSystem> {
           ),
         ),
         SizedBox(
-          width: sWidth * .30,
+          width: width * .30,
           child: ElevatedButton(
             onPressed: () {
               if (progressIndex == 2) {
@@ -296,11 +294,10 @@ class _RankingSystemState extends State<RankingSystem> {
               ),
             ),
             style: ElevatedButton.styleFrom(
-              primary:
-                  progressIndex == 2 ? AppColors.primary : AppColors.button,
-              onPrimary: progressIndex == 2
-                  ? AppColors.onPrimary
-                  : AppColors.iconHeading,
+              backgroundColor:
+                  progressIndex == 2 ? AppColor.primary : AppColor.buttonBG,
+              foregroundColor:
+                  progressIndex == 2 ? AppColor.onPrimary : AppColor.text,
               minimumSize: Size.zero,
               padding: EdgeInsets.symmetric(
                 vertical: 10,
@@ -316,11 +313,11 @@ class _RankingSystemState extends State<RankingSystem> {
   }
 
   Widget rankedUsers(BuildContext context) {
-    final sWidth = MediaQuery.of(context).size.width;
+    final width = MediaQuery.of(context).size.width;
 
     Color color = Colors.black54;
     if (progressIndex == 0) {
-      color = AppColors.primary;
+      color = AppColor.primary;
     } else if (progressIndex == 1) {
       color = Colors.green;
     } else if (progressIndex == 2) {
@@ -343,7 +340,7 @@ class _RankingSystemState extends State<RankingSystem> {
                     (index + 1).toString() + ".",
                     style: TextStyle(
                       fontSize: 16,
-                      color: AppColors.iconHeading,
+                      color: AppColor.text,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -354,7 +351,7 @@ class _RankingSystemState extends State<RankingSystem> {
                     alignment: Alignment.center,
                     padding: EdgeInsets.all(2),
                     decoration: BoxDecoration(
-                      color: AppColors.form,
+                      color: AppColor.form,
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: ClipRRect(
@@ -372,7 +369,7 @@ class _RankingSystemState extends State<RankingSystem> {
                     width: 5,
                   ),
                   SizedBox(
-                    width: sWidth * .4,
+                    width: width * .4,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -383,7 +380,7 @@ class _RankingSystemState extends State<RankingSystem> {
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
-                            color: AppColors.iconHeading,
+                            color: AppColor.text,
                           ),
                         ),
                         SizedBox(
@@ -426,7 +423,7 @@ class _RankingSystemState extends State<RankingSystem> {
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
-                                color: AppColors.iconHeading,
+                                color: AppColor.text,
                               ),
                             ),
                             SizedBox(
@@ -466,7 +463,7 @@ class _RankingSystemState extends State<RankingSystem> {
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
-                                color: AppColors.iconHeading,
+                                color: AppColor.text,
                               ),
                             ),
                           ],
@@ -500,7 +497,7 @@ class _RankingSystemState extends State<RankingSystem> {
                     width: 55,
                     height: 55,
                     decoration: BoxDecoration(
-                      color: AppColors.onPrimary,
+                      color: AppColor.onPrimary,
                       borderRadius: BorderRadius.circular(27.5),
                       boxShadow: const [
                         BoxShadow(
@@ -515,7 +512,7 @@ class _RankingSystemState extends State<RankingSystem> {
                       text: TextSpan(
                         text: pointList[index],
                         style: TextStyle(
-                          color: AppColors.iconHeading,
+                          color: AppColor.text,
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
                         ),
@@ -533,23 +530,23 @@ class _RankingSystemState extends State<RankingSystem> {
 
   Widget userAchievements(BuildContext context, String achievementType,
       List<Achievement> achievements) {
-    final sWidth = MediaQuery.of(context).size.width;
+    final width = MediaQuery.of(context).size.width;
 
     return SimpleDialog(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColor.backgroundLight,
       titlePadding: EdgeInsets.zero,
       contentPadding: EdgeInsets.all(10),
       children: [
         SizedBox(
-          height: achievements.length <= 2 ? sWidth * .4 : sWidth * .5,
-          width: sWidth * .5,
+          height: achievements.length <= 2 ? width * .4 : width * .5,
+          width: width * .5,
           child: SingleChildScrollView(
             child: Column(
               children: [
                 Text(
                   achievementType,
                   style: TextStyle(
-                    color: AppColors.iconHeading,
+                    color: AppColor.text,
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
@@ -560,7 +557,7 @@ class _RankingSystemState extends State<RankingSystem> {
                 GridView.count(
                   physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
-                  childAspectRatio: (sWidth - (sWidth * .53)) / (sWidth * .43),
+                  childAspectRatio: (width - (width * .53)) / (width * .43),
                   crossAxisSpacing: 5,
                   crossAxisCount: 2,
                   children: List.generate(
@@ -571,7 +568,7 @@ class _RankingSystemState extends State<RankingSystem> {
                           ClipRRect(
                             borderRadius: BorderRadius.circular(10),
                             child: Image(
-                              width: sWidth * 0.25,
+                              width: width * 0.25,
                               fit: BoxFit.fitWidth,
                               image: AssetImage(
                                 "image/achievement/" +
@@ -588,7 +585,7 @@ class _RankingSystemState extends State<RankingSystem> {
                             textAlign: TextAlign.center,
                             softWrap: true,
                             style: TextStyle(
-                              color: AppColors.iconHeading,
+                              color: AppColor.text,
                               fontWeight: FontWeight.bold,
                               fontSize: 12,
                             ),

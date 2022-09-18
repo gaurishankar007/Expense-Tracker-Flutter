@@ -1,9 +1,7 @@
-import 'package:expense_tracker/api/http/home_http.dart';
-import 'package:expense_tracker/api/http/progress_http.dart';
-import 'package:expense_tracker/api/http/user_http.dart';
-import 'package:expense_tracker/api/res/expense_res.dart';
-import 'package:expense_tracker/api/res/home_res.dart';
-import 'package:expense_tracker/resource/category.dart';
+import 'package:expense_tracker/data/remote/home_http.dart';
+import 'package:expense_tracker/data/remote/progress_http.dart';
+import 'package:expense_tracker/data/remote/user_http.dart';
+import 'package:expense_tracker/config/category.dart';
 import 'package:expense_tracker/screen/expense/categorized_expense.dart';
 import 'package:expense_tracker/screen/income/categorized_income.dart';
 import 'package:expense_tracker/screen/progress/result.dart';
@@ -12,10 +10,12 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../api/res/income_res.dart';
-import '../resource/colors.dart';
-import '../widget/navigator.dart';
-import 'setting.dart';
+import '../config/themes/constant.dart';
+import '../data/model/expense_model.dart';
+import '../data/model/home_model.dart';
+import '../data/model/income_model.dart';
+import '../widgets/navigator.dart';
+import 'setting/setting.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -37,7 +37,7 @@ class _HomeState extends State<Home> {
   int touchedGroupIndex = -1;
 
   ButtonStyle elevated = ElevatedButton.styleFrom(
-    primary: AppColors.primary,
+    backgroundColor: AppColor.primary,
     minimumSize: Size.zero,
     padding: EdgeInsets.symmetric(
       horizontal: 8,
@@ -119,8 +119,8 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    final sWidth = MediaQuery.of(context).size.width;
-    final sHeight = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
 
     return Scaffold(
       body: SafeArea(
@@ -136,13 +136,13 @@ class _HomeState extends State<Home> {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 children = <Widget>[
                   Container(
-                    width: sWidth,
-                    height: sHeight,
+                    width: width,
+                    height: height,
                     alignment: Alignment.center,
                     child: CircularProgressIndicator(
                       strokeWidth: 6,
-                      color: AppColors.primary,
-                      backgroundColor: AppColors.button,
+                      color: AppColor.primary,
+                      backgroundColor: AppColor.buttonBG,
                     ),
                   )
                 ];
@@ -151,7 +151,7 @@ class _HomeState extends State<Home> {
                   children = <Widget>[
                     Padding(
                       padding: EdgeInsets.symmetric(
-                        horizontal: sWidth * 0.03,
+                        horizontal: width * 0.03,
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -159,7 +159,7 @@ class _HomeState extends State<Home> {
                           Text(
                             greeting,
                             style: TextStyle(
-                              color: AppColors.iconHeading,
+                              color: AppColor.text,
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                             ),
@@ -169,7 +169,7 @@ class _HomeState extends State<Home> {
                             padding: EdgeInsets.zero,
                             icon: Icon(
                               Icons.settings,
-                              color: AppColors.iconHeading,
+                              color: AppColor.text,
                             ),
                             onPressed: () {
                               Navigator.push(
@@ -229,8 +229,8 @@ class _HomeState extends State<Home> {
                   if ("${snapshot.error}".split("Exception: ")[0] == "Socket") {
                     children = <Widget>[
                       Container(
-                        width: sWidth,
-                        height: sHeight,
+                        width: width,
+                        height: height,
                         alignment: Alignment.center,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -255,8 +255,8 @@ class _HomeState extends State<Home> {
                   } else {
                     children = <Widget>[
                       Container(
-                        width: sWidth,
-                        height: sHeight,
+                        width: width,
+                        height: height,
                         alignment: Alignment.center,
                         child: Text(
                           "${snapshot.error}",
@@ -282,7 +282,7 @@ class _HomeState extends State<Home> {
 
   Widget congratulation(BuildContext context) {
     return SimpleDialog(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColor.backgroundLight,
       titlePadding: EdgeInsets.zero,
       contentPadding: EdgeInsets.all(10),
       children: [
@@ -303,7 +303,7 @@ class _HomeState extends State<Home> {
             Text(
               "New Achievement Unlocked.",
               style: TextStyle(
-                color: AppColors.iconHeading,
+                color: AppColor.text,
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
@@ -313,7 +313,7 @@ class _HomeState extends State<Home> {
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: AppColors.primary,
+                backgroundColor: AppColor.primary,
                 minimumSize: Size.zero,
                 padding: EdgeInsets.all(8),
                 elevation: 5,
@@ -353,10 +353,10 @@ class _HomeState extends State<Home> {
       return SizedBox();
     }
 
-    final sWidth = MediaQuery.of(context).size.width;
+    final width = MediaQuery.of(context).size.width;
     const Color leftBarColor = Colors.orange;
-    Color rightBarColor = AppColors.primary;
-    double width = sWidth * .16;
+    Color rightBarColor = AppColor.primary;
+    double barWidth = width * .16;
     const BorderRadius borderRadius = BorderRadius.only(
       topLeft: Radius.circular(5),
       topRight: Radius.circular(5),
@@ -382,7 +382,7 @@ class _HomeState extends State<Home> {
         borderRadius: borderRadius,
         toY: (thisMonthIncomeAmount / maxAmount) * 5,
         color: rightBarColor,
-        width: width,
+        width: barWidth,
       ));
     }
     if (thisMonthExpenseAmount != 0) {
@@ -390,7 +390,7 @@ class _HomeState extends State<Home> {
         borderRadius: borderRadius,
         toY: (thisMonthExpenseAmount / maxAmount) * 5,
         color: leftBarColor,
-        width: width,
+        width: barWidth,
       ));
     }
     if (previousMonthIncomeAmount != 0) {
@@ -398,7 +398,7 @@ class _HomeState extends State<Home> {
         borderRadius: borderRadius,
         toY: (previousMonthIncomeAmount / maxAmount) * 5,
         color: rightBarColor,
-        width: width,
+        width: barWidth,
       ));
     }
     if (previousMonthExpenseAmount != 0) {
@@ -406,7 +406,7 @@ class _HomeState extends State<Home> {
         borderRadius: borderRadius,
         toY: (previousMonthExpenseAmount / maxAmount) * 5,
         color: leftBarColor,
-        width: width,
+        width: barWidth,
       ));
     }
     if (thisMonthBarRods.isNotEmpty) {
@@ -434,7 +434,7 @@ class _HomeState extends State<Home> {
                 Row(
                   children: [
                     CircleAvatar(
-                      backgroundColor: AppColors.primary,
+                      backgroundColor: AppColor.primary,
                       radius: 5,
                     ),
                     SizedBox(
@@ -444,7 +444,7 @@ class _HomeState extends State<Home> {
                       text: TextSpan(
                         text: "Income",
                         style: TextStyle(
-                          color: AppColors.iconHeading,
+                          color: AppColor.text,
                           fontWeight: FontWeight.bold,
                           fontSize: 13,
                         ),
@@ -468,7 +468,7 @@ class _HomeState extends State<Home> {
                       text: TextSpan(
                         text: "Expense",
                         style: TextStyle(
-                          color: AppColors.iconHeading,
+                          color: AppColor.text,
                           fontWeight: FontWeight.bold,
                           fontSize: 13,
                         ),
@@ -482,13 +482,13 @@ class _HomeState extends State<Home> {
         ),
         SizedBox(
           height: 200,
-          width: sWidth * .94,
+          width: width * .94,
           child: BarChart(
             BarChartData(
               maxY: 5,
               barTouchData: BarTouchData(
                 touchTooltipData: BarTouchTooltipData(
-                  tooltipBgColor: AppColors.primary,
+                  tooltipBgColor: AppColor.primary,
                   tooltipMargin: 25,
                   getTooltipItem: (group, groupIndex, rod, rodIndex) {
                     return BarTooltipItem(
@@ -534,7 +534,7 @@ class _HomeState extends State<Home> {
                       Widget text = Text(
                         titles[value.toInt()],
                         style: TextStyle(
-                          color: AppColors.iconHeading,
+                          color: AppColor.text,
                           fontWeight: FontWeight.bold,
                           fontSize: 14,
                         ),
@@ -559,7 +559,7 @@ class _HomeState extends State<Home> {
                     interval: 1,
                     getTitlesWidget: (double value, TitleMeta meta) {
                       TextStyle style = TextStyle(
-                        color: AppColors.iconHeading,
+                        color: AppColor.text,
                         fontWeight: FontWeight.bold,
                         fontSize: 10,
                       );
@@ -608,11 +608,11 @@ class _HomeState extends State<Home> {
                 show: true,
                 border: Border(
                   bottom: BorderSide(
-                    color: AppColors.iconHeading,
+                    color: AppColor.text,
                     width: 2,
                   ),
                   left: BorderSide(
-                    color: AppColors.iconHeading,
+                    color: AppColor.text,
                     width: 2,
                   ),
                   right: BorderSide(color: Colors.transparent),
@@ -628,7 +628,7 @@ class _HomeState extends State<Home> {
   }
 
   Widget feedback(BuildContext context, HomeData homeData) {
-    final sWidth = MediaQuery.of(context).size.width;
+    final width = MediaQuery.of(context).size.width;
 
     if (homeData.thisMonthExpenseAmount! == 0 &&
         homeData.thisMonthIncomeAmount! == 0) {
@@ -648,8 +648,8 @@ class _HomeState extends State<Home> {
 
     return SingleChildScrollView(
       padding: EdgeInsets.only(
-        right: sWidth * 0.03,
-        left: sWidth * 0.03,
+        right: width * 0.03,
+        left: width * 0.03,
       ),
       scrollDirection: Axis.horizontal,
       child: Row(
@@ -660,10 +660,10 @@ class _HomeState extends State<Home> {
               ? Padding(
                   padding: EdgeInsets.symmetric(vertical: 5.0),
                   child: Container(
-                    width: sWidth * .94,
+                    width: width * .94,
                     padding: EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                      color: AppColors.onPrimary,
+                      color: AppColor.onPrimary,
                       borderRadius: BorderRadius.circular(
                         5,
                       ),
@@ -678,7 +678,7 @@ class _HomeState extends State<Home> {
                     child: Row(
                       children: [
                         SizedBox(
-                          width: sWidth * .14,
+                          width: width * .14,
                           child: Icon(
                             FontAwesomeIcons.faceSadTear,
                             color: Colors.deepOrange,
@@ -686,14 +686,14 @@ class _HomeState extends State<Home> {
                           ),
                         ),
                         SizedBox(
-                          width: sWidth * .8 - 20,
+                          width: width * .8 - 20,
                           child: RichText(
                             textAlign: TextAlign.justify,
                             text: TextSpan(
                               text:
                                   "This month expenses looks bad. Save money.",
                               style: TextStyle(
-                                color: AppColors.iconHeading,
+                                color: AppColor.text,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 13,
                               ),
@@ -710,10 +710,10 @@ class _HomeState extends State<Home> {
                   ? Padding(
                       padding: EdgeInsets.symmetric(vertical: 5.0),
                       child: Container(
-                        width: sWidth * .94,
+                        width: width * .94,
                         padding: EdgeInsets.all(10),
                         decoration: BoxDecoration(
-                          color: AppColors.onPrimary,
+                          color: AppColor.onPrimary,
                           borderRadius: BorderRadius.circular(
                             5,
                           ),
@@ -729,7 +729,7 @@ class _HomeState extends State<Home> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             SizedBox(
-                              width: sWidth * .14,
+                              width: width * .14,
                               child: Icon(
                                 FontAwesomeIcons.faceSurprise,
                                 color: Colors.orange,
@@ -737,14 +737,14 @@ class _HomeState extends State<Home> {
                               ),
                             ),
                             SizedBox(
-                              width: sWidth * .8 - 20,
+                              width: width * .8 - 20,
                               child: RichText(
                                 textAlign: TextAlign.justify,
                                 text: TextSpan(
                                   text:
                                       "Last month expense was less than this month.",
                                   style: TextStyle(
-                                    color: AppColors.iconHeading,
+                                    color: AppColor.text,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 13,
                                   ),
@@ -765,10 +765,10 @@ class _HomeState extends State<Home> {
                     left: isPadding ? 20 : 0,
                   ),
                   child: Container(
-                    width: sWidth * .94,
+                    width: width * .94,
                     padding: EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                      color: AppColors.onPrimary,
+                      color: AppColor.onPrimary,
                       borderRadius: BorderRadius.circular(
                         5,
                       ),
@@ -783,22 +783,22 @@ class _HomeState extends State<Home> {
                     child: Row(
                       children: [
                         SizedBox(
-                          width: sWidth * .14,
+                          width: width * .14,
                           child: Icon(
                             FontAwesomeIcons.faceSmileBeam,
-                            color: AppColors.primary,
+                            color: AppColor.primary,
                             size: 40,
                           ),
                         ),
                         SizedBox(
-                          width: sWidth * .8 - 20,
+                          width: width * .8 - 20,
                           child: RichText(
                             textAlign: TextAlign.justify,
                             text: TextSpan(
                               text:
                                   "This month expenses looks good. Keep it up.",
                               style: TextStyle(
-                                color: AppColors.iconHeading,
+                                color: AppColor.text,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 13,
                               ),
@@ -816,11 +816,11 @@ class _HomeState extends State<Home> {
   }
 
   Widget incomeDetail(BuildContext context, List<IncomeCategorized> category) {
-    final sWidth = MediaQuery.of(context).size.width;
+    final width = MediaQuery.of(context).size.width;
 
     return Padding(
       padding: EdgeInsets.symmetric(
-        horizontal: sWidth * 0.03,
+        horizontal: width * 0.03,
       ),
       child: Column(
         children: [
@@ -831,7 +831,7 @@ class _HomeState extends State<Home> {
                 "Income Categories",
                 style: TextStyle(
                   fontSize: 18,
-                  color: AppColors.iconHeading,
+                  color: AppColor.text,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -872,14 +872,14 @@ class _HomeState extends State<Home> {
                         duration: Duration(milliseconds: 500),
                         child: Icon(
                           Icons.arrow_back_ios_new,
-                          color: AppColors.iconHeading,
+                          color: AppColor.text,
                           size: 18,
                         ),
                       ),
                       label: Text(
                         moreIncome ? "Less" : "More",
                         style: TextStyle(
-                          color: AppColors.iconHeading,
+                          color: AppColor.text,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -890,7 +890,7 @@ class _HomeState extends State<Home> {
           GridView.count(
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
-            childAspectRatio: (sWidth - (sWidth * .53)) / (sWidth * .58),
+            childAspectRatio: (width - (width * .53)) / (width * .58),
             crossAxisSpacing: 5,
             mainAxisSpacing: 10,
             crossAxisCount: 4,
@@ -913,7 +913,7 @@ class _HomeState extends State<Home> {
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                          color: AppColors.onPrimary,
+                          color: AppColor.onPrimary,
                           borderRadius: BorderRadius.circular(5),
                           boxShadow: const [
                             BoxShadow(
@@ -927,8 +927,8 @@ class _HomeState extends State<Home> {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(5),
                           child: Image(
-                            height: sWidth * 0.2,
-                            width: sWidth * 0.2,
+                            height: width * 0.2,
+                            width: width * 0.2,
                             fit: BoxFit.cover,
                             image: AssetImage(
                               "image/category/${incomeCategories[index]}.jpg",
@@ -944,7 +944,7 @@ class _HomeState extends State<Home> {
                         softWrap: true,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                          color: AppColors.iconHeading,
+                          color: AppColor.text,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -961,11 +961,11 @@ class _HomeState extends State<Home> {
 
   Widget expenseDetail(
       BuildContext context, List<ExpenseCategorized> category) {
-    final sWidth = MediaQuery.of(context).size.width;
+    final width = MediaQuery.of(context).size.width;
 
     return Padding(
       padding: EdgeInsets.symmetric(
-        horizontal: sWidth * 0.03,
+        horizontal: width * 0.03,
       ),
       child: Column(
         children: [
@@ -976,7 +976,7 @@ class _HomeState extends State<Home> {
                 "Expense Categories",
                 style: TextStyle(
                   fontSize: 18,
-                  color: AppColors.iconHeading,
+                  color: AppColor.text,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -1017,14 +1017,14 @@ class _HomeState extends State<Home> {
                         duration: Duration(milliseconds: 500),
                         child: Icon(
                           Icons.arrow_back_ios_new,
-                          color: AppColors.iconHeading,
+                          color: AppColor.text,
                           size: 18,
                         ),
                       ),
                       label: Text(
                         moreExpense ? "Less" : "More",
                         style: TextStyle(
-                          color: AppColors.iconHeading,
+                          color: AppColor.text,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -1035,7 +1035,7 @@ class _HomeState extends State<Home> {
           GridView.count(
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
-            childAspectRatio: (sWidth - (sWidth * .53)) / (sWidth * .58),
+            childAspectRatio: (width - (width * .53)) / (width * .58),
             crossAxisSpacing: 5,
             mainAxisSpacing: 10,
             crossAxisCount: 4,
@@ -1058,7 +1058,7 @@ class _HomeState extends State<Home> {
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                          color: AppColors.onPrimary,
+                          color: AppColor.onPrimary,
                           borderRadius: BorderRadius.circular(5),
                           boxShadow: const [
                             BoxShadow(
@@ -1072,8 +1072,8 @@ class _HomeState extends State<Home> {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(5),
                           child: Image(
-                            height: sWidth * 0.2,
-                            width: sWidth * 0.2,
+                            height: width * 0.2,
+                            width: width * 0.2,
                             fit: BoxFit.cover,
                             image: AssetImage(
                               "image/category/${expenseCategories[index]}.jpg",
@@ -1089,7 +1089,7 @@ class _HomeState extends State<Home> {
                         softWrap: true,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                          color: AppColors.iconHeading,
+                          color: AppColor.text,
                           fontWeight: FontWeight.bold,
                           fontSize: 13,
                         ),
@@ -1107,7 +1107,7 @@ class _HomeState extends State<Home> {
 
   Widget expenseLineChart(BuildContext context, bool thisMonthView,
       List<int> expenseDays, List<int> expenseAmounts, int maxExpenseAmount) {
-    final sWidth = MediaQuery.of(context).size.width;
+    final width = MediaQuery.of(context).size.width;
     List<FlSpot> expenseLineData = [];
     List<int> tempExpenseDays = [];
 
@@ -1125,7 +1125,7 @@ class _HomeState extends State<Home> {
     return Padding(
       padding: EdgeInsets.symmetric(
         vertical: 10,
-        horizontal: sWidth * 0.03,
+        horizontal: width * 0.03,
       ),
       child: Column(
         children: [
@@ -1137,7 +1137,7 @@ class _HomeState extends State<Home> {
                     : "Last" " Month Expenses",
                 style: TextStyle(
                   fontSize: 18,
-                  color: AppColors.iconHeading,
+                  color: AppColor.text,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -1148,13 +1148,13 @@ class _HomeState extends State<Home> {
           ),
           SizedBox(
             height: 200,
-            width: sWidth * .98,
+            width: width * .98,
             child: LineChart(
               LineChartData(
                 lineTouchData: LineTouchData(
                   handleBuiltInTouches: true,
                   touchTooltipData: LineTouchTooltipData(
-                      tooltipBgColor: AppColors.primary,
+                      tooltipBgColor: AppColor.primary,
                       tooltipMargin: 50,
                       tooltipRoundedRadius: 5,
                       getTooltipItems: (List<LineBarSpot> touchedBarSpots) {
@@ -1189,7 +1189,7 @@ class _HomeState extends State<Home> {
                               : 28,
                       getTitlesWidget: (double value, TitleMeta meta) {
                         TextStyle style = TextStyle(
-                          color: AppColors.iconHeading,
+                          color: AppColor.text,
                           fontWeight: FontWeight.bold,
                           fontSize: 10,
                         );
@@ -1254,7 +1254,7 @@ class _HomeState extends State<Home> {
                       interval: 1,
                       getTitlesWidget: (double value, TitleMeta meta) {
                         TextStyle style = TextStyle(
-                          color: AppColors.iconHeading,
+                          color: AppColor.text,
                           fontWeight: FontWeight.bold,
                           fontSize: expenseDays.length > 12
                               ? expenseDays.length > 20
@@ -1284,11 +1284,11 @@ class _HomeState extends State<Home> {
                   show: true,
                   border: Border(
                     bottom: BorderSide(
-                      color: AppColors.iconHeading,
+                      color: AppColor.text,
                       width: 2,
                     ),
                     left: BorderSide(
-                      color: AppColors.iconHeading,
+                      color: AppColor.text,
                       width: 2,
                     ),
                     right: BorderSide(color: Colors.transparent),

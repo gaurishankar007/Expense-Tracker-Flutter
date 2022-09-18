@@ -3,24 +3,23 @@ import 'package:expense_tracker/screen/progress/result.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:expense_tracker/resource/category.dart';
+import 'package:expense_tracker/config/category.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-import '../../api/http/income_http.dart';
-import '../../api/model/expense_income_model.dart';
-import '../../api/res/income_res.dart';
-import '../../resource/colors.dart';
-import '../../widget/navigator.dart';
+import '../../data/model/income_model.dart';
+import '../../data/remote/income_http.dart';
+import '../../config/themes/constant.dart';
+import '../../widgets/navigator.dart';
 
-class Income extends StatefulWidget {
-  const Income({Key? key}) : super(key: key);
+class IncomePage extends StatefulWidget {
+  const IncomePage({Key? key}) : super(key: key);
 
   @override
-  State<Income> createState() => _IncomeState();
+  State<IncomePage> createState() => _IncomePageState();
 }
 
-class _IncomeState extends State<Income> {
+class _IncomePageState extends State<IncomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final _formKey = GlobalKey<FormState>();
   String name = "", amount = "", category = "Other", firstDate = "";
@@ -28,7 +27,7 @@ class _IncomeState extends State<Income> {
   OutlineInputBorder formBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(5),
     borderSide: BorderSide(
-      color: AppColors.button,
+      color: AppColor.buttonBG,
       width: 2,
       style: BorderStyle.solid,
     ),
@@ -65,8 +64,8 @@ class _IncomeState extends State<Income> {
 
   @override
   Widget build(BuildContext context) {
-    final sWidth = MediaQuery.of(context).size.width;
-    final sHeight = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
 
     return Scaffold(
       key: _scaffoldKey,
@@ -74,8 +73,8 @@ class _IncomeState extends State<Income> {
         child: SingleChildScrollView(
             padding: EdgeInsets.only(
               top: 10,
-              right: sWidth * 0.03,
-              left: sWidth * 0.03,
+              right: width * 0.03,
+              left: width * 0.03,
               bottom: 50,
             ),
             child: FutureBuilder<IncomeDWM>(
@@ -85,13 +84,13 @@ class _IncomeState extends State<Income> {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   children = <Widget>[
                     Container(
-                      width: sWidth * 0.97,
-                      height: sHeight,
+                      width: width * 0.97,
+                      height: height,
                       alignment: Alignment.center,
                       child: CircularProgressIndicator(
                         strokeWidth: 6,
-                        color: AppColors.primary,
-                        backgroundColor: AppColors.button,
+                        color: AppColor.primary,
+                        backgroundColor: AppColor.buttonBG,
                       ),
                     )
                   ];
@@ -115,7 +114,7 @@ class _IncomeState extends State<Income> {
                               Text(
                                 "Your Incomes",
                                 style: TextStyle(
-                                  color: AppColors.iconHeading,
+                                  color: AppColor.text,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 18,
                                 ),
@@ -141,7 +140,7 @@ class _IncomeState extends State<Income> {
                             },
                             icon: Icon(
                               Icons.search,
-                              color: AppColors.iconHeading,
+                              color: AppColor.text,
                               size: 30,
                             ),
                           )
@@ -163,8 +162,8 @@ class _IncomeState extends State<Income> {
                         "Socket") {
                       children = <Widget>[
                         Container(
-                          width: sWidth,
-                          height: sHeight,
+                          width: width,
+                          height: height,
                           alignment: Alignment.center,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -189,8 +188,8 @@ class _IncomeState extends State<Income> {
                     } else {
                       children = <Widget>[
                         Container(
-                          width: sWidth,
-                          height: sHeight,
+                          width: width,
+                          height: height,
                           alignment: Alignment.center,
                           child: Text(
                             "${snapshot.error}",
@@ -220,10 +219,10 @@ class _IncomeState extends State<Income> {
               },
             );
           },
-          backgroundColor: AppColors.primary,
+          backgroundColor: AppColor.primary,
           child: Icon(
             Icons.add,
-            color: AppColors.onPrimary,
+            color: AppColor.onPrimary,
           ),
         ),
       ),
@@ -265,7 +264,7 @@ class _IncomeState extends State<Income> {
   ) {
     return StatefulBuilder(builder: (context, setState1) {
       return AlertDialog(
-        backgroundColor: AppColors.background,
+        backgroundColor: AppColor.backgroundLight,
         title: Form(
           key: _formKey,
           child: Column(
@@ -276,10 +275,10 @@ class _IncomeState extends State<Income> {
                 }),
                 decoration: InputDecoration(
                   filled: true,
-                  fillColor: AppColors.button,
+                  fillColor: AppColor.buttonBG,
                   hintText: "Enter name",
                   hintStyle: TextStyle(
-                    color: AppColors.text,
+                    color: AppColor.textLight,
                   ),
                   enabledBorder: formBorder,
                   focusedBorder: formBorder,
@@ -297,10 +296,10 @@ class _IncomeState extends State<Income> {
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                   filled: true,
-                  fillColor: AppColors.button,
+                  fillColor: AppColor.buttonBG,
                   hintText: "Enter amount",
                   hintStyle: TextStyle(
-                    color: AppColors.text,
+                    color: AppColor.textLight,
                   ),
                   enabledBorder: formBorder,
                   focusedBorder: formBorder,
@@ -316,7 +315,7 @@ class _IncomeState extends State<Income> {
                   horizontal: 10,
                 ),
                 decoration: BoxDecoration(
-                  color: AppColors.button,
+                  color: AppColor.buttonBG,
                   borderRadius: BorderRadius.circular(5),
                 ),
                 child: DropdownButton(
@@ -324,11 +323,11 @@ class _IncomeState extends State<Income> {
                   elevation: 20,
                   underline: SizedBox(),
                   style: TextStyle(
-                    color: AppColors.iconHeading,
+                    color: AppColor.text,
                     fontSize: 15,
                   ),
                   isExpanded: true,
-                  dropdownColor: AppColors.button,
+                  dropdownColor: AppColor.buttonBG,
                   borderRadius: BorderRadius.circular(5),
                   onChanged: (String? newValue) {
                     setState1(() {
@@ -349,7 +348,7 @@ class _IncomeState extends State<Income> {
         actions: <Widget>[
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              primary: AppColors.primary,
+              backgroundColor: AppColor.primary,
               minimumSize: Size.zero,
               padding: EdgeInsets.all(10),
               elevation: 5,
@@ -363,9 +362,9 @@ class _IncomeState extends State<Income> {
                 Navigator.pop(context);
 
                 final resData = await IncomeHttp().addIncome(
-                  AddExpenseIncome(
+                  IncomeData(
                     name: name,
-                    amount: amount,
+                    amount: int.parse(amount),
                     category: category,
                   ),
                 );
@@ -383,7 +382,7 @@ class _IncomeState extends State<Income> {
                     gravity: ToastGravity.TOP,
                     timeInSecForIosWeb: 3,
                     backgroundColor: Colors.green,
-                    textColor: AppColors.onPrimary,
+                    textColor: AppColor.onPrimary,
                     fontSize: 16.0,
                   );
 
@@ -401,7 +400,7 @@ class _IncomeState extends State<Income> {
                     gravity: ToastGravity.TOP,
                     timeInSecForIosWeb: 3,
                     backgroundColor: Colors.red,
-                    textColor: AppColors.onPrimary,
+                    textColor: AppColor.onPrimary,
                     fontSize: 16.0,
                   );
                 }
@@ -412,7 +411,7 @@ class _IncomeState extends State<Income> {
                   gravity: ToastGravity.BOTTOM,
                   timeInSecForIosWeb: 3,
                   backgroundColor: Colors.red,
-                  textColor: AppColors.onPrimary,
+                  textColor: AppColor.onPrimary,
                   fontSize: 16.0,
                 );
               }
@@ -421,11 +420,11 @@ class _IncomeState extends State<Income> {
           ),
           OutlinedButton(
             style: OutlinedButton.styleFrom(
-              primary: AppColors.primary,
+              backgroundColor: AppColor.primary,
               minimumSize: Size.zero,
               padding: EdgeInsets.all(10),
               side: BorderSide(
-                color: AppColors.primary,
+                color: AppColor.primary,
                 width: 2,
                 style: BorderStyle.solid,
               ),
@@ -446,7 +445,7 @@ class _IncomeState extends State<Income> {
 
   Widget congratulation(BuildContext context) {
     return SimpleDialog(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColor.backgroundLight,
       titlePadding: EdgeInsets.zero,
       contentPadding: EdgeInsets.all(10),
       children: [
@@ -467,7 +466,7 @@ class _IncomeState extends State<Income> {
             Text(
               "New Achievement Unlocked.",
               style: TextStyle(
-                color: AppColors.iconHeading,
+                color: AppColor.text,
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
@@ -477,7 +476,7 @@ class _IncomeState extends State<Income> {
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: AppColors.primary,
+                backgroundColor: AppColor.primary,
                 minimumSize: Size.zero,
                 padding: EdgeInsets.all(8),
                 elevation: 5,
@@ -503,13 +502,13 @@ class _IncomeState extends State<Income> {
   }
 
   Widget getButtons(BuildContext context) {
-    final sWidth = MediaQuery.of(context).size.width;
+    final width = MediaQuery.of(context).size.width;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         SizedBox(
-          width: sWidth * .30,
+          width: width * .30,
           child: ElevatedButton(
             onPressed: () {
               if (incomeIndex == 0) {
@@ -533,10 +532,10 @@ class _IncomeState extends State<Income> {
               ),
             ),
             style: ElevatedButton.styleFrom(
-              primary: incomeIndex == 0 ? AppColors.primary : AppColors.button,
-              onPrimary: incomeIndex == 0
-                  ? AppColors.onPrimary
-                  : AppColors.iconHeading,
+              backgroundColor:
+                  incomeIndex == 0 ? AppColor.primary : AppColor.buttonBG,
+              foregroundColor:
+                  incomeIndex == 0 ? AppColor.onPrimary : AppColor.text,
               minimumSize: Size.zero,
               padding: EdgeInsets.symmetric(
                 vertical: 10,
@@ -549,7 +548,7 @@ class _IncomeState extends State<Income> {
           ),
         ),
         SizedBox(
-          width: sWidth * .30,
+          width: width * .30,
           child: ElevatedButton(
             onPressed: () {
               if (incomeIndex == 1) {
@@ -573,10 +572,10 @@ class _IncomeState extends State<Income> {
               ),
             ),
             style: ElevatedButton.styleFrom(
-              primary: incomeIndex == 1 ? AppColors.primary : AppColors.button,
-              onPrimary: incomeIndex == 1
-                  ? AppColors.onPrimary
-                  : AppColors.iconHeading,
+              backgroundColor:
+                  incomeIndex == 1 ? AppColor.primary : AppColor.buttonBG,
+              foregroundColor:
+                  incomeIndex == 1 ? AppColor.onPrimary : AppColor.text,
               minimumSize: Size.zero,
               padding: EdgeInsets.symmetric(
                 vertical: 10,
@@ -589,7 +588,7 @@ class _IncomeState extends State<Income> {
           ),
         ),
         SizedBox(
-          width: sWidth * .30,
+          width: width * .30,
           child: ElevatedButton(
             onPressed: () {
               if (incomeIndex == 2) {
@@ -613,10 +612,10 @@ class _IncomeState extends State<Income> {
               ),
             ),
             style: ElevatedButton.styleFrom(
-              primary: incomeIndex == 2 ? AppColors.primary : AppColors.button,
-              onPrimary: incomeIndex == 2
-                  ? AppColors.onPrimary
-                  : AppColors.iconHeading,
+              backgroundColor:
+                  incomeIndex == 2 ? AppColor.primary : AppColor.buttonBG,
+              foregroundColor:
+                  incomeIndex == 2 ? AppColor.onPrimary : AppColor.text,
               minimumSize: Size.zero,
               padding: EdgeInsets.symmetric(
                 vertical: 10,
@@ -637,7 +636,7 @@ class _IncomeState extends State<Income> {
 
     return StatefulBuilder(builder: (context, setState1) {
       return SimpleDialog(
-        backgroundColor: AppColors.background,
+        backgroundColor: AppColor.backgroundLight,
         children: [
           SimpleDialogOption(
             padding: EdgeInsets.only(
@@ -672,10 +671,10 @@ class _IncomeState extends State<Income> {
                       decoration: InputDecoration(
                         isDense: true,
                         filled: true,
-                        fillColor: AppColors.button,
+                        fillColor: AppColor.buttonBG,
                         hintText: "Start Date",
                         hintStyle: TextStyle(
-                          color: AppColors.text,
+                          color: AppColor.textLight,
                         ),
                         enabledBorder: formBorder,
                         focusedBorder: formBorder,
@@ -688,7 +687,7 @@ class _IncomeState extends State<Income> {
                             padding: const EdgeInsets.only(right: 5.0),
                             child: Icon(
                               FontAwesomeIcons.calendarDays,
-                              color: AppColors.primary,
+                              color: AppColor.primary,
                             ),
                           )
                         : SizedBox(),
@@ -722,10 +721,10 @@ class _IncomeState extends State<Income> {
                       decoration: InputDecoration(
                         isDense: true,
                         filled: true,
-                        fillColor: AppColors.button,
+                        fillColor: AppColor.buttonBG,
                         hintText: "End Date",
                         hintStyle: TextStyle(
-                          color: AppColors.text,
+                          color: AppColor.textLight,
                         ),
                         enabledBorder: formBorder,
                         focusedBorder: formBorder,
@@ -738,7 +737,7 @@ class _IncomeState extends State<Income> {
                             padding: const EdgeInsets.only(right: 5.0),
                             child: Icon(
                               FontAwesomeIcons.calendarDays,
-                              color: AppColors.primary,
+                              color: AppColor.primary,
                             ),
                           )
                         : SizedBox(),
@@ -759,7 +758,7 @@ class _IncomeState extends State<Income> {
                         gravity: ToastGravity.BOTTOM,
                         timeInSecForIosWeb: 3,
                         backgroundColor: Colors.red,
-                        textColor: AppColors.onPrimary,
+                        textColor: AppColor.onPrimary,
                         fontSize: 16.0,
                       );
                     } else {
@@ -782,8 +781,8 @@ class _IncomeState extends State<Income> {
                     ),
                   ),
                   style: ElevatedButton.styleFrom(
-                    primary: AppColors.primary,
-                    onPrimary: AppColors.onPrimary,
+                    backgroundColor: AppColor.primary,
+                    onPrimary: AppColor.onPrimary,
                     minimumSize: Size.zero,
                     padding: EdgeInsets.all(10),
                     elevation: 5,
@@ -806,7 +805,7 @@ class _IncomeState extends State<Income> {
     int amount,
     List<IncomeCategorized> category,
   ) {
-    final sWidth = MediaQuery.of(context).size.width;
+    final width = MediaQuery.of(context).size.width;
 
     if (incomes.isNotEmpty) {
       return Column(
@@ -821,7 +820,7 @@ class _IncomeState extends State<Income> {
                   "Income Categories",
                   style: TextStyle(
                     fontSize: 18,
-                    color: AppColors.iconHeading,
+                    color: AppColor.text,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -829,8 +828,8 @@ class _IncomeState extends State<Income> {
             ),
           ),
           SizedBox(
-            width: sWidth * .5,
-            height: sWidth * .5,
+            width: width * .5,
+            height: width * .5,
             child: PieChart(
               PieChartData(
                 pieTouchData: PieTouchData(
@@ -858,7 +857,7 @@ class _IncomeState extends State<Income> {
                       final isTouched = index == touchedIndex;
                       final double fontSize = isTouched ? 20 : 15;
                       final double radius =
-                          isTouched ? sWidth * .18 : sWidth * .16;
+                          isTouched ? width * .18 : width * .16;
 
                       final pieData = PieChartSectionData(
                         value: double.parse(
@@ -869,7 +868,7 @@ class _IncomeState extends State<Income> {
                             Category.incomeCategory.indexOf(data.category!)],
                         radius: radius,
                         titleStyle: TextStyle(
-                          color: AppColors.onPrimary,
+                          color: AppColor.onPrimary,
                           fontSize: fontSize,
                           fontWeight: FontWeight.bold,
                         ),
@@ -907,7 +906,7 @@ class _IncomeState extends State<Income> {
                       text: TextSpan(
                         text: category[index].category!,
                         style: TextStyle(
-                          color: AppColors.iconHeading,
+                          color: AppColor.text,
                           fontWeight: FontWeight.bold,
                           fontSize: 13,
                         ),
@@ -924,7 +923,7 @@ class _IncomeState extends State<Income> {
                 text: TextSpan(
                   text: "= ",
                   style: TextStyle(
-                    color: AppColors.iconHeading,
+                    color: AppColor.text,
                     fontWeight: FontWeight.bold,
                     fontSize: 20,
                   ),
@@ -950,7 +949,7 @@ class _IncomeState extends State<Income> {
                 "Income Items",
                 style: TextStyle(
                   fontSize: 18,
-                  color: AppColors.iconHeading,
+                  color: AppColor.text,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -987,30 +986,35 @@ class _IncomeState extends State<Income> {
                     },
                   );
                 },
-                leading: Text(
-                  (index + 1).toString() + ".",
-                  style: TextStyle(
-                    color: AppColors.iconHeading,
-                    fontWeight: FontWeight.bold,
-                  ),
+                leading: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      (index + 1).toString() + ".",
+                      style: TextStyle(
+                        color: AppColor.text,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
                 title: Text(
                   incomes[index].name!,
                   style: TextStyle(
-                    color: AppColors.iconHeading,
+                    color: AppColor.text,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 subtitle: Text(
                   incomes[index].category!,
                   style: TextStyle(
-                    color: AppColors.text,
+                    color: AppColor.textLight,
                   ),
                 ),
                 trailing: Text(
                   "Rs. " + incomes[index].amount!.toString(),
                   style: TextStyle(
-                    color: AppColors.iconHeading,
+                    color: AppColor.text,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -1028,13 +1032,13 @@ class _IncomeState extends State<Income> {
             Text(
               "No incomes",
               style: TextStyle(
-                color: AppColors.iconHeading,
+                color: AppColor.text,
                 fontWeight: FontWeight.bold,
               ),
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: AppColors.primary,
+                backgroundColor: AppColor.primary,
                 minimumSize: Size.zero,
                 padding: EdgeInsets.all(10),
                 elevation: 5,
@@ -1064,7 +1068,7 @@ class _IncomeState extends State<Income> {
             Text(
               "No incomes",
               style: TextStyle(
-                color: AppColors.iconHeading,
+                color: AppColor.text,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -1083,7 +1087,7 @@ class _IncomeState extends State<Income> {
         horizontal: MediaQuery.of(context).size.width * .20,
       ),
       decoration: BoxDecoration(
-        color: AppColors.background,
+        color: AppColor.backgroundLight,
         borderRadius: BorderRadius.only(
           topLeft: const Radius.circular(15.0),
           topRight: const Radius.circular(15.0),
@@ -1095,7 +1099,7 @@ class _IncomeState extends State<Income> {
         children: [
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              primary: AppColors.primary,
+              backgroundColor: AppColor.primary,
               minimumSize: Size.zero,
               padding: EdgeInsets.all(0),
               elevation: 5,
@@ -1135,7 +1139,7 @@ class _IncomeState extends State<Income> {
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              primary: Colors.red,
+              backgroundColor: Colors.red,
               minimumSize: Size.zero,
               padding: EdgeInsets.all(0),
               elevation: 5,
@@ -1152,8 +1156,8 @@ class _IncomeState extends State<Income> {
                 toastLength: Toast.LENGTH_SHORT,
                 gravity: ToastGravity.TOP,
                 timeInSecForIosWeb: 3,
-                backgroundColor: AppColors.primary,
-                textColor: AppColors.onPrimary,
+                backgroundColor: AppColor.primary,
+                textColor: AppColor.onPrimary,
                 fontSize: 16.0,
               );
             },
@@ -1189,7 +1193,7 @@ class _IncomeState extends State<Income> {
 
     return StatefulBuilder(builder: (context, setState1) {
       return AlertDialog(
-        backgroundColor: AppColors.background,
+        backgroundColor: AppColor.backgroundLight,
         title: Form(
           key: _formKey,
           child: Column(
@@ -1201,10 +1205,10 @@ class _IncomeState extends State<Income> {
                 }),
                 decoration: InputDecoration(
                   filled: true,
-                  fillColor: AppColors.button,
+                  fillColor: AppColor.buttonBG,
                   hintText: "Enter name",
                   hintStyle: TextStyle(
-                    color: AppColors.iconHeading,
+                    color: AppColor.text,
                   ),
                   enabledBorder: formBorder,
                   focusedBorder: formBorder,
@@ -1223,10 +1227,10 @@ class _IncomeState extends State<Income> {
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                   filled: true,
-                  fillColor: AppColors.button,
+                  fillColor: AppColor.buttonBG,
                   hintText: "Enter amount",
                   hintStyle: TextStyle(
-                    color: AppColors.iconHeading,
+                    color: AppColor.text,
                   ),
                   enabledBorder: formBorder,
                   focusedBorder: formBorder,
@@ -1242,7 +1246,7 @@ class _IncomeState extends State<Income> {
                   horizontal: 10,
                 ),
                 decoration: BoxDecoration(
-                  color: AppColors.button,
+                  color: AppColor.buttonBG,
                   borderRadius: BorderRadius.circular(5),
                 ),
                 child: DropdownButton(
@@ -1250,11 +1254,11 @@ class _IncomeState extends State<Income> {
                   elevation: 20,
                   underline: SizedBox(),
                   style: TextStyle(
-                    color: AppColors.iconHeading,
+                    color: AppColor.text,
                     fontSize: 15,
                   ),
                   isExpanded: true,
-                  dropdownColor: AppColors.button,
+                  dropdownColor: AppColor.buttonBG,
                   borderRadius: BorderRadius.circular(5),
                   onChanged: (String? newValue) {
                     setState1(() {
@@ -1275,7 +1279,7 @@ class _IncomeState extends State<Income> {
         actions: <Widget>[
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              primary: AppColors.primary,
+              backgroundColor: AppColor.primary,
               minimumSize: Size.zero,
               padding: EdgeInsets.all(8),
               elevation: 5,
@@ -1306,7 +1310,7 @@ class _IncomeState extends State<Income> {
                     gravity: ToastGravity.TOP,
                     timeInSecForIosWeb: 3,
                     backgroundColor: Colors.green,
-                    textColor: AppColors.onPrimary,
+                    textColor: AppColor.onPrimary,
                     fontSize: 16.0,
                   );
                 } else {
@@ -1316,7 +1320,7 @@ class _IncomeState extends State<Income> {
                     gravity: ToastGravity.TOP,
                     timeInSecForIosWeb: 3,
                     backgroundColor: Colors.red,
-                    textColor: AppColors.onPrimary,
+                    textColor: AppColor.onPrimary,
                     fontSize: 16.0,
                   );
                 }
@@ -1327,7 +1331,7 @@ class _IncomeState extends State<Income> {
                   gravity: ToastGravity.BOTTOM,
                   timeInSecForIosWeb: 3,
                   backgroundColor: Colors.red,
-                  textColor: AppColors.onPrimary,
+                  textColor: AppColor.onPrimary,
                   fontSize: 16.0,
                 );
               }
@@ -1336,7 +1340,7 @@ class _IncomeState extends State<Income> {
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              primary: AppColors.primary,
+              backgroundColor: AppColor.primary,
               minimumSize: Size.zero,
               padding: EdgeInsets.all(8),
               elevation: 5,

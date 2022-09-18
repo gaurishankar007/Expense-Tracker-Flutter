@@ -1,7 +1,5 @@
-import 'package:expense_tracker/api/http/expense_http.dart';
-import 'package:expense_tracker/api/model/expense_income_model.dart';
-import 'package:expense_tracker/api/res/expense_res.dart';
-import 'package:expense_tracker/resource/category.dart';
+import 'package:expense_tracker/data/remote/expense_http.dart';
+import 'package:expense_tracker/config/category.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -9,18 +7,19 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 
-import '../../resource/colors.dart';
-import '../../widget/navigator.dart';
+import '../../config/themes/constant.dart';
+import '../../data/model/expense_model.dart';
+import '../../widgets/navigator.dart';
 import '../progress/result.dart';
 
-class Expense extends StatefulWidget {
-  const Expense({Key? key}) : super(key: key);
+class ExpensePage extends StatefulWidget {
+  const ExpensePage({Key? key}) : super(key: key);
 
   @override
-  State<Expense> createState() => _ExpenseState();
+  State<ExpensePage> createState() => _ExpensePageState();
 }
 
-class _ExpenseState extends State<Expense> {
+class _ExpensePageState extends State<ExpensePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final _formKey = GlobalKey<FormState>();
   String name = "", amount = "", category = "Other", firstDate = "";
@@ -28,7 +27,7 @@ class _ExpenseState extends State<Expense> {
   OutlineInputBorder formBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(5),
     borderSide: BorderSide(
-      color: AppColors.button,
+      color: AppColor.buttonBG,
       width: 2,
       style: BorderStyle.solid,
     ),
@@ -65,8 +64,8 @@ class _ExpenseState extends State<Expense> {
 
   @override
   Widget build(BuildContext context) {
-    final sWidth = MediaQuery.of(context).size.width;
-    final sHeight = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
 
     return Scaffold(
       key: _scaffoldKey,
@@ -74,8 +73,8 @@ class _ExpenseState extends State<Expense> {
         child: SingleChildScrollView(
             padding: EdgeInsets.only(
               top: 10,
-              right: sWidth * 0.03,
-              left: sWidth * 0.03,
+              right: width * 0.03,
+              left: width * 0.03,
               bottom: 50,
             ),
             child: FutureBuilder<ExpenseDWM>(
@@ -85,13 +84,13 @@ class _ExpenseState extends State<Expense> {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   children = <Widget>[
                     Container(
-                      width: sWidth,
-                      height: sHeight,
+                      width: width,
+                      height: height,
                       alignment: Alignment.center,
                       child: CircularProgressIndicator(
                         strokeWidth: 6,
-                        color: AppColors.primary,
-                        backgroundColor: AppColors.button,
+                        color: AppColor.primary,
+                        backgroundColor: AppColor.buttonBG,
                       ),
                     )
                   ];
@@ -115,7 +114,7 @@ class _ExpenseState extends State<Expense> {
                               Text(
                                 "Your Expenses",
                                 style: TextStyle(
-                                  color: AppColors.iconHeading,
+                                  color: AppColor.text,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 18,
                                 ),
@@ -140,7 +139,7 @@ class _ExpenseState extends State<Expense> {
                             },
                             icon: Icon(
                               Icons.search_rounded,
-                              color: AppColors.iconHeading,
+                              color: AppColor.text,
                               size: 30,
                             ),
                           ),
@@ -162,8 +161,8 @@ class _ExpenseState extends State<Expense> {
                         "Socket") {
                       children = <Widget>[
                         Container(
-                          width: sWidth,
-                          height: sHeight,
+                          width: width,
+                          height: height,
                           alignment: Alignment.center,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -188,8 +187,8 @@ class _ExpenseState extends State<Expense> {
                     } else {
                       children = <Widget>[
                         Container(
-                          width: sWidth,
-                          height: sHeight,
+                          width: width,
+                          height: height,
                           alignment: Alignment.center,
                           child: Text(
                             "${snapshot.error}",
@@ -219,10 +218,10 @@ class _ExpenseState extends State<Expense> {
               },
             );
           },
-          backgroundColor: AppColors.primary,
+          backgroundColor: AppColor.primary,
           child: Icon(
             Icons.add,
-            color: AppColors.onPrimary,
+            color: AppColor.onPrimary,
           ),
         ),
       ),
@@ -262,7 +261,7 @@ class _ExpenseState extends State<Expense> {
   Widget addExpense(BuildContext context) {
     return StatefulBuilder(builder: (context, setState1) {
       return AlertDialog(
-        backgroundColor: AppColors.background,
+        backgroundColor: AppColor.backgroundLight,
         title: Form(
           key: _formKey,
           child: Column(
@@ -273,9 +272,9 @@ class _ExpenseState extends State<Expense> {
                 }),
                 decoration: InputDecoration(
                   filled: true,
-                  fillColor: AppColors.button,
+                  fillColor: AppColor.buttonBG,
                   hintStyle: TextStyle(
-                    color: AppColors.text,
+                    color: AppColor.textLight,
                   ),
                   hintText: "Enter name",
                   enabledBorder: formBorder,
@@ -294,10 +293,10 @@ class _ExpenseState extends State<Expense> {
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                   filled: true,
-                  fillColor: AppColors.button,
+                  fillColor: AppColor.buttonBG,
                   hintText: "Enter amount",
                   hintStyle: TextStyle(
-                    color: AppColors.text,
+                    color: AppColor.textLight,
                   ),
                   enabledBorder: formBorder,
                   focusedBorder: formBorder,
@@ -313,7 +312,7 @@ class _ExpenseState extends State<Expense> {
                   horizontal: 10,
                 ),
                 decoration: BoxDecoration(
-                  color: AppColors.button,
+                  color: AppColor.buttonBG,
                   borderRadius: BorderRadius.circular(5),
                 ),
                 child: DropdownButton(
@@ -321,11 +320,11 @@ class _ExpenseState extends State<Expense> {
                   elevation: 20,
                   underline: SizedBox(),
                   style: TextStyle(
-                    color: AppColors.iconHeading,
+                    color: AppColor.text,
                     fontSize: 15,
                   ),
                   isExpanded: true,
-                  dropdownColor: AppColors.button,
+                  dropdownColor: AppColor.buttonBG,
                   borderRadius: BorderRadius.circular(5),
                   onChanged: (String? newValue) {
                     setState1(() {
@@ -346,7 +345,7 @@ class _ExpenseState extends State<Expense> {
         actions: <Widget>[
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              primary: AppColors.primary,
+              backgroundColor: AppColor.primary,
               minimumSize: Size.zero,
               padding: EdgeInsets.all(10),
               elevation: 5,
@@ -360,9 +359,9 @@ class _ExpenseState extends State<Expense> {
                 Navigator.pop(context);
 
                 final resData = await ExpenseHttp().addExpense(
-                  AddExpenseIncome(
+                  ExpenseData(
                     name: name,
-                    amount: amount,
+                    amount: int.parse(amount),
                     category: category,
                   ),
                 );
@@ -380,7 +379,7 @@ class _ExpenseState extends State<Expense> {
                     gravity: ToastGravity.TOP,
                     timeInSecForIosWeb: 3,
                     backgroundColor: Colors.green,
-                    textColor: AppColors.onPrimary,
+                    textColor: AppColor.onPrimary,
                     fontSize: 16.0,
                   );
 
@@ -398,7 +397,7 @@ class _ExpenseState extends State<Expense> {
                     gravity: ToastGravity.TOP,
                     timeInSecForIosWeb: 3,
                     backgroundColor: Colors.red,
-                    textColor: AppColors.onPrimary,
+                    textColor: AppColor.onPrimary,
                     fontSize: 16.0,
                   );
                 }
@@ -409,7 +408,7 @@ class _ExpenseState extends State<Expense> {
                   gravity: ToastGravity.BOTTOM,
                   timeInSecForIosWeb: 3,
                   backgroundColor: Colors.red,
-                  textColor: AppColors.onPrimary,
+                  textColor: AppColor.onPrimary,
                   fontSize: 16.0,
                 );
               }
@@ -418,11 +417,11 @@ class _ExpenseState extends State<Expense> {
           ),
           OutlinedButton(
             style: OutlinedButton.styleFrom(
-              primary: AppColors.primary,
+              backgroundColor: AppColor.primary,
               minimumSize: Size.zero,
               padding: EdgeInsets.all(10),
               side: BorderSide(
-                color: AppColors.primary,
+                color: AppColor.primary,
                 width: 2,
                 style: BorderStyle.solid,
               ),
@@ -443,7 +442,7 @@ class _ExpenseState extends State<Expense> {
 
   Widget congratulation(BuildContext context) {
     return SimpleDialog(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColor.backgroundLight,
       titlePadding: EdgeInsets.zero,
       contentPadding: EdgeInsets.all(10),
       children: [
@@ -464,7 +463,7 @@ class _ExpenseState extends State<Expense> {
             Text(
               "New Achievement Unlocked.",
               style: TextStyle(
-                color: AppColors.iconHeading,
+                color: AppColor.text,
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
@@ -474,7 +473,7 @@ class _ExpenseState extends State<Expense> {
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: AppColors.primary,
+                backgroundColor: AppColor.primary,
                 minimumSize: Size.zero,
                 padding: EdgeInsets.all(8),
                 elevation: 5,
@@ -500,13 +499,13 @@ class _ExpenseState extends State<Expense> {
   }
 
   Widget getButtons(BuildContext context) {
-    final sWidth = MediaQuery.of(context).size.width;
+    final width = MediaQuery.of(context).size.width;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         SizedBox(
-          width: sWidth * .30,
+          width: width * .30,
           child: ElevatedButton(
             onPressed: () {
               if (expenseIndex == 0) {
@@ -530,10 +529,10 @@ class _ExpenseState extends State<Expense> {
               ),
             ),
             style: ElevatedButton.styleFrom(
-              primary: expenseIndex == 0 ? AppColors.primary : AppColors.button,
-              onPrimary: expenseIndex == 0
-                  ? AppColors.onPrimary
-                  : AppColors.iconHeading,
+              backgroundColor:
+                  expenseIndex == 0 ? AppColor.primary : AppColor.buttonBG,
+              foregroundColor:
+                  expenseIndex == 0 ? AppColor.onPrimary : AppColor.text,
               minimumSize: Size.zero,
               padding: EdgeInsets.symmetric(
                 vertical: 10,
@@ -546,7 +545,7 @@ class _ExpenseState extends State<Expense> {
           ),
         ),
         SizedBox(
-          width: sWidth * .30,
+          width: width * .30,
           child: ElevatedButton(
             onPressed: () {
               if (expenseIndex == 1) {
@@ -570,10 +569,10 @@ class _ExpenseState extends State<Expense> {
               ),
             ),
             style: ElevatedButton.styleFrom(
-              primary: expenseIndex == 1 ? AppColors.primary : AppColors.button,
-              onPrimary: expenseIndex == 1
-                  ? AppColors.onPrimary
-                  : AppColors.iconHeading,
+              backgroundColor:
+                  expenseIndex == 1 ? AppColor.primary : AppColor.buttonBG,
+              foregroundColor:
+                  expenseIndex == 1 ? AppColor.onPrimary : AppColor.text,
               minimumSize: Size.zero,
               padding: EdgeInsets.symmetric(
                 vertical: 10,
@@ -586,7 +585,7 @@ class _ExpenseState extends State<Expense> {
           ),
         ),
         SizedBox(
-          width: sWidth * .30,
+          width: width * .30,
           child: ElevatedButton(
             onPressed: () {
               if (expenseIndex == 2) {
@@ -610,10 +609,10 @@ class _ExpenseState extends State<Expense> {
               ),
             ),
             style: ElevatedButton.styleFrom(
-              primary: expenseIndex == 2 ? AppColors.primary : AppColors.button,
-              onPrimary: expenseIndex == 2
-                  ? AppColors.onPrimary
-                  : AppColors.iconHeading,
+              backgroundColor:
+                  expenseIndex == 2 ? AppColor.primary : AppColor.buttonBG,
+              foregroundColor:
+                  expenseIndex == 2 ? AppColor.onPrimary : AppColor.text,
               minimumSize: Size.zero,
               padding: EdgeInsets.symmetric(
                 vertical: 10,
@@ -634,7 +633,7 @@ class _ExpenseState extends State<Expense> {
 
     return StatefulBuilder(builder: (context, setState1) {
       return SimpleDialog(
-        backgroundColor: AppColors.background,
+        backgroundColor: AppColor.backgroundLight,
         children: [
           SimpleDialogOption(
             padding: EdgeInsets.only(
@@ -669,10 +668,10 @@ class _ExpenseState extends State<Expense> {
                       decoration: InputDecoration(
                         isDense: true,
                         filled: true,
-                        fillColor: AppColors.button,
+                        fillColor: AppColor.buttonBG,
                         hintText: "Start Date",
                         hintStyle: TextStyle(
-                          color: AppColors.text,
+                          color: AppColor.textLight,
                         ),
                         enabledBorder: formBorder,
                         focusedBorder: formBorder,
@@ -685,7 +684,7 @@ class _ExpenseState extends State<Expense> {
                             padding: const EdgeInsets.only(right: 5.0),
                             child: Icon(
                               FontAwesomeIcons.calendarDays,
-                              color: AppColors.primary,
+                              color: AppColor.primary,
                             ),
                           )
                         : SizedBox(),
@@ -719,10 +718,10 @@ class _ExpenseState extends State<Expense> {
                       decoration: InputDecoration(
                         isDense: true,
                         filled: true,
-                        fillColor: AppColors.button,
+                        fillColor: AppColor.buttonBG,
                         hintText: "End Date",
                         hintStyle: TextStyle(
-                          color: AppColors.text,
+                          color: AppColor.textLight,
                         ),
                         enabledBorder: formBorder,
                         focusedBorder: formBorder,
@@ -735,7 +734,7 @@ class _ExpenseState extends State<Expense> {
                             padding: const EdgeInsets.only(right: 5.0),
                             child: Icon(
                               FontAwesomeIcons.calendarDays,
-                              color: AppColors.primary,
+                              color: AppColor.primary,
                             ),
                           )
                         : SizedBox(),
@@ -756,7 +755,7 @@ class _ExpenseState extends State<Expense> {
                         gravity: ToastGravity.BOTTOM,
                         timeInSecForIosWeb: 3,
                         backgroundColor: Colors.red,
-                        textColor: AppColors.onPrimary,
+                        textColor: AppColor.onPrimary,
                         fontSize: 16.0,
                       );
                     } else {
@@ -779,8 +778,8 @@ class _ExpenseState extends State<Expense> {
                     ),
                   ),
                   style: ElevatedButton.styleFrom(
-                    primary: AppColors.primary,
-                    onPrimary: AppColors.onPrimary,
+                    backgroundColor: AppColor.primary,
+                    onPrimary: AppColor.onPrimary,
                     minimumSize: Size.zero,
                     padding: EdgeInsets.all(10),
                     elevation: 5,
@@ -803,7 +802,7 @@ class _ExpenseState extends State<Expense> {
     int amount,
     List<ExpenseCategorized> category,
   ) {
-    final sWidth = MediaQuery.of(context).size.width;
+    final width = MediaQuery.of(context).size.width;
 
     if (expenses.isNotEmpty) {
       return Column(
@@ -818,7 +817,7 @@ class _ExpenseState extends State<Expense> {
                   "Expense Categories",
                   style: TextStyle(
                     fontSize: 18,
-                    color: AppColors.iconHeading,
+                    color: AppColor.text,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -826,8 +825,8 @@ class _ExpenseState extends State<Expense> {
             ),
           ),
           SizedBox(
-            width: sWidth * .5,
-            height: sWidth * .5,
+            width: width * .5,
+            height: width * .5,
             child: PieChart(
               PieChartData(
                 pieTouchData: PieTouchData(
@@ -855,7 +854,7 @@ class _ExpenseState extends State<Expense> {
                       final isTouched = index == touchedIndex;
                       final double fontSize = isTouched ? 20 : 15;
                       final double radius =
-                          isTouched ? sWidth * .18 : sWidth * .16;
+                          isTouched ? width * .18 : width * .16;
 
                       final pieData = PieChartSectionData(
                         value: double.parse(
@@ -866,7 +865,7 @@ class _ExpenseState extends State<Expense> {
                             Category.expenseCategory.indexOf(data.category!)],
                         radius: radius,
                         titleStyle: TextStyle(
-                          color: AppColors.onPrimary,
+                          color: AppColor.onPrimary,
                           fontSize: fontSize,
                           fontWeight: FontWeight.bold,
                         ),
@@ -904,7 +903,7 @@ class _ExpenseState extends State<Expense> {
                       text: TextSpan(
                         text: category[index].category!,
                         style: TextStyle(
-                          color: AppColors.iconHeading,
+                          color: AppColor.text,
                           fontWeight: FontWeight.bold,
                           fontSize: 13,
                         ),
@@ -921,7 +920,7 @@ class _ExpenseState extends State<Expense> {
                 text: TextSpan(
                   text: "= ",
                   style: TextStyle(
-                    color: AppColors.iconHeading,
+                    color: AppColor.text,
                     fontWeight: FontWeight.bold,
                     fontSize: 20,
                   ),
@@ -947,7 +946,7 @@ class _ExpenseState extends State<Expense> {
                 "Expense Items",
                 style: TextStyle(
                   fontSize: 18,
-                  color: AppColors.iconHeading,
+                  color: AppColor.text,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -983,30 +982,35 @@ class _ExpenseState extends State<Expense> {
                     },
                   );
                 },
-                leading: Text(
-                  (index + 1).toString() + ".",
-                  style: TextStyle(
-                    color: AppColors.iconHeading,
-                    fontWeight: FontWeight.bold,
-                  ),
+                leading: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      (index + 1).toString() + ".",
+                      style: TextStyle(
+                        color: AppColor.text,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
                 title: Text(
                   expenses[index].name!,
                   style: TextStyle(
-                    color: AppColors.iconHeading,
+                    color: AppColor.text,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 subtitle: Text(
                   expenses[index].category!,
                   style: TextStyle(
-                    color: AppColors.text,
+                    color: AppColor.textLight,
                   ),
                 ),
                 trailing: Text(
                   "Rs. " + expenses[index].amount!.toString(),
                   style: TextStyle(
-                    color: AppColors.iconHeading,
+                    color: AppColor.text,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -1024,13 +1028,13 @@ class _ExpenseState extends State<Expense> {
             Text(
               "No expenses",
               style: TextStyle(
-                color: AppColors.iconHeading,
+                color: AppColor.text,
                 fontWeight: FontWeight.bold,
               ),
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: AppColors.primary,
+                backgroundColor: AppColor.primary,
                 minimumSize: Size.zero,
                 padding: EdgeInsets.all(10),
                 elevation: 5,
@@ -1060,7 +1064,7 @@ class _ExpenseState extends State<Expense> {
             Text(
               "No expenses",
               style: TextStyle(
-                color: AppColors.iconHeading,
+                color: AppColor.text,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -1079,7 +1083,7 @@ class _ExpenseState extends State<Expense> {
         horizontal: MediaQuery.of(context).size.width * .20,
       ),
       decoration: BoxDecoration(
-        color: AppColors.background,
+        color: AppColor.backgroundLight,
         borderRadius: BorderRadius.only(
           topLeft: const Radius.circular(15.0),
           topRight: const Radius.circular(15.0),
@@ -1091,7 +1095,7 @@ class _ExpenseState extends State<Expense> {
         children: [
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              primary: AppColors.primary,
+              backgroundColor: AppColor.primary,
               minimumSize: Size.zero,
               padding: EdgeInsets.all(0),
               elevation: 5,
@@ -1131,7 +1135,7 @@ class _ExpenseState extends State<Expense> {
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              primary: Colors.red,
+              backgroundColor: Colors.red,
               minimumSize: Size.zero,
               padding: EdgeInsets.all(0),
               elevation: 5,
@@ -1149,8 +1153,8 @@ class _ExpenseState extends State<Expense> {
                 toastLength: Toast.LENGTH_SHORT,
                 gravity: ToastGravity.TOP,
                 timeInSecForIosWeb: 3,
-                backgroundColor: AppColors.primary,
-                textColor: AppColors.onPrimary,
+                backgroundColor: AppColor.primary,
+                textColor: AppColor.onPrimary,
                 fontSize: 16.0,
               );
             },
@@ -1186,7 +1190,7 @@ class _ExpenseState extends State<Expense> {
 
     return StatefulBuilder(builder: (context, setState1) {
       return AlertDialog(
-        backgroundColor: AppColors.background,
+        backgroundColor: AppColor.backgroundLight,
         title: Form(
           key: _formKey,
           child: Column(
@@ -1198,10 +1202,10 @@ class _ExpenseState extends State<Expense> {
                 }),
                 decoration: InputDecoration(
                   filled: true,
-                  fillColor: AppColors.button,
+                  fillColor: AppColor.buttonBG,
                   hintText: "Enter name",
                   hintStyle: TextStyle(
-                    color: AppColors.iconHeading,
+                    color: AppColor.text,
                   ),
                   enabledBorder: formBorder,
                   focusedBorder: formBorder,
@@ -1220,10 +1224,10 @@ class _ExpenseState extends State<Expense> {
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                   filled: true,
-                  fillColor: AppColors.button,
+                  fillColor: AppColor.buttonBG,
                   hintText: "Enter amount",
                   hintStyle: TextStyle(
-                    color: AppColors.iconHeading,
+                    color: AppColor.text,
                   ),
                   enabledBorder: formBorder,
                   focusedBorder: formBorder,
@@ -1239,7 +1243,7 @@ class _ExpenseState extends State<Expense> {
                   horizontal: 10,
                 ),
                 decoration: BoxDecoration(
-                  color: AppColors.button,
+                  color: AppColor.buttonBG,
                   borderRadius: BorderRadius.circular(5),
                 ),
                 child: DropdownButton(
@@ -1247,11 +1251,11 @@ class _ExpenseState extends State<Expense> {
                   elevation: 20,
                   underline: SizedBox(),
                   style: TextStyle(
-                    color: AppColors.iconHeading,
+                    color: AppColor.text,
                     fontSize: 15,
                   ),
                   isExpanded: true,
-                  dropdownColor: AppColors.button,
+                  dropdownColor: AppColor.buttonBG,
                   borderRadius: BorderRadius.circular(5),
                   onChanged: (String? newValue) {
                     setState1(() {
@@ -1272,7 +1276,7 @@ class _ExpenseState extends State<Expense> {
         actions: <Widget>[
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              primary: AppColors.primary,
+              backgroundColor: AppColor.primary,
               minimumSize: Size.zero,
               padding: EdgeInsets.all(8),
               elevation: 5,
@@ -1303,7 +1307,7 @@ class _ExpenseState extends State<Expense> {
                     gravity: ToastGravity.TOP,
                     timeInSecForIosWeb: 3,
                     backgroundColor: Colors.green,
-                    textColor: AppColors.onPrimary,
+                    textColor: AppColor.onPrimary,
                     fontSize: 16.0,
                   );
                 } else {
@@ -1313,7 +1317,7 @@ class _ExpenseState extends State<Expense> {
                     gravity: ToastGravity.TOP,
                     timeInSecForIosWeb: 3,
                     backgroundColor: Colors.red,
-                    textColor: AppColors.onPrimary,
+                    textColor: AppColor.onPrimary,
                     fontSize: 16.0,
                   );
                 }
@@ -1324,7 +1328,7 @@ class _ExpenseState extends State<Expense> {
                   gravity: ToastGravity.BOTTOM,
                   timeInSecForIosWeb: 3,
                   backgroundColor: Colors.red,
-                  textColor: AppColors.onPrimary,
+                  textColor: AppColor.onPrimary,
                   fontSize: 16.0,
                 );
               }
@@ -1333,7 +1337,7 @@ class _ExpenseState extends State<Expense> {
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              primary: AppColors.primary,
+              backgroundColor: AppColor.primary,
               minimumSize: Size.zero,
               padding: EdgeInsets.all(8),
               elevation: 5,

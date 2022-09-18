@@ -3,9 +3,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:form_field_validator/form_field_validator.dart';
 
-import '../../api/http/authentication/sign_up_http.dart';
-import '../../api/model/user_model.dart';
-import '../../resource/colors.dart';
+import '../../data/remote/authentication/sign_up_http.dart';
+import '../../../data/model/user_model.dart';
+import '../../config/themes/constant.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -21,7 +21,7 @@ class _SignUpState extends State<SignUp> {
   OutlineInputBorder formBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(5),
     borderSide: BorderSide(
-      color: AppColors.button,
+      color: AppColor.buttonBG,
       width: 2,
       style: BorderStyle.solid,
     ),
@@ -35,7 +35,7 @@ class _SignUpState extends State<SignUp> {
         title: Text(
           'Welcome to Expense Tracker',
           style: TextStyle(
-            color: AppColors.iconHeading,
+            color: AppColor.text,
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
@@ -90,10 +90,10 @@ class _SignUpState extends State<SignUp> {
                   decoration: InputDecoration(
                     isDense: true,
                     filled: true,
-                    fillColor: AppColors.button,
+                    fillColor: AppColor.buttonBG,
                     hintText: "Enter your email.....",
                     hintStyle: TextStyle(
-                      color: AppColors.text,
+                      color: AppColor.textLight,
                     ),
                     enabledBorder: formBorder,
                     focusedBorder: formBorder,
@@ -119,16 +119,16 @@ class _SignUpState extends State<SignUp> {
                   decoration: InputDecoration(
                     isDense: true,
                     filled: true,
-                    fillColor: AppColors.button,
+                    fillColor: AppColor.buttonBG,
                     hintText: "Enter your profile name.....",
                     hintStyle: TextStyle(
-                      color: AppColors.text,
+                      color: AppColor.textLight,
                     ),
                     helperText:
                         "Most have 3 to 20 characters. Special characters and numbers are not accepted.",
                     helperMaxLines: 2,
                     helperStyle: TextStyle(
-                      color: AppColors.primary,
+                      color: AppColor.primary,
                     ),
                     enabledBorder: formBorder,
                     focusedBorder: formBorder,
@@ -154,16 +154,16 @@ class _SignUpState extends State<SignUp> {
                   decoration: InputDecoration(
                     isDense: true,
                     filled: true,
-                    fillColor: AppColors.button,
+                    fillColor: AppColor.buttonBG,
                     hintText: "Enter a password.....",
                     hintStyle: TextStyle(
-                      color: AppColors.text,
+                      color: AppColor.textLight,
                     ),
                     helperText:
                         "Most contain at least one upper case, lower case, number, special character, and 5 to 15 characters.",
                     helperMaxLines: 2,
                     helperStyle: TextStyle(
-                      color: AppColors.primary,
+                      color: AppColor.primary,
                     ),
                     enabledBorder: formBorder,
                     focusedBorder: formBorder,
@@ -191,10 +191,10 @@ class _SignUpState extends State<SignUp> {
                   decoration: InputDecoration(
                     isDense: true,
                     filled: true,
-                    fillColor: AppColors.button,
+                    fillColor: AppColor.buttonBG,
                     hintText: "Enter the password again.....",
                     hintStyle: TextStyle(
-                      color: AppColors.text,
+                      color: AppColor.textLight,
                     ),
                     enabledBorder: formBorder,
                     focusedBorder: formBorder,
@@ -227,7 +227,7 @@ class _SignUpState extends State<SignUp> {
                             gravity: ToastGravity.BOTTOM,
                             timeInSecForIosWeb: 3,
                             backgroundColor: Colors.green,
-                            textColor: AppColors.primary,
+                            textColor: AppColor.primary,
                             msg: resData["body"]["resM"],
                           );
                         } else {
@@ -236,7 +236,7 @@ class _SignUpState extends State<SignUp> {
                             gravity: ToastGravity.BOTTOM,
                             timeInSecForIosWeb: 3,
                             backgroundColor: Colors.red,
-                            textColor: AppColors.primary,
+                            textColor: AppColor.primary,
                             msg: resData["body"]["resM"],
                           );
                         }
@@ -246,7 +246,7 @@ class _SignUpState extends State<SignUp> {
                           gravity: ToastGravity.BOTTOM,
                           timeInSecForIosWeb: 3,
                           backgroundColor: Colors.red,
-                          textColor: AppColors.primary,
+                          textColor: AppColor.primary,
                           msg: "Please fill the required form",
                         );
                       }
@@ -258,7 +258,7 @@ class _SignUpState extends State<SignUp> {
                       ),
                     ),
                     style: ElevatedButton.styleFrom(
-                      primary: AppColors.primary,
+                      backgroundColor: AppColor.primary,
                       padding: EdgeInsets.symmetric(vertical: 10),
                       elevation: 5,
                       shape: RoundedRectangleBorder(

@@ -4,10 +4,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 
-import '../../api/http/income_http.dart';
-import '../../api/res/income_res.dart';
-import '../../resource/colors.dart';
-import '../../widget/navigator.dart';
+import '../../data/model/income_model.dart';
+import '../../data/remote/income_http.dart';
+import '../../config/themes/constant.dart';
+import '../../widgets/navigator.dart';
 
 class CategorizedIncome extends StatefulWidget {
   final String? category;
@@ -28,7 +28,7 @@ class _CategorizedIncomeState extends State<CategorizedIncome> {
   OutlineInputBorder formBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(5),
     borderSide: BorderSide(
-      color: AppColors.button,
+      color: AppColor.buttonBG,
       width: 2,
       style: BorderStyle.solid,
     ),
@@ -58,8 +58,8 @@ class _CategorizedIncomeState extends State<CategorizedIncome> {
 
   @override
   Widget build(BuildContext context) {
-    final sWidth = MediaQuery.of(context).size.width;
-    final sHeight = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
 
     return Scaffold(
       body: SafeArea(
@@ -71,13 +71,13 @@ class _CategorizedIncomeState extends State<CategorizedIncome> {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 children = <Widget>[
                   Container(
-                    width: sWidth * 0.97,
-                    height: sHeight,
+                    width: width * 0.97,
+                    height: height,
                     alignment: Alignment.center,
                     child: CircularProgressIndicator(
                       strokeWidth: 6,
-                      color: AppColors.primary,
-                      backgroundColor: AppColors.button,
+                      color: AppColor.primary,
+                      backgroundColor: AppColor.buttonBG,
                     ),
                   )
                 ];
@@ -94,8 +94,8 @@ class _CategorizedIncomeState extends State<CategorizedIncome> {
                               children: [
                                 ClipRRect(
                                   child: Image(
-                                    width: sWidth,
-                                    height: sHeight * .3,
+                                    width: width,
+                                    height: height * .3,
                                     fit: BoxFit.cover,
                                     image: AssetImage(
                                       "image/category/${widget.category}.jpg",
@@ -103,8 +103,8 @@ class _CategorizedIncomeState extends State<CategorizedIncome> {
                                   ),
                                 ),
                                 Container(
-                                  width: sWidth,
-                                  height: sHeight * .3,
+                                  width: width,
+                                  height: height * .3,
                                   decoration: BoxDecoration(
                                     boxShadow: const [
                                       BoxShadow(
@@ -119,7 +119,7 @@ class _CategorizedIncomeState extends State<CategorizedIncome> {
                             ),
                             Padding(
                               padding: EdgeInsets.symmetric(
-                                horizontal: sWidth * 0.015,
+                                horizontal: width * 0.015,
                                 vertical: 5,
                               ),
                               child: RichText(
@@ -128,7 +128,7 @@ class _CategorizedIncomeState extends State<CategorizedIncome> {
                                       "${widget.category} (Rs. $incomeAmount)",
                                   style: TextStyle(
                                     fontSize: 18,
-                                    color: AppColors.onPrimary,
+                                    color: AppColor.onPrimary,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -144,7 +144,7 @@ class _CategorizedIncomeState extends State<CategorizedIncome> {
                           },
                           icon: Icon(
                             Icons.arrow_back_outlined,
-                            color: AppColors.onPrimary,
+                            color: AppColor.onPrimary,
                             size: 25,
                           ),
                         ),
@@ -158,8 +158,8 @@ class _CategorizedIncomeState extends State<CategorizedIncome> {
                 } else if (snapshot.hasError) {
                   children = <Widget>[
                     Container(
-                      width: sWidth * 0.97,
-                      height: sHeight,
+                      width: width * 0.97,
+                      height: height,
                       alignment: Alignment.center,
                       child: Text(
                         "${snapshot.error}",
@@ -207,13 +207,12 @@ class _CategorizedIncomeState extends State<CategorizedIncome> {
                 height: 50,
                 width: 50,
                 decoration: BoxDecoration(
-                  color: incomeIndex == 0
-                      ? AppColors.primary
-                      : AppColors.onPrimary,
+                  color:
+                      incomeIndex == 0 ? AppColor.primary : AppColor.onPrimary,
                   borderRadius: BorderRadius.circular(25),
                   boxShadow: [
                     BoxShadow(
-                      color: AppColors.button,
+                      color: AppColor.buttonBG,
                       spreadRadius: 1,
                       blurRadius: 5,
                       offset: Offset(2, 5),
@@ -222,9 +221,8 @@ class _CategorizedIncomeState extends State<CategorizedIncome> {
                 ),
                 child: Icon(
                   Icons.date_range_rounded,
-                  color: incomeIndex == 0
-                      ? AppColors.onPrimary
-                      : AppColors.primary,
+                  color:
+                      incomeIndex == 0 ? AppColor.onPrimary : AppColor.primary,
                 ),
               ),
             ),
@@ -247,12 +245,11 @@ class _CategorizedIncomeState extends State<CategorizedIncome> {
                   );
                 },
                 backgroundColor:
-                    incomeIndex == 1 ? AppColors.primary : AppColors.onPrimary,
+                    incomeIndex == 1 ? AppColor.primary : AppColor.onPrimary,
                 child: Icon(
                   Icons.search_rounded,
-                  color: incomeIndex == 1
-                      ? AppColors.onPrimary
-                      : AppColors.primary,
+                  color:
+                      incomeIndex == 1 ? AppColor.onPrimary : AppColor.primary,
                 ),
               ),
             ),
@@ -268,7 +265,7 @@ class _CategorizedIncomeState extends State<CategorizedIncome> {
 
     return StatefulBuilder(builder: (context, setState1) {
       return SimpleDialog(
-        backgroundColor: AppColors.background,
+        backgroundColor: AppColor.backgroundLight,
         children: [
           SimpleDialogOption(
             padding: EdgeInsets.only(
@@ -303,10 +300,10 @@ class _CategorizedIncomeState extends State<CategorizedIncome> {
                       decoration: InputDecoration(
                         isDense: true,
                         filled: true,
-                        fillColor: AppColors.button,
+                        fillColor: AppColor.buttonBG,
                         hintText: "Start Date",
                         hintStyle: TextStyle(
-                          color: AppColors.text,
+                          color: AppColor.textLight,
                         ),
                         enabledBorder: formBorder,
                         focusedBorder: formBorder,
@@ -319,7 +316,7 @@ class _CategorizedIncomeState extends State<CategorizedIncome> {
                             padding: const EdgeInsets.only(right: 5.0),
                             child: Icon(
                               FontAwesomeIcons.calendarDays,
-                              color: AppColors.primary,
+                              color: AppColor.primary,
                             ),
                           )
                         : SizedBox(),
@@ -353,10 +350,10 @@ class _CategorizedIncomeState extends State<CategorizedIncome> {
                       decoration: InputDecoration(
                         isDense: true,
                         filled: true,
-                        fillColor: AppColors.button,
+                        fillColor: AppColor.buttonBG,
                         hintText: "End Date",
                         hintStyle: TextStyle(
-                          color: AppColors.text,
+                          color: AppColor.textLight,
                         ),
                         enabledBorder: formBorder,
                         focusedBorder: formBorder,
@@ -369,7 +366,7 @@ class _CategorizedIncomeState extends State<CategorizedIncome> {
                             padding: const EdgeInsets.only(right: 5.0),
                             child: Icon(
                               FontAwesomeIcons.calendarDays,
-                              color: AppColors.primary,
+                              color: AppColor.primary,
                             ),
                           )
                         : SizedBox(),
@@ -390,7 +387,7 @@ class _CategorizedIncomeState extends State<CategorizedIncome> {
                         gravity: ToastGravity.BOTTOM,
                         timeInSecForIosWeb: 3,
                         backgroundColor: Colors.red,
-                        textColor: AppColors.onPrimary,
+                        textColor: AppColor.onPrimary,
                         fontSize: 16.0,
                       );
                     } else {
@@ -419,8 +416,8 @@ class _CategorizedIncomeState extends State<CategorizedIncome> {
                     ),
                   ),
                   style: ElevatedButton.styleFrom(
-                    primary: AppColors.primary,
-                    onPrimary: AppColors.onPrimary,
+                    backgroundColor: AppColor.primary,
+                    onPrimary: AppColor.onPrimary,
                     minimumSize: Size.zero,
                     padding: EdgeInsets.all(10),
                     elevation: 5,
@@ -438,7 +435,7 @@ class _CategorizedIncomeState extends State<CategorizedIncome> {
   }
 
   Widget viewIncomes(BuildContext context) {
-    final sWidth = MediaQuery.of(context).size.width;
+    final width = MediaQuery.of(context).size.width;
 
     return incomeList.isEmpty
         ? SizedBox(
@@ -447,7 +444,7 @@ class _CategorizedIncomeState extends State<CategorizedIncome> {
               child: Text(
                 "No incomes",
                 style: TextStyle(
-                  color: AppColors.iconHeading,
+                  color: AppColor.text,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -455,9 +452,9 @@ class _CategorizedIncomeState extends State<CategorizedIncome> {
           )
         : Padding(
             padding: EdgeInsets.only(
-              right: sWidth * 0.03,
+              right: width * 0.03,
               bottom: 10,
-              left: sWidth * 0.03,
+              left: width * 0.03,
             ),
             child: ListView.builder(
               physics: NeverScrollableScrollPhysics(),
@@ -470,30 +467,35 @@ class _CategorizedIncomeState extends State<CategorizedIncome> {
                   minLeadingWidth: 5,
                   minVerticalPadding: 5,
                   visualDensity: VisualDensity(horizontal: 0, vertical: -4),
-                  leading: Text(
-                    (index + 1).toString() + ".",
-                    style: TextStyle(
-                      color: AppColors.iconHeading,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  leading: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        (index + 1).toString() + ".",
+                        style: TextStyle(
+                          color: AppColor.text,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
                   ),
                   title: Text(
                     incomeList[index].name!,
                     style: TextStyle(
-                      color: AppColors.iconHeading,
+                      color: AppColor.text,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   subtitle: Text(
                     incomeList[index].createdAt!.split("T")[0],
                     style: TextStyle(
-                      color: AppColors.text,
+                      color: AppColor.textLight,
                     ),
                   ),
                   trailing: Text(
                     "Rs. " + incomeList[index].amount!.toString(),
                     style: TextStyle(
-                      color: AppColors.iconHeading,
+                      color: AppColor.text,
                       fontWeight: FontWeight.bold,
                     ),
                   ),

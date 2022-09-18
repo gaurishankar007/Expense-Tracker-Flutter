@@ -3,8 +3,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 
-import '../../api/http/token_http.dart';
-import '../../resource/colors.dart';
+import '../../data/remote/token_http.dart';
+import '../../config/themes/constant.dart';
 import 'enter_token.dart';
 
 class ForgetPassword extends StatefulWidget {
@@ -22,7 +22,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
   OutlineInputBorder formBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(5),
     borderSide: BorderSide(
-      color: AppColors.button,
+      color: AppColor.buttonBG,
       width: 2,
       style: BorderStyle.solid,
     ),
@@ -30,14 +30,14 @@ class _ForgetPasswordState extends State<ForgetPassword> {
 
   @override
   Widget build(BuildContext context) {
-    final sWidth = MediaQuery.of(context).size.width;
+    final width = MediaQuery.of(context).size.width;
 
     return Scaffold(
       appBar: AppBar(
         title: Text(
           "Forgot Password",
           style: TextStyle(
-            color: AppColors.iconHeading,
+            color: AppColor.text,
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
@@ -58,8 +58,8 @@ class _ForgetPasswordState extends State<ForgetPassword> {
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.only(
-            left: sWidth * 0.05,
-            right: sWidth * 0.05,
+            left: width * 0.05,
+            right: width * 0.05,
           ),
           child: Form(
             key: _formKey,
@@ -80,10 +80,10 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                   decoration: InputDecoration(
                     isDense: true,
                     filled: true,
-                    fillColor: AppColors.button,
+                    fillColor: AppColor.buttonBG,
                     hintText: "Enter your email.....",
                     hintStyle: TextStyle(
-                      color: AppColors.text,
+                      color: AppColor.textLight,
                     ),
                     enabledBorder: formBorder,
                     focusedBorder: formBorder,
@@ -108,21 +108,21 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                       ]),
                       obscureText: p,
                       style: TextStyle(
-                        color: AppColors.iconHeading,
+                        color: AppColor.text,
                       ),
                       decoration: InputDecoration(
                         isDense: true,
                         filled: true,
-                        fillColor: AppColors.button,
+                        fillColor: AppColor.buttonBG,
                         hintText: "Enter a new password.....",
                         hintStyle: TextStyle(
-                          color: AppColors.text,
+                          color: AppColor.textLight,
                         ),
                         helperText:
                             "Most contain at least one upper case, lower case, number, special character, and 5 to 15 characters.",
                         helperMaxLines: 2,
                         helperStyle: TextStyle(
-                          color: AppColors.primary,
+                          color: AppColor.primary,
                         ),
                         enabledBorder: formBorder,
                         focusedBorder: formBorder,
@@ -141,7 +141,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                             ? FontAwesomeIcons.solidEyeSlash
                             : FontAwesomeIcons.solidEye,
                         size: 18,
-                        color: AppColors.primary,
+                        color: AppColor.primary,
                       ),
                     ),
                   ],
@@ -174,7 +174,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                             gravity: ToastGravity.BOTTOM,
                             timeInSecForIosWeb: 3,
                             backgroundColor: Colors.green,
-                            textColor: AppColors.onPrimary,
+                            textColor: AppColor.onPrimary,
                           );
                         } else {
                           Fluttertoast.showToast(
@@ -183,7 +183,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                             gravity: ToastGravity.TOP,
                             timeInSecForIosWeb: 3,
                             backgroundColor: Colors.red,
-                            textColor: AppColors.onPrimary,
+                            textColor: AppColor.onPrimary,
                             fontSize: 16.0,
                           );
                         }
@@ -196,7 +196,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                       ),
                     ),
                     style: ElevatedButton.styleFrom(
-                      primary: AppColors.primary,
+                      backgroundColor: AppColor.primary,
                       padding: EdgeInsets.symmetric(vertical: 10),
                       elevation: 5,
                       shape: RoundedRectangleBorder(

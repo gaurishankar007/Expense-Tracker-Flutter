@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 
-import '../../api/http/token_http.dart';
-import '../../resource/colors.dart';
+import '../../data/remote/token_http.dart';
+import '../../config/themes/constant.dart';
 import 'login.dart';
 
 class VerifyToken extends StatefulWidget {
@@ -20,7 +20,7 @@ class _VerifyTokenState extends State<VerifyToken> {
   OutlineInputBorder formBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(5),
     borderSide: BorderSide(
-      color: AppColors.button,
+      color: AppColor.buttonBG,
       width: 2,
       style: BorderStyle.solid,
     ),
@@ -28,14 +28,14 @@ class _VerifyTokenState extends State<VerifyToken> {
 
   @override
   Widget build(BuildContext context) {
-    final sWidth = MediaQuery.of(context).size.width;
+    final width = MediaQuery.of(context).size.width;
 
     return Scaffold(
       appBar: AppBar(
         title: Text(
           "Verify Token",
           style: TextStyle(
-            color: AppColors.iconHeading,
+            color: AppColor.text,
             fontSize: 18,
           ),
         ),
@@ -55,8 +55,8 @@ class _VerifyTokenState extends State<VerifyToken> {
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.only(
-            left: sWidth * 0.05,
-            right: sWidth * 0.05,
+            left: width * 0.05,
+            right: width * 0.05,
           ),
           child: Form(
             key: _formKey,
@@ -80,10 +80,10 @@ class _VerifyTokenState extends State<VerifyToken> {
                   decoration: InputDecoration(
                     isDense: true,
                     filled: true,
-                    fillColor: AppColors.button,
+                    fillColor: AppColor.buttonBG,
                     hintText: "Enter the token.....",
                     hintStyle: TextStyle(
-                      color: AppColors.text,
+                      color: AppColor.textLight,
                     ),
                     enabledBorder: formBorder,
                     focusedBorder: formBorder,
@@ -118,7 +118,7 @@ class _VerifyTokenState extends State<VerifyToken> {
                             gravity: ToastGravity.BOTTOM,
                             timeInSecForIosWeb: 5,
                             backgroundColor: Colors.green,
-                            textColor: AppColors.onPrimary,
+                            textColor: AppColor.onPrimary,
                           );
                         } else {
                           Fluttertoast.showToast(
@@ -127,7 +127,7 @@ class _VerifyTokenState extends State<VerifyToken> {
                             gravity: ToastGravity.TOP,
                             timeInSecForIosWeb: 3,
                             backgroundColor: Colors.red,
-                            textColor: AppColors.onPrimary,
+                            textColor: AppColor.onPrimary,
                             fontSize: 16.0,
                           );
                         }
@@ -140,7 +140,7 @@ class _VerifyTokenState extends State<VerifyToken> {
                       ),
                     ),
                     style: ElevatedButton.styleFrom(
-                      primary: AppColors.primary,
+                      backgroundColor: AppColor.primary,
                       padding: EdgeInsets.symmetric(vertical: 10),
                       elevation: 5,
                       shape: RoundedRectangleBorder(

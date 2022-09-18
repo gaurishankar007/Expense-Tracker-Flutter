@@ -1,9 +1,9 @@
-import 'package:expense_tracker/api/http/achievement_http.dart';
-import 'package:expense_tracker/api/res/progress_res.dart';
-import 'package:expense_tracker/widget/navigator.dart';
+import 'package:expense_tracker/data/remote/achievement_http.dart';
+import 'package:expense_tracker/widgets/navigator.dart';
 import 'package:flutter/material.dart';
 
-import '../../resource/colors.dart';
+import '../../config/themes/constant.dart';
+import '../../data/model/progress_model.dart';
 
 class AllAchievements extends StatefulWidget {
   const AllAchievements({Key? key}) : super(key: key);
@@ -28,8 +28,8 @@ class _AllAchievementsState extends State<AllAchievements> {
 
   @override
   Widget build(BuildContext context) {
-    final sWidth = MediaQuery.of(context).size.width;
-    final sHeight = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
 
     return Scaffold(
       appBar: AppBar(
@@ -39,13 +39,13 @@ class _AllAchievementsState extends State<AllAchievements> {
           },
           icon: Icon(
             Icons.arrow_back,
-            color: AppColors.iconHeading,
+            color: AppColor.text,
           ),
         ),
         title: Text(
           "Achievements",
           style: TextStyle(
-            color: AppColors.iconHeading,
+            color: AppColor.text,
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
@@ -58,8 +58,8 @@ class _AllAchievementsState extends State<AllAchievements> {
       body: SingleChildScrollView(
         padding: EdgeInsets.only(
           top: 10,
-          right: sWidth * 0.03,
-          left: sWidth * 0.03,
+          right: width * 0.03,
+          left: width * 0.03,
           bottom: 10,
         ),
         child: FutureBuilder<List<Achievement>>(
@@ -70,13 +70,13 @@ class _AllAchievementsState extends State<AllAchievements> {
             if (snapshot.connectionState == ConnectionState.waiting) {
               children = <Widget>[
                 Container(
-                  width: sWidth,
-                  height: sHeight,
+                  width: width,
+                  height: height,
                   alignment: Alignment.center,
                   child: CircularProgressIndicator(
                     strokeWidth: 6,
-                    color: AppColors.primary,
-                    backgroundColor: AppColors.button,
+                    color: AppColor.primary,
+                    backgroundColor: AppColor.buttonBG,
                   ),
                 )
               ];
@@ -85,7 +85,7 @@ class _AllAchievementsState extends State<AllAchievements> {
                 GridView.count(
                   physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
-                  childAspectRatio: (sWidth - (sWidth * .53)) / (sHeight * .24),
+                  childAspectRatio: (width - (width * .53)) / (height * .24),
                   crossAxisSpacing: 5,
                   crossAxisCount: 2,
                   children: List.generate(
@@ -108,8 +108,8 @@ class _AllAchievementsState extends State<AllAchievements> {
                             ClipRRect(
                               borderRadius: BorderRadius.circular(10),
                               child: Image(
-                                height: sHeight * 0.17,
-                                width: sWidth * 0.4,
+                                height: height * 0.17,
+                                width: width * 0.4,
                                 fit: BoxFit.fitWidth,
                                 image: AssetImage(
                                   "image/achievement/" +
@@ -126,7 +126,7 @@ class _AllAchievementsState extends State<AllAchievements> {
                               textAlign: TextAlign.center,
                               softWrap: true,
                               style: TextStyle(
-                                color: AppColors.iconHeading,
+                                color: AppColor.text,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 13,
                               ),
@@ -143,8 +143,8 @@ class _AllAchievementsState extends State<AllAchievements> {
                 if ("${snapshot.error}".split("Exception: ")[0] == "Socket") {
                   children = <Widget>[
                     Container(
-                      width: sWidth,
-                      height: sHeight,
+                      width: width,
+                      height: height,
                       alignment: Alignment.center,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -169,8 +169,8 @@ class _AllAchievementsState extends State<AllAchievements> {
                 } else {
                   children = <Widget>[
                     Container(
-                      width: sWidth,
-                      height: sHeight,
+                      width: width,
+                      height: height,
                       alignment: Alignment.center,
                       child: Text(
                         "${snapshot.error}",
@@ -198,11 +198,11 @@ class _AllAchievementsState extends State<AllAchievements> {
 
   Widget achievementDetail(BuildContext context, String name, int progressPoint,
       String description) {
-    final sWidth = MediaQuery.of(context).size.width;
-    final sHeight = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
 
     return SimpleDialog(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColor.backgroundLight,
       titlePadding: EdgeInsets.zero,
       contentPadding: EdgeInsets.all(10),
       children: [
@@ -211,7 +211,7 @@ class _AllAchievementsState extends State<AllAchievements> {
             Text(
               name,
               style: TextStyle(
-                color: AppColors.iconHeading,
+                color: AppColor.text,
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
@@ -222,8 +222,8 @@ class _AllAchievementsState extends State<AllAchievements> {
             ClipRRect(
               borderRadius: BorderRadius.circular(10),
               child: Image(
-                height: sHeight * 0.17,
-                width: sWidth * 0.4,
+                height: height * 0.17,
+                width: width * 0.4,
                 fit: BoxFit.fitWidth,
                 image: AssetImage(
                   "image/achievement/" + name + ".png",
@@ -238,7 +238,7 @@ class _AllAchievementsState extends State<AllAchievements> {
               textAlign: TextAlign.center,
               softWrap: true,
               style: TextStyle(
-                color: AppColors.text,
+                color: AppColor.textLight,
                 fontWeight: FontWeight.bold,
                 fontSize: 13,
               ),
@@ -251,7 +251,7 @@ class _AllAchievementsState extends State<AllAchievements> {
               textAlign: TextAlign.center,
               softWrap: true,
               style: TextStyle(
-                color: AppColors.text,
+                color: AppColor.textLight,
                 fontWeight: FontWeight.bold,
                 fontSize: 13,
               ),

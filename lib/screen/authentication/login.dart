@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import '../../api/google/google_sign_up.dart';
-import '../../api/http/authentication/login_http.dart';
-import '../../api/log_status.dart';
-import '../../api/model/user_model.dart';
-import '../../resource/colors.dart';
+import '../../../data/google/google_sign_up.dart';
+import '../../data/remote/authentication/login_http.dart';
+import '../../../data/log_status.dart';
+import '../../../data/model/user_model.dart';
+import '../../config/themes/constant.dart';
 import '../home.dart';
 import 'forget_password.dart';
 import 'sign_up.dart';
@@ -26,7 +26,7 @@ class _LoginState extends State<Login> {
   OutlineInputBorder formBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(5),
     borderSide: BorderSide(
-      color: AppColors.button,
+      color: AppColor.buttonBG,
       width: 2,
       style: BorderStyle.solid,
     ),
@@ -39,14 +39,14 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-    final sWidth = MediaQuery.of(context).size.width;
+    final width = MediaQuery.of(context).size.width;
 
     return Scaffold(
       appBar: AppBar(
         title: Text(
           "Expense Tracker",
           style: TextStyle(
-            color: AppColors.iconHeading,
+            color: AppColor.text,
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
@@ -57,8 +57,8 @@ class _LoginState extends State<Login> {
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.only(
-          left: sWidth * .05,
-          right: sWidth * .05,
+          left: width * .04,
+          right: width * .04,
         ),
         child: Form(
           key: _formKey,
@@ -98,10 +98,10 @@ class _LoginState extends State<Login> {
                     decoration: InputDecoration(
                       isDense: true,
                       filled: true,
-                      fillColor: AppColors.button,
+                      fillColor: AppColor.buttonBG,
                       hintText: "Enter your email.....",
                       hintStyle: TextStyle(
-                        color: AppColors.text,
+                        color: AppColor.textLight,
                       ),
                       enabledBorder: formBorder,
                       focusedBorder: formBorder,
@@ -138,10 +138,10 @@ class _LoginState extends State<Login> {
                             decoration: InputDecoration(
                               isDense: true,
                               filled: true,
-                              fillColor: AppColors.button,
+                              fillColor: AppColor.buttonBG,
                               hintText: "Enter your password.....",
                               hintStyle: TextStyle(
-                                color: AppColors.text,
+                                color: AppColor.textLight,
                               ),
                               enabledBorder: formBorder,
                               focusedBorder: formBorder,
@@ -160,7 +160,7 @@ class _LoginState extends State<Login> {
                                   ? FontAwesomeIcons.solidEyeSlash
                                   : FontAwesomeIcons.solidEye,
                               size: 18,
-                              color: AppColors.primary,
+                              color: AppColor.primary,
                             ),
                           )
                         ],
@@ -179,12 +179,12 @@ class _LoginState extends State<Login> {
                                 horizontal: -4,
                                 vertical: -4,
                               ),
-                              activeColor: AppColors.button,
-                              checkColor: AppColors.primary,
+                              activeColor: AppColor.buttonBG,
+                              checkColor: AppColor.primary,
                               title: Text(
                                 "Remember Me",
                                 style: TextStyle(
-                                  color: AppColors.iconHeading,
+                                  color: AppColor.text,
                                 ),
                               ),
                               value: checkboxValue,
@@ -208,7 +208,7 @@ class _LoginState extends State<Login> {
                               style: TextStyle(
                                 decoration: TextDecoration.underline,
                                 fontSize: 15,
-                                color: AppColors.primary,
+                                color: AppColor.primary,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -234,8 +234,8 @@ class _LoginState extends State<Login> {
                         builder: (builder) => Center(
                           child: CircularProgressIndicator(
                             strokeWidth: 6,
-                            color: AppColors.primary,
-                            backgroundColor: AppColors.button,
+                            color: AppColor.primary,
+                            backgroundColor: AppColor.buttonBG,
                           ),
                         ),
                       );
@@ -268,7 +268,7 @@ class _LoginState extends State<Login> {
                           gravity: ToastGravity.TOP,
                           timeInSecForIosWeb: 3,
                           backgroundColor: Colors.red,
-                          textColor: AppColors.primary,
+                          textColor: AppColor.primary,
                           fontSize: 16.0,
                         );
                       }
@@ -281,7 +281,7 @@ class _LoginState extends State<Login> {
                     ),
                   ),
                   style: ElevatedButton.styleFrom(
-                    primary: AppColors.primary,
+                    backgroundColor: AppColor.primary,
                     padding: EdgeInsets.symmetric(vertical: 10),
                     elevation: 5,
                     shape: RoundedRectangleBorder(
@@ -308,7 +308,7 @@ class _LoginState extends State<Login> {
                           gravity: ToastGravity.TOP,
                           timeInSecForIosWeb: 3,
                           backgroundColor: Colors.red,
-                          textColor: AppColors.primary,
+                          textColor: AppColor.primary,
                           fontSize: 16.0,
                         );
                         return;
@@ -319,8 +319,8 @@ class _LoginState extends State<Login> {
                         builder: (builder) => Center(
                           child: CircularProgressIndicator(
                             strokeWidth: 6,
-                            color: AppColors.primary,
-                            backgroundColor: AppColors.button,
+                            color: AppColor.primary,
+                            backgroundColor: AppColor.buttonBG,
                           ),
                         ),
                       );
@@ -372,7 +372,7 @@ class _LoginState extends State<Login> {
                         text: TextSpan(
                           text: "Login with google",
                           style: TextStyle(
-                            color: AppColors.iconHeading,
+                            color: AppColor.text,
                             fontWeight: FontWeight.bold,
                             fontSize: 13,
                           ),
@@ -381,7 +381,7 @@ class _LoginState extends State<Login> {
                     ],
                   ),
                   style: ElevatedButton.styleFrom(
-                    primary: AppColors.onPrimary,
+                    primary: AppColor.onPrimary,
                     padding: EdgeInsets.symmetric(vertical: 8),
                     elevation: 5,
                     shadowColor: Colors.black45,
@@ -401,7 +401,7 @@ class _LoginState extends State<Login> {
                     "Don't have an account! ",
                     style: TextStyle(
                       fontSize: 15,
-                      color: AppColors.iconHeading,
+                      color: AppColor.text,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -419,7 +419,7 @@ class _LoginState extends State<Login> {
                       style: TextStyle(
                         decoration: TextDecoration.underline,
                         fontSize: 15,
-                        color: AppColors.primary,
+                        color: AppColor.primary,
                         fontWeight: FontWeight.bold,
                       ),
                     ),

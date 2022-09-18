@@ -4,8 +4,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 
-import '../../api/http/user_http.dart';
-import '../../resource/colors.dart';
+import '../../data/remote/user_http.dart';
+import '../../config/themes/constant.dart';
 
 class ChangePassword extends StatefulWidget {
   const ChangePassword({Key? key}) : super(key: key);
@@ -22,7 +22,7 @@ class _ChangePasswordState extends State<ChangePassword> {
   OutlineInputBorder formBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(5),
     borderSide: BorderSide(
-      color: AppColors.button,
+      color: AppColor.buttonBG,
       width: 2,
       style: BorderStyle.solid,
     ),
@@ -30,14 +30,14 @@ class _ChangePasswordState extends State<ChangePassword> {
 
   @override
   Widget build(BuildContext context) {
-    final sWidth = MediaQuery.of(context).size.width;
+    final width = MediaQuery.of(context).size.width;
 
     return Scaffold(
       appBar: AppBar(
         title: Text(
           "Change Old Password",
           style: TextStyle(
-            color: AppColors.iconHeading,
+            color: AppColor.text,
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
@@ -52,8 +52,8 @@ class _ChangePasswordState extends State<ChangePassword> {
           child: Padding(
             padding: EdgeInsets.only(
               top: 10,
-              left: sWidth * 0.05,
-              right: sWidth * 0.05,
+              left: width * 0.05,
+              right: width * 0.05,
             ),
             child: Form(
               key: _formKey,
@@ -73,15 +73,15 @@ class _ChangePasswordState extends State<ChangePassword> {
                         ]),
                         obscureText: curP,
                         style: TextStyle(
-                          color: AppColors.iconHeading,
+                          color: AppColor.text,
                         ),
                         decoration: InputDecoration(
                           isDense: true,
                           filled: true,
-                          fillColor: AppColors.button,
+                          fillColor: AppColor.buttonBG,
                           hintText: "Enter your current password.....",
                           hintStyle: TextStyle(
-                            color: AppColors.text,
+                            color: AppColor.textLight,
                           ),
                           enabledBorder: formBorder,
                           focusedBorder: formBorder,
@@ -101,7 +101,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                               ? FontAwesomeIcons.solidEyeSlash
                               : FontAwesomeIcons.solidEye,
                           size: 18,
-                          color: AppColors.primary,
+                          color: AppColor.primary,
                         ),
                       ),
                     ],
@@ -123,21 +123,21 @@ class _ChangePasswordState extends State<ChangePassword> {
                         ]),
                         obscureText: newP,
                         style: TextStyle(
-                          color: AppColors.iconHeading,
+                          color: AppColor.text,
                         ),
                         decoration: InputDecoration(
                           isDense: true,
                           filled: true,
-                          fillColor: AppColors.button,
+                          fillColor: AppColor.buttonBG,
                           hintText: "Enter your New password.....",
                           hintStyle: TextStyle(
-                            color: AppColors.text,
+                            color: AppColor.textLight,
                           ),
                           helperText:
                               "Most contain at least one upper case, lower case, number, special character, and 5 to 15 characters.",
                           helperMaxLines: 2,
                           helperStyle: TextStyle(
-                            color: AppColors.primary,
+                            color: AppColor.primary,
                           ),
                           enabledBorder: formBorder,
                           focusedBorder: formBorder,
@@ -156,7 +156,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                               ? FontAwesomeIcons.solidEyeSlash
                               : FontAwesomeIcons.solidEye,
                           size: 18,
-                          color: AppColors.primary,
+                          color: AppColor.primary,
                         ),
                       ),
                     ],
@@ -213,7 +213,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                         ),
                       ),
                       style: ElevatedButton.styleFrom(
-                        primary: AppColors.primary,
+                        backgroundColor: AppColor.primary,
                         padding: EdgeInsets.symmetric(vertical: 10),
                         elevation: 5,
                         shape: RoundedRectangleBorder(

@@ -1,11 +1,11 @@
-import 'package:expense_tracker/api/log_status.dart';
+import 'package:expense_tracker/data/log_status.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 
-import '../../api/http/user_http.dart';
-import '../../api/res/user_res.dart';
-import '../../resource/colors.dart';
+import '../../data/model/user_model.dart';
+import '../../data/remote/user_http.dart';
+import '../../config/themes/constant.dart';
 
 class UserSetting extends StatefulWidget {
   const UserSetting({Key? key}) : super(key: key);
@@ -29,7 +29,7 @@ class _UserSettingState extends State<UserSetting> {
   OutlineInputBorder formBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(5),
     borderSide: BorderSide(
-      color: AppColors.button,
+      color: AppColor.buttonBG,
       width: 2,
       style: BorderStyle.solid,
     ),
@@ -38,7 +38,7 @@ class _UserSettingState extends State<UserSetting> {
   ButtonStyle buttonStyle = ElevatedButton.styleFrom(
     padding: EdgeInsets.all(5),
     minimumSize: Size.zero,
-    primary: AppColors.primary,
+    backgroundColor: AppColor.primary,
     elevation: 5,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(20),
@@ -70,15 +70,15 @@ class _UserSettingState extends State<UserSetting> {
 
   @override
   Widget build(BuildContext context) {
-    final sWidth = MediaQuery.of(context).size.width;
-    final sHeight = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
 
     return Scaffold(
       appBar: AppBar(
         title: Text(
           "Personal Information",
           style: TextStyle(
-            color: AppColors.iconHeading,
+            color: AppColor.text,
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
@@ -90,7 +90,7 @@ class _UserSettingState extends State<UserSetting> {
           },
           icon: Icon(
             Icons.arrow_back,
-            color: AppColors.iconHeading,
+            color: AppColor.text,
           ),
         ),
         elevation: 0,
@@ -100,8 +100,8 @@ class _UserSettingState extends State<UserSetting> {
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.only(
-            right: sWidth * .05,
-            left: sWidth * .05,
+            right: width * .04,
+            left: width * .04,
           ),
           child: FutureBuilder<User>(
             future: getUser,
@@ -110,13 +110,13 @@ class _UserSettingState extends State<UserSetting> {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 children = <Widget>[
                   Container(
-                    width: sWidth * 0.97,
-                    height: sHeight,
+                    width: width * 0.97,
+                    height: height,
                     alignment: Alignment.center,
                     child: CircularProgressIndicator(
                       strokeWidth: 6,
-                      color: AppColors.primary,
-                      backgroundColor: AppColors.button,
+                      color: AppColor.primary,
+                      backgroundColor: AppColor.buttonBG,
                     ),
                   )
                 ];
@@ -137,7 +137,7 @@ class _UserSettingState extends State<UserSetting> {
                                 Text(
                                   "Profile Name:",
                                   style: TextStyle(
-                                    color: AppColors.iconHeading,
+                                    color: AppColor.text,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 16,
                                   ),
@@ -156,21 +156,21 @@ class _UserSettingState extends State<UserSetting> {
                                             "New profile ame is required"),
                                   ]),
                                   style: TextStyle(
-                                    color: AppColors.iconHeading,
+                                    color: AppColor.text,
                                   ),
                                   decoration: InputDecoration(
                                     isDense: true,
                                     filled: true,
-                                    fillColor: AppColors.button,
+                                    fillColor: AppColor.buttonBG,
                                     hintText: "Enter new Profile Name",
                                     hintStyle: TextStyle(
-                                      color: AppColors.text,
+                                      color: AppColor.textLight,
                                     ),
                                     helperText:
                                         "Most have 3 to 20 characters. Special characters and numbers are not accepted.",
                                     helperMaxLines: 2,
                                     helperStyle: TextStyle(
-                                      color: AppColors.primary,
+                                      color: AppColor.primary,
                                     ),
                                     enabledBorder: formBorder,
                                     focusedBorder: formBorder,
@@ -193,7 +193,7 @@ class _UserSettingState extends State<UserSetting> {
                                       Text(
                                         "Email:",
                                         style: TextStyle(
-                                          color: AppColors.iconHeading,
+                                          color: AppColor.text,
                                           fontWeight: FontWeight.bold,
                                           fontSize: 16,
                                         ),
@@ -212,15 +212,15 @@ class _UserSettingState extends State<UserSetting> {
                                                   "New email is required"),
                                         ]),
                                         style: TextStyle(
-                                          color: AppColors.iconHeading,
+                                          color: AppColor.text,
                                         ),
                                         decoration: InputDecoration(
                                           isDense: true,
                                           filled: true,
-                                          fillColor: AppColors.button,
+                                          fillColor: AppColor.buttonBG,
                                           hintText: "Enter new Email",
                                           hintStyle: TextStyle(
-                                            color: AppColors.text,
+                                            color: AppColor.textLight,
                                           ),
                                           enabledBorder: formBorder,
                                           focusedBorder: formBorder,
@@ -245,7 +245,7 @@ class _UserSettingState extends State<UserSetting> {
                           Text(
                             "Gender:",
                             style: TextStyle(
-                              color: AppColors.iconHeading,
+                              color: AppColor.text,
                               fontWeight: FontWeight.bold,
                               fontSize: 16,
                             ),
@@ -257,7 +257,7 @@ class _UserSettingState extends State<UserSetting> {
                             children: [
                               Radio(
                                 fillColor: MaterialStateColor.resolveWith(
-                                    (states) => AppColors.primary),
+                                    (states) => AppColor.primary),
                                 value: "Male",
                                 groupValue: gender,
                                 onChanged: (String? value) => setState(() {
@@ -267,14 +267,14 @@ class _UserSettingState extends State<UserSetting> {
                               Text(
                                 "Male",
                                 style: TextStyle(
-                                  color: AppColors.iconHeading,
+                                  color: AppColor.text,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 15,
                                 ),
                               ),
                               Radio(
                                 fillColor: MaterialStateColor.resolveWith(
-                                    (states) => AppColors.primary),
+                                    (states) => AppColor.primary),
                                 value: "Female",
                                 groupValue: gender,
                                 onChanged: (String? value) => setState(() {
@@ -284,14 +284,14 @@ class _UserSettingState extends State<UserSetting> {
                               Text(
                                 "Female",
                                 style: TextStyle(
-                                  color: AppColors.iconHeading,
+                                  color: AppColor.text,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 15,
                                 ),
                               ),
                               Radio(
                                 fillColor: MaterialStateColor.resolveWith(
-                                    (states) => AppColors.primary),
+                                    (states) => AppColor.primary),
                                 value: "Other",
                                 groupValue: gender,
                                 onChanged: (String? value) => setState(() {
@@ -301,7 +301,7 @@ class _UserSettingState extends State<UserSetting> {
                               Text(
                                 "Other",
                                 style: TextStyle(
-                                  color: AppColors.iconHeading,
+                                  color: AppColor.text,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 15,
                                 ),
@@ -354,7 +354,7 @@ class _UserSettingState extends State<UserSetting> {
                           ),
                         ),
                         style: ElevatedButton.styleFrom(
-                          primary: AppColors.primary,
+                          backgroundColor: AppColor.primary,
                           padding: EdgeInsets.symmetric(vertical: 10),
                           elevation: 5,
                           shape: RoundedRectangleBorder(
@@ -368,8 +368,8 @@ class _UserSettingState extends State<UserSetting> {
                   if ("${snapshot.error}".split("Exception: ")[0] == "Socket") {
                     children = <Widget>[
                       Container(
-                        width: sWidth,
-                        height: sHeight,
+                        width: width,
+                        height: height,
                         alignment: Alignment.center,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -394,8 +394,8 @@ class _UserSettingState extends State<UserSetting> {
                   } else {
                     children = <Widget>[
                       Container(
-                        width: sWidth,
-                        height: sHeight,
+                        width: width,
+                        height: height,
                         alignment: Alignment.center,
                         child: Text(
                           "${snapshot.error}",
