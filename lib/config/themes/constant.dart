@@ -11,48 +11,50 @@ class AppColor {
   static Color buttonBG = Color(0xE1C8D3E7);
 }
 
-class AppFontSize {
+class AppSize {
   static const Map<String, dynamic> h3 = {
-    "size": 48,
+    "size": 48.0,
     "weight": FontWeight.w400,
   };
 
   static const Map<String, dynamic> h4 = {
-    "size": 34,
+    "size": 34.0,
     "weight": FontWeight.w400,
   };
 
   static const Map<String, dynamic> h5 = {
-    "size": 24,
+    "size": 24.0,
     "weight": FontWeight.w400,
   };
 
   static const Map<String, dynamic> h6 = {
-    "size": 20,
+    "size": 20.0,
     "weight": FontWeight.w500,
   };
 
   static const Map<String, dynamic> subtitleBody1 = {
-    "size": 16,
+    "size": 16.0,
     "weight": FontWeight.w400, // Normal or Regular
   };
 
   static const Map<String, dynamic> subtitle2Button = {
-    "size": 14,
+    "size": 14.0,
     "weight": FontWeight.w500, // Medium
   };
 
   static const Map<String, dynamic> body2 = {
-    "size": 14,
+    "size": 14.0,
     "weight": FontWeight.w400,
   };
 
   static const Map<String, dynamic> caption = {
-    "size": 12,
+    "size": 12.0,
     "weight": FontWeight.w400,
   };
 
   static const double icon = 25;
+
+  static const double borderRadius = 10;
 }
 
 class ExpenseCategoryColors {

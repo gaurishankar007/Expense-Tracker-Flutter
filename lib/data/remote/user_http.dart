@@ -9,6 +9,7 @@ import 'package:http/http.dart' as http;
 import '../log_status.dart';
 import '../model/user_model.dart';
 import '../urls.dart';
+import "package:http_parser/http_parser.dart";
 
 class UserHttp {
   final baseUrl = ApiUrls.baseUrl;
@@ -85,6 +86,10 @@ class UserHttp {
         profilePicture.readAsBytes().asStream(),
         profilePicture.lengthSync(),
         filename: profilePicture.path.split('/').last,
+        contentType: MediaType(
+          "image",
+          "png",
+        ),
       );
 
       request.files.add(profile);

@@ -1,52 +1,36 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:expense_tracker/config/routes/routes.dart';
+import 'package:expense_tracker/config/themes/themes.dart';
 import 'package:flutter/material.dart';
 
 import 'data/log_status.dart';
-import 'config/themes/constant.dart';
+import 'data/remote/user_http.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   CachedNetworkImage.logLevel = CacheManagerLogLevel.debug;
 
-  ErrorWidget.builder = (FlutterErrorDetails details) {
-    return Material(
-      child: Container(
-        color: AppColor.primary,
-        child: Center(
-          child: Text(
-            details.exception.toString(),
-            textAlign: TextAlign.center,
-            softWrap: true,
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ),
-        ),
-      ),
-    );
-  };
+  String token = await LogStatus().getToken();
+  if (token.isEmpty) {
+    runApp(const ExpenseTracker(initialPage: "/"));
+    return;
+  }
 
-  LogStatus().getToken().then(
-    (value) {
-      if (value.isNotEmpty) {
-        LogStatus.token = value;
+  LogStatus.token = token;
+  bool checkPassword = await UserHttp().checkPassword();
+  if (checkPassword) {
+    runApp(const ExpenseTracker(initialPage: "/changePassword"));
+    return;
+  }
 
-        runApp(const ExpenseTracker(initialPage: "/home"));
-      } else {
-        runApp(const ExpenseTracker(initialPage: "/"));
-      }
-    },
-  );
+  runApp(const ExpenseTracker(initialPage: "/home"));
 }
 
 class ExpenseTracker extends StatefulWidget {
-  final String? initialPage;
+  final String initialPage;
   const ExpenseTracker({
     Key? key,
-    @required this.initialPage,
+    required this.initialPage,
   }) : super(key: key);
 
   @override
@@ -57,9 +41,7 @@ class _ExpenseTrackerState extends State<ExpenseTracker> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(
-        scaffoldBackgroundColor: AppColor.backgroundLight,
-      ),
+      theme: AppTheme.light,
       debugShowCheckedModeBanner: false,
       title: 'Expense Income Tracker',
       initialRoute: widget.initialPage,

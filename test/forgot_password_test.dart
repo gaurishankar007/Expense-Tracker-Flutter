@@ -1,4 +1,4 @@
-import 'package:expense_tracker/screen/authentication/forget_password.dart';
+import 'package:expense_tracker/presentation/screens/authentication/forget_password.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 

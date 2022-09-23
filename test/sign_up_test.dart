@@ -1,4 +1,4 @@
-import 'package:expense_tracker/screen/authentication/sign_up.dart';
+import 'package:expense_tracker/presentation/screens/authentication/sign_up.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 

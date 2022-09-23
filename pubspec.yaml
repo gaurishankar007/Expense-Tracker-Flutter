@@ -39,7 +39,6 @@ dependencies:
   fluttertoast: ^8.0.9
   json_serializable: ^6.2.0
   json_annotation: ^4.5.0
-  build_runner: ^2.1.10
   flutter_launcher_icons: ^0.9.3
   form_field_validator: ^1.1.0
   fl_chart: ^0.55.0
@@ -47,8 +46,6 @@ dependencies:
   font_awesome_flutter: ^10.1.0
   image_picker: ^0.8.5+3
   google_sign_in: ^5.4.0
-  rename: ^2.0.1
-  dio: ^4.0.6
   flutter_bloc: ^8.1.1
   equatable: ^2.0.5
   cached_network_image: ^3.2.2
@@ -64,7 +61,8 @@ flutter_icons:
 
 dev_dependencies:
   flutter_test:
-    sdk: flutter
+    sdk: flutter    
+  build_runner: ^2.1.10
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
