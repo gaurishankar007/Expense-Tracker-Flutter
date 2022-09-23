@@ -23,7 +23,7 @@ class _HomeState extends State<Home> {
 
   void getUserHomeData() async {
     final pc = await ProgressHttp().calculateProgress();
-    if (!pc["achievementUnlocked"]) {
+    if (pc["achievementUnlocked"]) {
       showDialog(
         context: context,
         builder: (builder) => congratulation(context),

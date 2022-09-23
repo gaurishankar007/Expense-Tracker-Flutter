@@ -326,7 +326,7 @@ class _SettingState extends State<Setting> {
 
                       Navigator.pushNamedAndRemoveUntil(
                         context,
-                        "/login",
+                        "/",
                         (route) => false,
                       );
 
