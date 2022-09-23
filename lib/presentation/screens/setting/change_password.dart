@@ -80,7 +80,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                           fillColor: AppColor.buttonBG,
                           hintText: "Enter your current password.....",
                           hintStyle: TextStyle(
-                            color: AppColor.textLight,
+                            color: AppColor.lightText,
                           ),
                           enabledBorder: formBorder,
                           focusedBorder: formBorder,
@@ -130,7 +130,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                           fillColor: AppColor.buttonBG,
                           hintText: "Enter your New password.....",
                           hintStyle: TextStyle(
-                            color: AppColor.textLight,
+                            color: AppColor.lightText,
                           ),
                           helperText:
                               "Most contain at least one upper case, lower case, number, special character, and 5 to 15 characters.",

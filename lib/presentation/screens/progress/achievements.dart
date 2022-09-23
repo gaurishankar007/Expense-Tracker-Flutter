@@ -238,7 +238,7 @@ class _AllAchievementsState extends State<AllAchievements> {
               textAlign: TextAlign.center,
               softWrap: true,
               style: TextStyle(
-                color: AppColor.textLight,
+                color: AppColor.lightText,
                 fontWeight: FontWeight.bold,
                 fontSize: 13,
               ),
@@ -251,7 +251,7 @@ class _AllAchievementsState extends State<AllAchievements> {
               textAlign: TextAlign.center,
               softWrap: true,
               style: TextStyle(
-                color: AppColor.textLight,
+                color: AppColor.lightText,
                 fontWeight: FontWeight.bold,
                 fontSize: 13,
               ),

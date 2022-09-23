@@ -5,7 +5,6 @@ import 'package:expense_tracker/data/google/google_sign_up.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:shimmer/shimmer.dart';
 
 import '../../../data/model/user_model.dart';
 import '../../../data/remote/user_http.dart';
@@ -80,7 +79,7 @@ class _SettingState extends State<Setting> {
           builder: (context, snapshot) {
             List<Widget> children = [];
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return ShimmerEffect();
+              return SettingShimmer();
             } else if (snapshot.connectionState == ConnectionState.done) {
               if (snapshot.hasData) {
                 children = <Widget>[
@@ -109,7 +108,8 @@ class _SettingState extends State<Setting> {
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          showDialog(
+                          showModalBottomSheet(
+                            backgroundColor: Colors.transparent,
                             context: context,
                             builder: (builder) => pickPlatform(
                               context: context,
@@ -179,7 +179,7 @@ class _SettingState extends State<Setting> {
                     subtitle: Text(
                       "Update your personal information",
                       style: TextStyle(
-                        color: AppColor.textLight,
+                        color: AppColor.lightText,
                       ),
                     ),
                   ),
@@ -213,7 +213,7 @@ class _SettingState extends State<Setting> {
                     subtitle: Text(
                       "Change your password",
                       style: TextStyle(
-                        color: AppColor.textLight,
+                        color: AppColor.lightText,
                       ),
                     ),
                   ),
@@ -256,7 +256,7 @@ class _SettingState extends State<Setting> {
                     subtitle: Text(
                       "Share your progress points and achievements",
                       style: TextStyle(
-                        color: AppColor.textLight,
+                        color: AppColor.lightText,
                       ),
                     ),
                     trailing: SizedBox(
@@ -311,7 +311,7 @@ class _SettingState extends State<Setting> {
                     subtitle: Text(
                       "Learn about the app",
                       style: TextStyle(
-                        color: AppColor.textLight,
+                        color: AppColor.lightText,
                       ),
                     ),
                   ),
@@ -358,7 +358,7 @@ class _SettingState extends State<Setting> {
                       softWrap: true,
                       textAlign: TextAlign.left,
                       style: TextStyle(
-                        color: AppColor.textLight,
+                        color: AppColor.lightText,
                       ),
                     ),
                   ),
@@ -418,7 +418,7 @@ class _SettingState extends State<Setting> {
 
   Widget pickPlatform({required context, required width}) {
     return Container(
-      height: 70,
+      height: 80,
       width: width,
       decoration: BoxDecoration(
         color: Theme.of(context).scaffoldBackgroundColor,
@@ -482,7 +482,7 @@ class _SettingState extends State<Setting> {
               backgroundColor: AppColor.primary,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(
-                  5,
+                  10,
                 ),
               ),
               textStyle: TextStyle(
@@ -508,9 +508,6 @@ class _SettingState extends State<Setting> {
                 )
               ],
             ),
-          ),
-          SizedBox(
-            width: 10,
           ),
           ElevatedButton(
             onPressed: () async {
@@ -564,7 +561,7 @@ class _SettingState extends State<Setting> {
               backgroundColor: AppColor.primary,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(
-                  5,
+                  10,
                 ),
               ),
               textStyle: TextStyle(

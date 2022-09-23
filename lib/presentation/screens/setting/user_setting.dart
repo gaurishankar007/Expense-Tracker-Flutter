@@ -154,7 +154,7 @@ class _UserSettingState extends State<UserSetting> {
                                     fillColor: AppColor.buttonBG,
                                     hintText: "Enter new Profile Name",
                                     hintStyle: TextStyle(
-                                      color: AppColor.textLight,
+                                      color: AppColor.lightText,
                                     ),
                                     helperText:
                                         "Most have 3 to 20 characters. Special characters and numbers are not accepted.",
@@ -210,7 +210,7 @@ class _UserSettingState extends State<UserSetting> {
                                           fillColor: AppColor.buttonBG,
                                           hintText: "Enter new Email",
                                           hintStyle: TextStyle(
-                                            color: AppColor.textLight,
+                                            color: AppColor.lightText,
                                           ),
                                           enabledBorder: formBorder,
                                           focusedBorder: formBorder,

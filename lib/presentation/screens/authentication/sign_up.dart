@@ -93,7 +93,7 @@ class _SignUpState extends State<SignUp> {
                     fillColor: AppColor.buttonBG,
                     hintText: "Enter your email.....",
                     hintStyle: TextStyle(
-                      color: AppColor.textLight,
+                      color: AppColor.lightText,
                     ),
                     enabledBorder: formBorder,
                     focusedBorder: formBorder,
@@ -122,7 +122,7 @@ class _SignUpState extends State<SignUp> {
                     fillColor: AppColor.buttonBG,
                     hintText: "Enter your profile name.....",
                     hintStyle: TextStyle(
-                      color: AppColor.textLight,
+                      color: AppColor.lightText,
                     ),
                     helperText:
                         "Most have 3 to 20 characters. Special characters and numbers are not accepted.",
@@ -157,7 +157,7 @@ class _SignUpState extends State<SignUp> {
                     fillColor: AppColor.buttonBG,
                     hintText: "Enter a password.....",
                     hintStyle: TextStyle(
-                      color: AppColor.textLight,
+                      color: AppColor.lightText,
                     ),
                     helperText:
                         "Most contain at least one upper case, lower case, number, special character, and 5 to 15 characters.",
@@ -194,7 +194,7 @@ class _SignUpState extends State<SignUp> {
                     fillColor: AppColor.buttonBG,
                     hintText: "Enter the password again.....",
                     hintStyle: TextStyle(
-                      color: AppColor.textLight,
+                      color: AppColor.lightText,
                     ),
                     enabledBorder: formBorder,
                     focusedBorder: formBorder,

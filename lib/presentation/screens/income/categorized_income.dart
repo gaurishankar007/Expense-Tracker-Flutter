@@ -307,7 +307,7 @@ class _CategorizedIncomeState extends State<CategorizedIncome> {
                         fillColor: AppColor.buttonBG,
                         hintText: "Start Date",
                         hintStyle: TextStyle(
-                          color: AppColor.textLight,
+                          color: AppColor.lightText,
                         ),
                         enabledBorder: formBorder,
                         focusedBorder: formBorder,
@@ -357,7 +357,7 @@ class _CategorizedIncomeState extends State<CategorizedIncome> {
                         fillColor: AppColor.buttonBG,
                         hintText: "End Date",
                         hintStyle: TextStyle(
-                          color: AppColor.textLight,
+                          color: AppColor.lightText,
                         ),
                         enabledBorder: formBorder,
                         focusedBorder: formBorder,
@@ -490,7 +490,7 @@ class _CategorizedIncomeState extends State<CategorizedIncome> {
                   subtitle: Text(
                     incomeList[index].createdAt!.split("T")[0],
                     style: TextStyle(
-                      color: AppColor.textLight,
+                      color: AppColor.lightText,
                     ),
                   ),
                   trailing: Text(

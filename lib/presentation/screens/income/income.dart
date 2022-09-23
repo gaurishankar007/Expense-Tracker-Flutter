@@ -277,7 +277,7 @@ class _IncomePageState extends State<IncomePage> {
                   fillColor: AppColor.buttonBG,
                   hintText: "Enter name",
                   hintStyle: TextStyle(
-                    color: AppColor.textLight,
+                    color: AppColor.lightText,
                   ),
                   enabledBorder: formBorder,
                   focusedBorder: formBorder,
@@ -298,7 +298,7 @@ class _IncomePageState extends State<IncomePage> {
                   fillColor: AppColor.buttonBG,
                   hintText: "Enter amount",
                   hintStyle: TextStyle(
-                    color: AppColor.textLight,
+                    color: AppColor.lightText,
                   ),
                   enabledBorder: formBorder,
                   focusedBorder: formBorder,
@@ -665,7 +665,7 @@ class _IncomePageState extends State<IncomePage> {
                         fillColor: AppColor.buttonBG,
                         hintText: "Start Date",
                         hintStyle: TextStyle(
-                          color: AppColor.textLight,
+                          color: AppColor.lightText,
                         ),
                         enabledBorder: formBorder,
                         focusedBorder: formBorder,
@@ -715,7 +715,7 @@ class _IncomePageState extends State<IncomePage> {
                         fillColor: AppColor.buttonBG,
                         hintText: "End Date",
                         hintStyle: TextStyle(
-                          color: AppColor.textLight,
+                          color: AppColor.lightText,
                         ),
                         enabledBorder: formBorder,
                         focusedBorder: formBorder,
@@ -996,7 +996,7 @@ class _IncomePageState extends State<IncomePage> {
                 subtitle: Text(
                   incomes[index].category!,
                   style: TextStyle(
-                    color: AppColor.textLight,
+                    color: AppColor.lightText,
                   ),
                 ),
                 trailing: Text(

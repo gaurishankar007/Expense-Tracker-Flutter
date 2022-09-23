@@ -98,7 +98,7 @@ class _LoginState extends State<Login> {
                       fillColor: AppColor.buttonBG,
                       hintText: "Enter your email.....",
                       hintStyle: TextStyle(
-                        color: AppColor.textLight,
+                        color: AppColor.lightText,
                       ),
                       enabledBorder: formBorder,
                       focusedBorder: formBorder,
@@ -138,7 +138,7 @@ class _LoginState extends State<Login> {
                               fillColor: AppColor.buttonBG,
                               hintText: "Enter your password.....",
                               hintStyle: TextStyle(
-                                color: AppColor.textLight,
+                                color: AppColor.lightText,
                               ),
                               enabledBorder: formBorder,
                               focusedBorder: formBorder,

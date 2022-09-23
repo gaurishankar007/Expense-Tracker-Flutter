@@ -82,7 +82,7 @@ class _VerifyTokenState extends State<VerifyToken> {
                     fillColor: AppColor.buttonBG,
                     hintText: "Enter the token.....",
                     hintStyle: TextStyle(
-                      color: AppColor.textLight,
+                      color: AppColor.lightText,
                     ),
                     enabledBorder: formBorder,
                     focusedBorder: formBorder,

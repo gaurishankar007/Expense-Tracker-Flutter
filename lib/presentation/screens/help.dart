@@ -82,7 +82,7 @@ class _HelpState extends State<Help> {
                           "How to insert income and expense data?",
                           style: TextStyle(
                             fontSize: 13,
-                            color: AppColor.textLight,
+                            color: AppColor.lightText,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -116,7 +116,7 @@ class _HelpState extends State<Help> {
                               "1. ",
                               style: TextStyle(
                                 fontSize: 13,
-                                color: AppColor.textLight,
+                                color: AppColor.lightText,
                               ),
                             ),
                           ),
@@ -129,7 +129,7 @@ class _HelpState extends State<Help> {
                                     "Users can AddIncomes and expenses daily.",
                                 style: TextStyle(
                                   fontSize: 13,
-                                  color: AppColor.textLight,
+                                  color: AppColor.lightText,
                                 ),
                               ),
                             ),
@@ -158,7 +158,7 @@ class _HelpState extends State<Help> {
                               "2. ",
                               style: TextStyle(
                                 fontSize: 13,
-                                color: AppColor.textLight,
+                                color: AppColor.lightText,
                               ),
                             ),
                           ),
@@ -171,7 +171,7 @@ class _HelpState extends State<Help> {
                                     "Name, amount and category should be given while adding an income or expense data.",
                                 style: TextStyle(
                                   fontSize: 13,
-                                  color: AppColor.textLight,
+                                  color: AppColor.lightText,
                                 ),
                               ),
                             ),
@@ -200,7 +200,7 @@ class _HelpState extends State<Help> {
                               "3. ",
                               style: TextStyle(
                                 fontSize: 13,
-                                color: AppColor.textLight,
+                                color: AppColor.lightText,
                               ),
                             ),
                           ),
@@ -213,7 +213,7 @@ class _HelpState extends State<Help> {
                                     "There is no any limitation on how much incomes and expenses can be added daily.",
                                 style: TextStyle(
                                   fontSize: 13,
-                                  color: AppColor.textLight,
+                                  color: AppColor.lightText,
                                 ),
                               ),
                             ),
@@ -256,7 +256,7 @@ class _HelpState extends State<Help> {
                           "How data can be viewed with dates?",
                           style: TextStyle(
                             fontSize: 13,
-                            color: AppColor.textLight,
+                            color: AppColor.lightText,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -290,7 +290,7 @@ class _HelpState extends State<Help> {
                               "1. ",
                               style: TextStyle(
                                 fontSize: 13,
-                                color: AppColor.textLight,
+                                color: AppColor.lightText,
                               ),
                             ),
                           ),
@@ -303,7 +303,7 @@ class _HelpState extends State<Help> {
                                     "Users can visualize their daily, weekly, and monthly incomes and expenses detail.",
                                 style: TextStyle(
                                   fontSize: 13,
-                                  color: AppColor.textLight,
+                                  color: AppColor.lightText,
                                 ),
                               ),
                             ),
@@ -332,7 +332,7 @@ class _HelpState extends State<Help> {
                               "2. ",
                               style: TextStyle(
                                 fontSize: 13,
-                                color: AppColor.textLight,
+                                color: AppColor.lightText,
                               ),
                             ),
                           ),
@@ -345,7 +345,7 @@ class _HelpState extends State<Help> {
                                     "Users can even search their expenses and incomes by giving start and end dates.",
                                 style: TextStyle(
                                   fontSize: 13,
-                                  color: AppColor.textLight,
+                                  color: AppColor.lightText,
                                 ),
                               ),
                             ),
@@ -386,7 +386,7 @@ class _HelpState extends State<Help> {
                               "3. ",
                               style: TextStyle(
                                 fontSize: 13,
-                                color: AppColor.textLight,
+                                color: AppColor.lightText,
                               ),
                             ),
                           ),
@@ -399,7 +399,7 @@ class _HelpState extends State<Help> {
                                     "Users can view last and current month incomes and expense details with a bar chart in the home page with feedback message.",
                                 style: TextStyle(
                                   fontSize: 13,
-                                  color: AppColor.textLight,
+                                  color: AppColor.lightText,
                                 ),
                               ),
                             ),
@@ -440,7 +440,7 @@ class _HelpState extends State<Help> {
                               "4. ",
                               style: TextStyle(
                                 fontSize: 13,
-                                color: AppColor.textLight,
+                                color: AppColor.lightText,
                               ),
                             ),
                           ),
@@ -453,7 +453,7 @@ class _HelpState extends State<Help> {
                                     "Users can view their income and expense categories of the current month from high to low amount in the home page.",
                                 style: TextStyle(
                                   fontSize: 13,
-                                  color: AppColor.textLight,
+                                  color: AppColor.lightText,
                                 ),
                               ),
                             ),
@@ -494,7 +494,7 @@ class _HelpState extends State<Help> {
                               "5. ",
                               style: TextStyle(
                                 fontSize: 13,
-                                color: AppColor.textLight,
+                                color: AppColor.lightText,
                               ),
                             ),
                           ),
@@ -507,7 +507,7 @@ class _HelpState extends State<Help> {
                                     "Users can also view the graph of the total expense amount of those days that they have inserted expenses in a month.",
                                 style: TextStyle(
                                   fontSize: 13,
-                                  color: AppColor.textLight,
+                                  color: AppColor.lightText,
                                 ),
                               ),
                             ),
@@ -550,7 +550,7 @@ class _HelpState extends State<Help> {
                           "What is progress point and achievement?",
                           style: TextStyle(
                             fontSize: 13,
-                            color: AppColor.textLight,
+                            color: AppColor.lightText,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -584,7 +584,7 @@ class _HelpState extends State<Help> {
                               "1. ",
                               style: TextStyle(
                                 fontSize: 13,
-                                color: AppColor.textLight,
+                                color: AppColor.lightText,
                               ),
                             ),
                           ),
@@ -597,7 +597,7 @@ class _HelpState extends State<Help> {
                                     "Users will get 15 progress points on adding an income and 10 progress point on adding an expense.",
                                 style: TextStyle(
                                   fontSize: 13,
-                                  color: AppColor.textLight,
+                                  color: AppColor.lightText,
                                 ),
                               ),
                             ),
@@ -616,7 +616,7 @@ class _HelpState extends State<Help> {
                               "2. ",
                               style: TextStyle(
                                 fontSize: 13,
-                                color: AppColor.textLight,
+                                color: AppColor.lightText,
                               ),
                             ),
                           ),
@@ -629,7 +629,7 @@ class _HelpState extends State<Help> {
                                     "Users can also unlock achievements and get even more progress points.",
                                 style: TextStyle(
                                   fontSize: 13,
-                                  color: AppColor.textLight,
+                                  color: AppColor.lightText,
                                 ),
                               ),
                             ),
@@ -670,7 +670,7 @@ class _HelpState extends State<Help> {
                               "3. ",
                               style: TextStyle(
                                 fontSize: 13,
-                                color: AppColor.textLight,
+                                color: AppColor.lightText,
                               ),
                             ),
                           ),
@@ -683,7 +683,7 @@ class _HelpState extends State<Help> {
                                     "Users can view their progress and achievements in the ProgressPage.",
                                 style: TextStyle(
                                   fontSize: 13,
-                                  color: AppColor.textLight,
+                                  color: AppColor.lightText,
                                 ),
                               ),
                             ),
@@ -712,7 +712,7 @@ class _HelpState extends State<Help> {
                               "4. ",
                               style: TextStyle(
                                 fontSize: 13,
-                                color: AppColor.textLight,
+                                color: AppColor.lightText,
                               ),
                             ),
                           ),
@@ -725,7 +725,7 @@ class _HelpState extends State<Help> {
                                     "Achievements are base on expenses and incomes. Their detail are provided on the AchievementPage. ",
                                 style: TextStyle(
                                   fontSize: 13,
-                                  color: AppColor.textLight,
+                                  color: AppColor.lightText,
                                 ),
                               ),
                             ),
@@ -766,7 +766,7 @@ class _HelpState extends State<Help> {
                               "5. ",
                               style: TextStyle(
                                 fontSize: 13,
-                                color: AppColor.textLight,
+                                color: AppColor.lightText,
                               ),
                             ),
                           ),
@@ -779,7 +779,7 @@ class _HelpState extends State<Help> {
                                     "Users will have two kind of achievements. One is last month achievements which includes achievements got from the last month expenses and incomes and another is this month achievements which contains achievement got on the current month.",
                                 style: TextStyle(
                                   fontSize: 13,
-                                  color: AppColor.textLight,
+                                  color: AppColor.lightText,
                                 ),
                               ),
                             ),
@@ -798,7 +798,7 @@ class _HelpState extends State<Help> {
                               "6. ",
                               style: TextStyle(
                                 fontSize: 13,
-                                color: AppColor.textLight,
+                                color: AppColor.lightText,
                               ),
                             ),
                           ),
@@ -811,7 +811,7 @@ class _HelpState extends State<Help> {
                                     "Users can also share their progress point and compete in the raking system.",
                                 style: TextStyle(
                                   fontSize: 13,
-                                  color: AppColor.textLight,
+                                  color: AppColor.lightText,
                                 ),
                               ),
                             ),
@@ -864,7 +864,7 @@ class _HelpState extends State<Help> {
                           "How users' data are protected?",
                           style: TextStyle(
                             fontSize: 13,
-                            color: AppColor.textLight,
+                            color: AppColor.lightText,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -898,7 +898,7 @@ class _HelpState extends State<Help> {
                               "1. ",
                               style: TextStyle(
                                 fontSize: 13,
-                                color: AppColor.textLight,
+                                color: AppColor.lightText,
                               ),
                             ),
                           ),
@@ -911,7 +911,7 @@ class _HelpState extends State<Help> {
                                     "The expenses and incomes data of a user can be seen by the user only.",
                                 style: TextStyle(
                                   fontSize: 13,
-                                  color: AppColor.textLight,
+                                  color: AppColor.lightText,
                                 ),
                               ),
                             ),
@@ -930,7 +930,7 @@ class _HelpState extends State<Help> {
                               "2. ",
                               style: TextStyle(
                                 fontSize: 13,
-                                color: AppColor.textLight,
+                                color: AppColor.lightText,
                               ),
                             ),
                           ),
@@ -943,7 +943,7 @@ class _HelpState extends State<Help> {
                                     "The users' data have not been shared with any other users and not used for any other purposes.",
                                 style: TextStyle(
                                   fontSize: 13,
-                                  color: AppColor.textLight,
+                                  color: AppColor.lightText,
                                 ),
                               ),
                             ),
@@ -962,7 +962,7 @@ class _HelpState extends State<Help> {
                               "3. ",
                               style: TextStyle(
                                 fontSize: 13,
-                                color: AppColor.textLight,
+                                color: AppColor.lightText,
                               ),
                             ),
                           ),
@@ -975,7 +975,7 @@ class _HelpState extends State<Help> {
                                     "The rank page shows only those users' data who have shared their progress and achievements.",
                                 style: TextStyle(
                                   fontSize: 13,
-                                  color: AppColor.textLight,
+                                  color: AppColor.lightText,
                                 ),
                               ),
                             ),
@@ -994,7 +994,7 @@ class _HelpState extends State<Help> {
                               "4. ",
                               style: TextStyle(
                                 fontSize: 13,
-                                color: AppColor.textLight,
+                                color: AppColor.lightText,
                               ),
                             ),
                           ),
@@ -1007,7 +1007,7 @@ class _HelpState extends State<Help> {
                                     "No one has been harmed intentionally by the use of this application.",
                                 style: TextStyle(
                                   fontSize: 13,
-                                  color: AppColor.textLight,
+                                  color: AppColor.lightText,
                                 ),
                               ),
                             ),

@@ -14,19 +14,11 @@ part 'home_event.dart';
 part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
-  // final HomeData homeData;
-  // final CheckInternet checkInternet;
-
-  HomeBloc(
-    // this.homeData,
-    // this.checkInternet,
-  ) : super(HomeLoadingState()) {
+  HomeBloc() : super(HomeLoadingState()) {
     CheckInternet().connectivityStream.stream.listen((event) {
       if (event == ConnectivityResult.none) {
-        print("no internet");
         add(NoInternetEvent());
       } else {
-        print("internet");
         add(HomeLoadedEvent());
       }
     });
@@ -45,51 +37,149 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         greeting = "Good Evening";
       }
 
-      HomeData homeData = await HomeHttp().viewHome();
-      List<ExpenseCategorized> e = homeData.thisMonthExpenseCategories!;
-      List<IncomeCategorized> i = homeData.thisMonthIncomeCategories!;
+      try {
+        HomeData homeData = await HomeHttp().viewHome();
 
-      List<String> expenseCategories = [];
-      List<String> incomeCategories = [];
+        List<ExpenseCategorized> e = homeData.thisMonthExpenseCategories!;
+        List<IncomeCategorized> i = homeData.thisMonthIncomeCategories!;
 
-      if (e.isEmpty) {
-        expenseCategories = Category.expenseCategory;
-      } else {
-        expenseCategories = e
+        List<String> expenseCategories = [];
+        List<String> incomeCategories = [];
+
+        if (e.isEmpty) {
+          expenseCategories = Category.expenseCategory;
+        } else {
+          expenseCategories = e
+              .asMap()
+              .map((key, value) {
+                return MapEntry(key, e[key].category!);
+              })
+              .values
+              .toList();
+        }
+
+        if (i.isEmpty) {
+          incomeCategories = Category.incomeCategory;
+        } else {
+          incomeCategories = i
+              .asMap()
+              .map((key, value) {
+                return MapEntry(key, i[key].category!);
+              })
+              .values
+              .toList();
+        }
+
+        final pc = await ProgressHttp().calculateProgress();
+        bool achievementUnlocked = pc["achievementUnlocked"];
+
+        emit(HomeLoadedState(
+          greeting: greeting,
+          homeData: homeData,
+          moreExpense: false,
+          moreIncome: false,
+          expenseCategories: expenseCategories,
+          incomeCategories: incomeCategories,
+        ));
+      } catch (error) {
+        if (error.toString().split(":").first == "SocketException") {
+          add(NoInternetEvent());
+        } else {
+          add(ErrorEvent());
+        }
+      }
+    });
+
+    on<MICEvent>((event, emit) {
+      bool more = event.moreIncome;
+      List<IncomeCategorized> category =
+          event.homeData.thisMonthIncomeCategories!;
+      List<String> incomeCategories = event.incomeCategories;
+
+      if (more) {
+        List<String> tempCategory = category
             .asMap()
             .map((key, value) {
-              return MapEntry(key, e[key].category!);
+              return MapEntry(key, category[key].category!);
             })
             .values
             .toList();
-      }
 
-      if (i.isEmpty) {
-        incomeCategories = Category.incomeCategory;
+        emit(HomeLoadedState(
+          greeting: event.greeting,
+          homeData: event.homeData,
+          moreExpense: event.moreExpense,
+          moreIncome: !more,
+          expenseCategories: event.expenseCategories,
+          incomeCategories: tempCategory,
+        ));
       } else {
-        incomeCategories = i
+        List<String> tempCategory = incomeCategories;
+        for (int i = 0; i < Category.incomeCategory.length; i++) {
+          if (!tempCategory.contains(Category.incomeCategory[i])) {
+            tempCategory.add(Category.incomeCategory[i]);
+          }
+        }
+
+        emit(HomeLoadedState(
+          greeting: event.greeting,
+          homeData: event.homeData,
+          moreExpense: event.moreExpense,
+          moreIncome: !more,
+          expenseCategories: event.expenseCategories,
+          incomeCategories: tempCategory,
+        ));
+      }
+    });
+
+    on<MECEvent>((event, emit) {
+      bool more = event.moreExpense;
+      List<ExpenseCategorized> category =
+          event.homeData.thisMonthExpenseCategories!;
+      List<String> expenseCategories = event.expenseCategories;
+
+      if (more) {
+        List<String> tempCategory = category
             .asMap()
             .map((key, value) {
-              return MapEntry(key, i[key].category!);
+              return MapEntry(key, category[key].category!);
             })
             .values
             .toList();
+
+        emit(HomeLoadedState(
+          greeting: event.greeting,
+          homeData: event.homeData,
+          moreExpense: !more,
+          moreIncome: event.moreIncome,
+          expenseCategories: tempCategory,
+          incomeCategories: event.incomeCategories,
+        ));
+      } else {
+        List<String> tempCategory = expenseCategories;
+        for (int i = 0; i < Category.expenseCategory.length; i++) {
+          if (!tempCategory.contains(Category.expenseCategory[i])) {
+            tempCategory.add(Category.expenseCategory[i]);
+          }
+        }
+
+        emit(HomeLoadedState(
+          greeting: event.greeting,
+          homeData: event.homeData,
+          moreExpense: !more,
+          moreIncome: event.moreIncome,
+          expenseCategories: tempCategory,
+          incomeCategories: event.incomeCategories,
+        ));
       }
-
-      final pc = await ProgressHttp().calculateProgress();
-      bool achievementUnlocked = pc["achievementUnlocked"];
-
-      emit(HomeLoadedState(
-        homeData: homeData,
-        expenseCategories: expenseCategories,
-        incomeCategories: incomeCategories,
-        achievementUnlocked: achievementUnlocked,
-        greeting: greeting,
-      ));
     });
 
     on<NoInternetEvent>((event, emit) {
       emit(NoInternetState());
+    });
+
+    on<ErrorEvent>((event, emit) {
+      emit(ErrorState());
     });
   }
 }

@@ -1,14 +1,23 @@
 import 'package:flutter/material.dart';
 
 class AppColor {
+  //Main
   static Color primary = Color(0XFF5B86E5);
+
+  //Background
   static Color onPrimary = Color(0xFFFFFFFF);
   static Color backgroundLight = Color(0xFFF5F6FB);
   static Color backgroundDark = Color(0xFF202124);
+  static Color buttonBG = Color(0xE1C8D3E7);
+
+  //Text
   static Color form = Color(0xFFD4D4D4);
   static Color text = Color(0xFF1A1A1A);
-  static Color textLight = Color(0xFF4F5050);
-  static Color buttonBG = Color(0xE1C8D3E7);
+  static Color lightText = Color(0xFF4F5050);
+
+  //Shimmer
+  static Color baseShimmer = Color(0xFF9E9E9E);
+  static Color highlightShimmer = Color(0xFFE0E0E0);
 }
 
 class AppSize {

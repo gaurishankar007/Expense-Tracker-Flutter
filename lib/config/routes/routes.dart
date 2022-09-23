@@ -12,6 +12,7 @@ import 'package:expense_tracker/presentation/screens/income/income.dart';
 import 'package:expense_tracker/presentation/screens/progress/achievements.dart';
 import 'package:expense_tracker/presentation/screens/progress/rank.dart';
 import 'package:expense_tracker/presentation/screens/progress/result.dart';
+import 'package:expense_tracker/presentation/screens/setting/password_setting.dart';
 import 'package:expense_tracker/presentation/screens/setting/setting.dart';
 import 'package:expense_tracker/presentation/screens/setting/change_password.dart';
 import 'package:expense_tracker/presentation/screens/setting/user_setting.dart';
@@ -82,6 +83,9 @@ class AppRoute {
 
       case "/setting":
         return _materialRoute(Setting());
+
+      case "/passwordSetting":
+        return _materialRoute(PasswordSetting());
 
       case "/userSetting":
         return _materialRoute(UserSetting());

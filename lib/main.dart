@@ -6,32 +6,16 @@ import 'package:flutter/material.dart';
 import 'data/log_status.dart';
 import 'data/remote/user_http.dart';
 
-Future<void> main() async {
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
   CachedNetworkImage.logLevel = CacheManagerLogLevel.debug;
 
-  String token = await LogStatus().getToken();
-  if (token.isEmpty) {
-    runApp(const ExpenseTracker(initialPage: "/"));
-    return;
-  }
-
-  LogStatus.token = token;
-  bool checkPassword = await UserHttp().checkPassword();
-  if (checkPassword) {
-    runApp(const ExpenseTracker(initialPage: "/changePassword"));
-    return;
-  }
-
-  runApp(const ExpenseTracker(initialPage: "/home"));
+  splashCheck();
 }
 
 class ExpenseTracker extends StatefulWidget {
   final String initialPage;
-  const ExpenseTracker({
-    Key? key,
-    required this.initialPage,
-  }) : super(key: key);
+  const ExpenseTracker({Key? key, required this.initialPage}) : super(key: key);
 
   @override
   State<ExpenseTracker> createState() => _ExpenseTrackerState();
@@ -48,4 +32,25 @@ class _ExpenseTrackerState extends State<ExpenseTracker> {
       onGenerateRoute: AppRoute.onGeneratedRoute,
     );
   }
+}
+
+void splashCheck() async {
+  String token = await LogStatus().getToken();
+  if (token.isEmpty) {
+    runApp(ExpenseTracker(initialPage: "/"));
+    return;
+  }
+
+  LogStatus.token = token;
+  try {
+    bool checkPassword = await UserHttp().checkPassword();
+    if (checkPassword) {
+      runApp(ExpenseTracker(initialPage: "/changePassword"));
+      return;
+    }
+  } catch (error) {
+    runApp(ExpenseTracker(initialPage: "/home"));
+  }
+
+  runApp(ExpenseTracker(initialPage: "/home"));
 }
