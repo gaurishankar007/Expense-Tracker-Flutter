@@ -8,7 +8,7 @@ import 'package:http/http.dart';
 import '../../urls.dart';
 
 class LoginHttp {
-  final baseUrl = ApiUrls.baseUrl;
+  final base = URL.base;
 
   Future<Map> login(String email, String password) async {
     try {
@@ -18,7 +18,7 @@ class LoginHttp {
       };
 
       final response =
-          await post(Uri.parse(baseUrl + Authentication.login), body: userData);
+          await post(Uri.parse(base + Authentication.login), body: userData);
 
       return {
         "statusCode": response.statusCode,
@@ -38,7 +38,7 @@ class LoginHttp {
       };
 
       final response = await post(
-        Uri.parse(baseUrl + Authentication.googleSignIn),
+        Uri.parse(base + Authentication.googleSignIn),
         body: userData,
       );
 

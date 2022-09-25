@@ -410,7 +410,7 @@ class _IncomePageState extends State<IncomePage> {
           ),
           OutlinedButton(
             style: OutlinedButton.styleFrom(
-              backgroundColor: Theme.of(context).primaryColor,
+              foregroundColor: Theme.of(context).primaryColor,
               minimumSize: Size.zero,
               padding: EdgeInsets.all(10),
               side: BorderSide(
@@ -1316,12 +1316,16 @@ class _IncomePageState extends State<IncomePage> {
             },
             child: Text("Edit"),
           ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Theme.of(context).primaryColor,
+          OutlinedButton(
+            style: OutlinedButton.styleFrom(
+              foregroundColor: Theme.of(context).primaryColor,
               minimumSize: Size.zero,
-              padding: EdgeInsets.all(8),
-              elevation: 5,
+              padding: EdgeInsets.all(10),
+              side: BorderSide(
+                color: Theme.of(context).primaryColor,
+                width: 2,
+                style: BorderStyle.solid,
+              ),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(5),
               ),

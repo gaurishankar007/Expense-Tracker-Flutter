@@ -1,10 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:expense_tracker/config/routes/routes.dart';
 import 'package:expense_tracker/config/themes/themes.dart';
+import 'package:expense_tracker/data/local/models/token_model.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
-import 'data/log_status.dart';
+import 'data/local/login_data.dart';
 import 'data/remote/user_http.dart';
+
+late Box box;
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,13 +39,21 @@ class _ExpenseTrackerState extends State<ExpenseTracker> {
 }
 
 void splashCheck() async {
-  String token = await LogStatus().getToken();
-  if (token.isEmpty) {
+  await Hive.initFlutter();
+  Hive.registerAdapter(TokenDataAdapter());
+  await Hive.openBox<TokenData>("TokenData");
+
+  TokenData? tokenData = LoginData().getTokenData();
+  if (tokenData == null) {
     runApp(ExpenseTracker(initialPage: "/"));
     return;
   }
 
-  LogStatus.token = token;
+  LoginData.token = tokenData.token;
+  LoginData.profileName = tokenData.profileName;
+  LoginData.profilePicture = tokenData.profilePicture;
+  LoginData.googleSignIn = tokenData.googleSignIn;
+
   try {
     bool checkPassword = await UserHttp().checkPassword();
     if (checkPassword) {

@@ -6,14 +6,14 @@ import 'dart:io';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 
-import '../log_status.dart';
+import '../local/login_data.dart';
 import '../model/user_model.dart';
 import '../urls.dart';
 import "package:http_parser/http_parser.dart";
 
 class UserHttp {
-  final baseUrl = ApiUrls.baseUrl;
-  final token = LogStatus.token;
+  final base = URL.base;
+  final token = LoginData.token;
 
   Future<Map> changePassword(String currentPassword, String newPassword) async {
     try {
@@ -23,7 +23,7 @@ class UserHttp {
       };
 
       final response = await put(
-        Uri.parse(baseUrl + UserUrls.changePassword),
+        Uri.parse(base + UserUrls.changePassword),
         body: userData,
         headers: {
           HttpHeaders.authorizationHeader: "Bearer $token",
@@ -42,7 +42,7 @@ class UserHttp {
   Future<bool> checkPassword() async {
     try {
       final response = await get(
-        Uri.parse(baseUrl + UserUrls.checkPassword),
+        Uri.parse(base + UserUrls.checkPassword),
         headers: {
           HttpHeaders.authorizationHeader: "Bearer $token",
         },
@@ -57,7 +57,7 @@ class UserHttp {
   Future<User> getUser() async {
     try {
       final response = await get(
-        Uri.parse(baseUrl + UserUrls.getUser),
+        Uri.parse(base + UserUrls.getUser),
         headers: {
           HttpHeaders.authorizationHeader: "Bearer $token",
         },
@@ -73,7 +73,7 @@ class UserHttp {
     try {
       // Making multipart request
       var request = http.MultipartRequest(
-          'PUT', Uri.parse(baseUrl + UserUrls.changeProfilePicture));
+          'PUT', Uri.parse(base + UserUrls.changeProfilePicture));
 
       // Adding headers
       request.headers.addAll({
@@ -110,7 +110,7 @@ class UserHttp {
       String email, String profileName, String gender) async {
     try {
       final response = await put(
-        Uri.parse(baseUrl + UserUrls.changeProfileInfo),
+        Uri.parse(base + UserUrls.changeProfileInfo),
         body: {
           "email": email,
           "profileName": profileName,
@@ -134,7 +134,7 @@ class UserHttp {
   Future<Map> publicProgress() async {
     try {
       final response = await get(
-        Uri.parse(baseUrl + UserUrls.publicProgress),
+        Uri.parse(base + UserUrls.publicProgress),
         headers: {HttpHeaders.authorizationHeader: "Bearer $token"},
       );
 

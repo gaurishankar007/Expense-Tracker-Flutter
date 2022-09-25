@@ -3,17 +3,17 @@ import 'dart:io';
 
 import 'package:http/http.dart';
 
-import '../log_status.dart';
+import '../local/login_data.dart';
 import '../urls.dart';
 
 class TokenHttp {
-  final baseUrl = ApiUrls.baseUrl;
-  final token = LogStatus.token;
+  final base = URL.base;
+  final token = LoginData.token;
 
   Future<Map> generateToken(String email, String password) async {
     try {
       final response = await post(
-        Uri.parse(baseUrl + TokenUrls.generateToken),
+        Uri.parse(base + TokenUrls.generateToken),
         body: {"email": email, "password": password},
         headers: {
           HttpHeaders.authorizationHeader: "Bearer $token",
@@ -32,7 +32,7 @@ class TokenHttp {
   Future<Map> verifyToken(String tokenNumber, String userId) async {
     try {
       final response = await put(
-        Uri.parse(baseUrl + TokenUrls.verifyToken),
+        Uri.parse(base + TokenUrls.verifyToken),
         body: {"tokenNumber": tokenNumber, "userId": userId},
         headers: {
           HttpHeaders.authorizationHeader: "Bearer $token",

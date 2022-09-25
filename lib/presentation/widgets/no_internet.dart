@@ -37,6 +37,7 @@ class NoInternet extends StatelessWidget {
             horizontal: width * .04,
           ),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
                 "No Internet",

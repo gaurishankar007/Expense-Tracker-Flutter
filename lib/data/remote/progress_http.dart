@@ -3,18 +3,18 @@ import 'dart:io';
 
 import 'package:http/http.dart';
 
-import '../log_status.dart';
+import '../local/login_data.dart';
 import '../model/progress_model.dart';
 import '../urls.dart';
 
 class ProgressHttp {
-  final baseUrl = ApiUrls.baseUrl;
-  final token = LogStatus.token;
+  final base = URL.base;
+  final token = LoginData.token;
 
   Future<ProgressData> getUserProgress() async {
     try {
       final response = await get(
-        Uri.parse(baseUrl + ProgressUrls.getUserProgress),
+        Uri.parse(base + ProgressUrls.getUserProgress),
         headers: {
           HttpHeaders.authorizationHeader: "Bearer $token",
         },
@@ -31,7 +31,7 @@ class ProgressHttp {
   Future<TopProgress> topUsersProgress() async {
     try {
       final response = await get(
-        Uri.parse(baseUrl + ProgressUrls.topUsersProgress),
+        Uri.parse(base + ProgressUrls.topUsersProgress),
         headers: {
           HttpHeaders.authorizationHeader: "Bearer $token",
         },
@@ -48,7 +48,7 @@ class ProgressHttp {
   Future<Map> calculateProgress() async {
     try {
       final response = await get(
-        Uri.parse(baseUrl + ProgressUrls.calculateProgress),
+        Uri.parse(base + ProgressUrls.calculateProgress),
         headers: {
           HttpHeaders.authorizationHeader: "Bearer $token",
         },

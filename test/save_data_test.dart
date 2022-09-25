@@ -1,25 +1,38 @@
+import 'package:expense_tracker/data/local/models/token_model.dart';
+import 'package:expense_tracker/data/local/login_data.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 void main() {
-  test('Checking token and googleSignIn is saved locally or not', () async {
-    final sharedPref = await SharedPreferences.getInstance();
-    sharedPref.remove("token");
-    sharedPref.remove("googleSignIn");
+  test('Checking TokenData is saved locally or not', () async {
+    await Hive.initFlutter();
+    Hive.registerAdapter(TokenDataAdapter());
+    await Hive.openBox<TokenData>("TokenData");
 
-    String token = sharedPref.getString("token") ?? "";
-    bool googleSignIn = sharedPref.getBool("googleSignIn") ?? false;
-    expect(token, "");
+    LoginData().removeTokenData();
+
+    TokenData? tokenData = LoginData().getTokenData();
+    expect(tokenData, null);
+
+    LoginData().addTokenData(
+      TokenData(
+        token: "abcdef",
+        googleSignIn: false,
+        profileName: "AB CD",
+        profilePicture: "xyz.png",
+      ),
+    );
+
+    tokenData = LoginData().getTokenData();
+
+    String token = tokenData!.token;
+    String profileName = tokenData.profileName;
+    String profilePicture = tokenData.profilePicture;
+    bool googleSignIn = tokenData.googleSignIn;
+
+    expect(token, "abcdef");
+    expect(profileName, "AB CD");
+    expect(profilePicture, "xyz.png");
     expect(googleSignIn, false);
-
-    sharedPref.setString("token", "lskdjflksjd938759slm980wynop");
-    sharedPref.setBool("googleSignIn", true);
-
-    token = sharedPref.getString("token") ?? "";
-    googleSignIn = sharedPref.getBool("googleSignIn") ?? false;
-    
-    expect(token, "lskdjflksjd938759slm980wynop");
-    expect(googleSignIn, true);
   });
 }

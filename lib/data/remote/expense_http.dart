@@ -3,13 +3,13 @@ import 'dart:io';
 
 import 'package:http/http.dart';
 
-import '../log_status.dart';
+import '../local/login_data.dart';
 import '../model/expense_model.dart';
 import '../urls.dart';
 
 class ExpenseHttp {
-  final baseUrl = ApiUrls.baseUrl;
-  final token = LogStatus.token;
+  final base = URL.base;
+  final token = LoginData.token;
 
   Future<Map> addExpense(ExpenseData expenseDetail) async {
     try {
@@ -20,7 +20,7 @@ class ExpenseHttp {
       };
 
       final response = await post(
-        Uri.parse(baseUrl + ExpenseUrls.addExpense),
+        Uri.parse(base + ExpenseUrls.addExpense),
         body: expenseData,
         headers: {
           HttpHeaders.authorizationHeader: "Bearer $token",
@@ -39,7 +39,7 @@ class ExpenseHttp {
   Future<ExpenseDWM> getExpenseDWM() async {
     try {
       final response = await get(
-        Uri.parse(baseUrl + ExpenseUrls.getExpenseDWM),
+        Uri.parse(base + ExpenseUrls.getExpenseDWM),
         headers: {
           HttpHeaders.authorizationHeader: "Bearer $token",
         },
@@ -57,7 +57,7 @@ class ExpenseHttp {
       String startDate, String endDate) async {
     try {
       final response = await post(
-        Uri.parse(baseUrl + ExpenseUrls.getExpenseSpecific),
+        Uri.parse(base + ExpenseUrls.getExpenseSpecific),
         body: {"startDate": startDate, "endDate": endDate},
         headers: {
           HttpHeaders.authorizationHeader: "Bearer $token",
@@ -75,7 +75,7 @@ class ExpenseHttp {
   Future<Map> removeExpense(String expenseId) async {
     try {
       final response = await delete(
-        Uri.parse(baseUrl + ExpenseUrls.removeExpense),
+        Uri.parse(base + ExpenseUrls.removeExpense),
         body: {"expenseId": expenseId},
         headers: {
           HttpHeaders.authorizationHeader: "Bearer $token",
@@ -98,7 +98,7 @@ class ExpenseHttp {
       };
 
       final response = await put(
-        Uri.parse(baseUrl + ExpenseUrls.editExpense),
+        Uri.parse(base + ExpenseUrls.editExpense),
         body: expenseData,
         headers: {
           HttpHeaders.authorizationHeader: "Bearer $token",
@@ -117,7 +117,7 @@ class ExpenseHttp {
   Future<List<ExpenseData>> getCategorizedExpense(String category) async {
     try {
       final response = await post(
-        Uri.parse(baseUrl + ExpenseUrls.getCategorizedExpense),
+        Uri.parse(base + ExpenseUrls.getCategorizedExpense),
         body: {
           "category": category,
         },
@@ -144,7 +144,7 @@ class ExpenseHttp {
       };
 
       final response = await post(
-        Uri.parse(baseUrl + ExpenseUrls.getCategorizedSpecificExpense),
+        Uri.parse(base + ExpenseUrls.getCategorizedSpecificExpense),
         body: expenseData,
         headers: {
           HttpHeaders.authorizationHeader: "Bearer $token",
@@ -162,7 +162,7 @@ class ExpenseHttp {
   Future<String> getCategoryStartDate(String category) async {
     try {
       final response = await post(
-        Uri.parse(baseUrl + ExpenseUrls.getCategoryStartDate),
+        Uri.parse(base + ExpenseUrls.getCategoryStartDate),
         body: {
           "category": category,
         },

@@ -2,13 +2,15 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:expense_tracker/data/google/google_sign_up.dart';
+import 'package:expense_tracker/data/local/models/token_model.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../data/model/user_model.dart';
 import '../../../data/remote/user_http.dart';
-import '../../../../data/log_status.dart';
+import '../../../data/local/login_data.dart';
 import '../../../config/themes/constant.dart';
 import '../../widgets/message.dart';
 import '../../widgets/shimmer/setting_shimmer.dart';
@@ -321,8 +323,8 @@ class _SettingState extends State<Setting> {
                     minVerticalPadding: 0,
                     visualDensity: VisualDensity(horizontal: -4, vertical: -2),
                     onTap: () async {
-                      LogStatus().removeToken();
-                      LogStatus.token = "";
+                      bool googleSignIn = LoginData.googleSignIn;
+                      LoginData().removeTokenData();
 
                       Navigator.pushNamedAndRemoveUntil(
                         context,
@@ -330,10 +332,8 @@ class _SettingState extends State<Setting> {
                         (route) => false,
                       );
 
-                      bool googleSignIn = await LogStatus().googleSignIn();
                       if (googleSignIn) {
                         await GoogleSingInApi.logout();
-                        LogStatus().removeGoogleSignIn();
                       }
                     },
                     leading: Column(
@@ -513,7 +513,7 @@ class _SettingState extends State<Setting> {
             onPressed: () async {
               Navigator.pop(context);
               final xImage =
-                  await ImagePicker().pickImage(source: ImageSource.camera);
+                  await ImagePicker().pickImage(source: ImageSource.gallery);
 
               if (xImage == null) return;
 

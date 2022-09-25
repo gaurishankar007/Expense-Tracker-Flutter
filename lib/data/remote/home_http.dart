@@ -3,18 +3,18 @@ import 'dart:io';
 
 import 'package:http/http.dart';
 
-import '../log_status.dart';
+import '../local/login_data.dart';
 import '../model/home_model.dart';
 import '../urls.dart';
 
 class HomeHttp {
-  final baseUrl = ApiUrls.baseUrl;
-  final token = LogStatus.token;
+  final base = URL.base;
+  final token = LoginData.token;
 
   Future<HomeData> viewHome() async {
     try {
       final response = await get(
-        Uri.parse(baseUrl + HomeUrls.viewHome),
+        Uri.parse(base + HomeUrls.viewHome),
         headers: {
           HttpHeaders.authorizationHeader: "Bearer $token",
         },

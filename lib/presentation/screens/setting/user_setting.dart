@@ -1,4 +1,4 @@
-import 'package:expense_tracker/data/log_status.dart';
+import 'package:expense_tracker/data/local/login_data.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 
@@ -20,7 +20,7 @@ class _UserSettingState extends State<UserSetting> {
   String profileName = "", email = "";
   String? gender;
 
-  bool editEmail = true;
+  bool editEmail = !LoginData.googleSignIn;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -44,11 +44,6 @@ class _UserSettingState extends State<UserSetting> {
       email = value.email!;
       gender = value.gender!;
     });
-
-    bool googleSignIn = await LogStatus().googleSignIn();
-    if (googleSignIn) {
-      editEmail = false;
-    }
   }
 
   @override

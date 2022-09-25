@@ -1,5 +1,5 @@
-class ApiUrls {
-  static const baseUrl = "https://expense-income007.herokuapp.com/";
+class URL {
+  static const base = "https://expense-income007.herokuapp.com/";
 }
 
 class Authentication {

@@ -1,9 +1,11 @@
+import 'package:expense_tracker/data/local/models/token_model.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import '../../../../data/google/google_sign_up.dart';
 import '../../../data/remote/authentication/login_http.dart';
-import '../../../../data/log_status.dart';
+import '../../../data/local/login_data.dart';
 import '../../../../data/model/user_model.dart';
 import '../../../config/themes/constant.dart';
 import '../../widgets/message.dart';
@@ -238,18 +240,22 @@ class _LoginState extends State<Login> {
                       );
 
                       final resData = await LoginHttp().login(email, password);
+
                       if (resData["statusCode"] == 202) {
-                        bool googleSignIn = await LogStatus().googleSignIn();
-                        if (googleSignIn) {
-                          await GoogleSingInApi.logout();
-                          LogStatus().removeGoogleSignIn();
+                        if (checkboxValue) {
+                          LoginData().addTokenData(
+                            TokenData(
+                              token: resData["body"]["token"],
+                              googleSignIn: false,
+                              profileName: resData["body"]["userData"]
+                                  ["profileName"],
+                              profilePicture: resData["body"]["userData"]
+                                  ["profilePicture"],
+                            ),
+                          );
                         }
 
                         Navigator.pop(context);
-                        if (checkboxValue) {
-                          LogStatus().setToken(resData["body"]["token"]);
-                        }
-                        LogStatus.token = resData["body"]["token"];
                         Navigator.pushNamedAndRemoveUntil(
                           context,
                           "/home",
@@ -328,12 +334,20 @@ class _LoginState extends State<Login> {
                       );
 
                       if (resData["statusCode"] == 202) {
-                        Navigator.pop(context);
                         if (checkboxValue) {
-                          LogStatus().setToken(resData["body"]["token"]);
+                          LoginData().addTokenDataG(
+                            TokenData(
+                              token: resData["body"]["token"],
+                              googleSignIn: true,
+                              profileName: resData["body"]["userData"]
+                                  ["profileName"],
+                              profilePicture: resData["body"]["userData"]
+                                  ["profilePicture"],
+                            ),
+                          );
                         }
-                        LogStatus().setGoogleSignIn(true);
-                        LogStatus.token = resData["body"]["token"];
+
+                        Navigator.pop(context);
                         Navigator.pushNamedAndRemoveUntil(
                           context,
                           "/home",

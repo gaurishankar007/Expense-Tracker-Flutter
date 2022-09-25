@@ -3,13 +3,13 @@ import 'dart:io';
 
 import 'package:http/http.dart';
 
-import '../log_status.dart';
+import '../local/login_data.dart';
 import '../model/income_model.dart';
 import '../urls.dart';
 
 class IncomeHttp {
-  final baseUrl = ApiUrls.baseUrl;
-  final token = LogStatus.token;
+  final base = URL.base;
+  final token = LoginData.token;
 
   Future<Map> addIncome(IncomeData incomeDetail) async {
     try {
@@ -19,7 +19,7 @@ class IncomeHttp {
         "category": incomeDetail.category!,
       };
       final response = await post(
-        Uri.parse(baseUrl + IncomeUrls.addIncome),
+        Uri.parse(base + IncomeUrls.addIncome),
         body: incomeData,
         headers: {
           HttpHeaders.authorizationHeader: "Bearer $token",
@@ -38,7 +38,7 @@ class IncomeHttp {
   Future<IncomeDWM> getIncomeDWM() async {
     try {
       final response = await get(
-        Uri.parse(baseUrl + IncomeUrls.getIncomeDWM),
+        Uri.parse(base + IncomeUrls.getIncomeDWM),
         headers: {
           HttpHeaders.authorizationHeader: "Bearer $token",
         },
@@ -56,7 +56,7 @@ class IncomeHttp {
       String startDate, String endDate) async {
     try {
       final response = await post(
-        Uri.parse(baseUrl + IncomeUrls.getIncomeSpecific),
+        Uri.parse(base + IncomeUrls.getIncomeSpecific),
         body: {"startDate": startDate, "endDate": endDate},
         headers: {
           HttpHeaders.authorizationHeader: "Bearer $token",
@@ -74,7 +74,7 @@ class IncomeHttp {
   Future<Map> removeIncome(String incomeId) async {
     try {
       final response = await delete(
-        Uri.parse(baseUrl + IncomeUrls.removeIncome),
+        Uri.parse(base + IncomeUrls.removeIncome),
         body: {"incomeId": incomeId},
         headers: {
           HttpHeaders.authorizationHeader: "Bearer $token",
@@ -97,7 +97,7 @@ class IncomeHttp {
       };
 
       final response = await put(
-        Uri.parse(baseUrl + IncomeUrls.editIncome),
+        Uri.parse(base + IncomeUrls.editIncome),
         body: incomeData,
         headers: {
           HttpHeaders.authorizationHeader: "Bearer $token",
@@ -116,7 +116,7 @@ class IncomeHttp {
   Future<List<IncomeData>> getCategorizedIncome(String category) async {
     try {
       final response = await post(
-        Uri.parse(baseUrl + IncomeUrls.getCategorizedIncome),
+        Uri.parse(base + IncomeUrls.getCategorizedIncome),
         body: {
           "category": category,
         },
@@ -143,7 +143,7 @@ class IncomeHttp {
       };
 
       final response = await post(
-        Uri.parse(baseUrl + IncomeUrls.getCategorizedSpecificIncome),
+        Uri.parse(base + IncomeUrls.getCategorizedSpecificIncome),
         body: incomeData,
         headers: {
           HttpHeaders.authorizationHeader: "Bearer $token",
@@ -161,7 +161,7 @@ class IncomeHttp {
   Future<String> getCategoryStartDate(String category) async {
     try {
       final response = await post(
-        Uri.parse(baseUrl + IncomeUrls.getCategoryStartDate),
+        Uri.parse(base + IncomeUrls.getCategoryStartDate),
         body: {
           "category": category,
         },
