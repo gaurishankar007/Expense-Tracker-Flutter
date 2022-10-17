@@ -1,5 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
+import 'package:expense_tracker/presentation/blocs/income/income_bloc.dart';
+import 'package:expense_tracker/presentation/widgets/error_fetching_data.dart';
+import 'package:expense_tracker/presentation/widgets/no_internet.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:expense_tracker/config/category.dart';
@@ -20,8 +25,6 @@ class IncomePage extends StatefulWidget {
 
 class _IncomePageState extends State<IncomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  final _formKey = GlobalKey<FormState>();
-  String name = "", amount = "", category = "Other", firstDate = "";
 
   OutlineInputBorder formBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(5),
@@ -38,174 +41,270 @@ class _IncomePageState extends State<IncomePage> {
     color: Colors.black87,
   );
 
-  late Future<IncomeDWM> userIncomeDetails;
-  late List<IncomeData> incomeList;
-  late int incomeAmount;
-  late List<IncomeCategorized> incomeCategoryList;
-  int incomeIndex = 0;
   int touchedIndex = 0;
-
-  void getUserIncomeDetails() async {
-    userIncomeDetails = IncomeHttp().getIncomeDWM();
-    userIncomeDetails.then((value) {
-      incomeList = value.todayIncomes!;
-      incomeAmount = value.todayIncomeAmount!;
-      incomeCategoryList = value.todayIncomeCategories!;
-      firstDate = value.firstIncomeDate!;
-    });
-  }
 
   @override
   void initState() {
     super.initState();
-    getUserIncomeDetails();
   }
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
+    late TimePeriod timePeriod;
 
     return Scaffold(
       key: _scaffoldKey,
       body: SafeArea(
-        child: SingleChildScrollView(
-            padding: EdgeInsets.only(
-              top: 10,
-              right: width * 0.03,
-              left: width * 0.03,
-              bottom: 50,
-            ),
-            child: FutureBuilder<IncomeDWM>(
-              future: userIncomeDetails,
-              builder: (context, snapshot) {
-                List<Widget> children = [];
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  children = <Widget>[
-                    Container(
-                      width: width * 0.97,
-                      height: height,
-                      alignment: Alignment.center,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 6,
-                        color: Theme.of(context).primaryColor,
-                        backgroundColor: AppColor.buttonBG,
-                      ),
-                    )
-                  ];
-                } else if (snapshot.connectionState == ConnectionState.done) {
-                  if (snapshot.hasData) {
-                    children = <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              CircleAvatar(
-                                radius: 20,
-                                backgroundImage: NetworkImage(
-                                  snapshot.data!.profilePicture!,
-                                ),
-                              ),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              Text(
-                                "Your Incomes",
-                                style: TextStyle(
-                                  color: AppColor.text,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18,
-                                ),
-                              ),
-                            ],
-                          ),
-                          IconButton(
-                            onPressed: () {
-                              setState(() {
-                                incomeList = [];
-                                incomeAmount = 0;
-                                incomeCategoryList = [];
-                                incomeIndex = 3;
-                                touchedIndex = 0;
-                              });
+        child: BlocBuilder<IncomeBloc, IncomeState>(
+          builder: (context, state) {
+            if (state is IncomeLoadingState) {
+              if (state.internet == false) {
+                return NoInternet();
+              }
 
-                              showDialog(
-                                context: context,
-                                builder: (ctx) {
-                                  return selectDate(context, firstDate);
-                                },
-                              );
+              return Center(
+                child: CircularProgressIndicator(
+                  strokeWidth: 6,
+                  color: Theme.of(context).primaryColor,
+                  backgroundColor: AppColor.buttonBG,
+                ),
+              );
+            } else if (state is ErrorState) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ErrorFetchingData(),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      BlocProvider.of<IncomeBloc>(context)
+                          .add(IncomeLoadedEvent());
+                    },
+                    child: Text(
+                      "Try Again",
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.symmetric(
+                        vertical: 10,
+                        horizontal: 25,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            } else if (state is IncomeLoadedState) {
+              timePeriod = state.timePeriod;
+              return SingleChildScrollView(
+                padding: EdgeInsets.only(
+                  top: 10,
+                  right: AppSize.width(context) * 0.03,
+                  left: AppSize.width(context) * 0.03,
+                  bottom: 50,
+                ),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(20),
+                              child: CachedNetworkImage(
+                                height: 40,
+                                width: 40,
+                                fit: BoxFit.cover,
+                                imageUrl: state.profilePicture,
+                                placeholder: (context, url) => Center(
+                                  child: CircularProgressIndicator(
+                                    color: AppColor.primary,
+                                    strokeWidth: 2,
+                                    backgroundColor:
+                                        AppColor.primary.withOpacity(.5),
+                                  ),
+                                ),
+                                errorWidget: (context, url, error) => Icon(
+                                  Icons.error,
+                                  size: AppSize.icon,
+                                  color: AppColor.primary,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              "Your Incomes",
+                              style: TextStyle(
+                                color: AppColor.text,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                              ),
+                            ),
+                          ],
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            BlocProvider.of<IncomeBloc>(context).add(
+                                IncomeLoadedNewEvent(
+                                    timePeriod: TimePeriod.searching));
+                            showDialog(
+                              context: context,
+                              builder: (ctx) {
+                                return selectDate(
+                                  context,
+                                  state.firstIncomeDate,
+                                );
+                              },
+                            );
+                          },
+                          icon: Icon(
+                            Icons.search,
+                            color: AppColor.text,
+                            size: 30,
+                          ),
+                        )
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SizedBox(
+                          width: AppSize.width(context) * .30,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              if (state.timePeriod == TimePeriod.today) {
+                                return;
+                              }
+                              BlocProvider.of<IncomeBloc>(context).add(
+                                  IncomeLoadedNewEvent(
+                                      timePeriod: TimePeriod.today));
                             },
-                            icon: Icon(
-                              Icons.search,
-                              color: AppColor.text,
-                              size: 30,
+                            child: Text(
+                              "Today",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          )
-                        ],
-                      ),
-                      getButtons(context),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      viewIncome(
-                        context,
-                        incomeList,
-                        incomeAmount,
-                        incomeCategoryList,
-                      ),
-                    ];
-                  } else if (snapshot.hasError) {
-                    if ("${snapshot.error}".split("Exception: ")[0] ==
-                        "Socket") {
-                      children = <Widget>[
-                        Container(
-                          width: width,
-                          height: height,
-                          alignment: Alignment.center,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: const [
-                              Icon(
-                                Icons.warning_rounded,
-                                size: 25,
-                                color: Colors.red,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  state.timePeriod == TimePeriod.today
+                                      ? Theme.of(context).primaryColor
+                                      : AppColor.buttonBG,
+                              foregroundColor:
+                                  state.timePeriod == TimePeriod.today
+                                      ? AppColor.onPrimary
+                                      : AppColor.text,
+                              minimumSize: Size.zero,
+                              padding: EdgeInsets.symmetric(
+                                vertical: 10,
                               ),
-                              SizedBox(
-                                width: 5,
+                              elevation: 5,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5),
                               ),
-                              Text(
-                                "Connection Problem",
-                                style: TextStyle(
-                                    fontSize: 15, fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          ),
-                        )
-                      ];
-                    } else {
-                      children = <Widget>[
-                        Container(
-                          width: width,
-                          height: height,
-                          alignment: Alignment.center,
-                          child: Text(
-                            "${snapshot.error}",
-                            style: TextStyle(
-                              fontSize: 15,
                             ),
                           ),
-                        )
-                      ];
-                    }
-                  }
-                }
-                return Column(
-                  children: children,
-                );
-              },
-            )),
+                        ),
+                        SizedBox(
+                          width: AppSize.width(context) * .30,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              if (state.timePeriod == TimePeriod.thisWeek) {
+                                return;
+                              }
+                              BlocProvider.of<IncomeBloc>(context).add(
+                                  IncomeLoadedNewEvent(
+                                      timePeriod: TimePeriod.thisWeek));
+                            },
+                            child: Text(
+                              "This Week",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  state.timePeriod == TimePeriod.thisWeek
+                                      ? Theme.of(context).primaryColor
+                                      : AppColor.buttonBG,
+                              foregroundColor:
+                                  state.timePeriod == TimePeriod.thisWeek
+                                      ? AppColor.onPrimary
+                                      : AppColor.text,
+                              minimumSize: Size.zero,
+                              padding: EdgeInsets.symmetric(
+                                vertical: 10,
+                              ),
+                              elevation: 5,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: AppSize.width(context) * .30,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              if (state.timePeriod == TimePeriod.thisMonth) {
+                                return;
+                              }
+                              BlocProvider.of<IncomeBloc>(context).add(
+                                  IncomeLoadedNewEvent(
+                                      timePeriod: TimePeriod.thisMonth));
+                            },
+                            child: Text(
+                              "This Month",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  state.timePeriod == TimePeriod.thisMonth
+                                      ? Theme.of(context).primaryColor
+                                      : AppColor.buttonBG,
+                              foregroundColor:
+                                  state.timePeriod == TimePeriod.thisMonth
+                                      ? AppColor.onPrimary
+                                      : AppColor.text,
+                              minimumSize: Size.zero,
+                              padding: EdgeInsets.symmetric(
+                                vertical: 10,
+                              ),
+                              elevation: 5,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    viewIncome(
+                      context,
+                      state.timePeriod,
+                      state,
+                      state.incomes,
+                      state.incomeAmount,
+                      state.incomeCategories,
+                    ),
+                  ],
+                ),
+              );
+            }
+            return SizedBox();
+          },
+        ),
       ),
       floatingActionButton: SizedBox(
         height: 50,
@@ -214,7 +313,7 @@ class _IncomePageState extends State<IncomePage> {
             showDialog(
               context: context,
               builder: (ctx) {
-                return addIncome(context);
+                return addIncome(context, timePeriod);
               },
             );
           },
@@ -229,43 +328,18 @@ class _IncomePageState extends State<IncomePage> {
     );
   }
 
-  void refreshPage(BuildContext context) {
-    userIncomeDetails = IncomeHttp().getIncomeDWM();
-    if (incomeIndex == 0) {
-      userIncomeDetails.then((value) {
-        setState(() {
-          incomeList = value.todayIncomes!;
-          incomeAmount = value.todayIncomeAmount!;
-          incomeCategoryList = value.todayIncomeCategories!;
-        });
-      });
-    } else if (incomeIndex == 1) {
-      userIncomeDetails.then((value) {
-        setState(() {
-          incomeList = value.thisWeekIncomes!;
-          incomeAmount = value.thisWeekIncomeAmount!;
-          incomeCategoryList = value.thisWeekIncomeCategories!;
-        });
-      });
-    } else if (incomeIndex == 2) {
-      userIncomeDetails.then((value) {
-        setState(() {
-          incomeList = value.thisMonthIncomes!;
-          incomeAmount = value.thisWeekIncomeAmount!;
-          incomeCategoryList = value.thisMonthIncomeCategories!;
-        });
-      });
-    }
-  }
-
   Widget addIncome(
     BuildContext context,
+    TimePeriod timePeriod,
   ) {
-    return StatefulBuilder(builder: (context, setState1) {
+    final formKey = GlobalKey<FormState>();
+    String name = "", amount = "", category = "Other";
+
+    return StatefulBuilder(builder: (context1, setState1) {
       return AlertDialog(
         backgroundColor: AppColor.backgroundLight,
         title: Form(
-          key: _formKey,
+          key: formKey,
           child: Column(
             children: [
               TextFormField(
@@ -356,47 +430,17 @@ class _IncomePageState extends State<IncomePage> {
               ),
             ),
             onPressed: () async {
-              if (_formKey.currentState!.validate()) {
-                _formKey.currentState!.save();
+              if (formKey.currentState!.validate()) {
+                formKey.currentState!.save();
                 Navigator.pop(context);
 
-                final resData = await IncomeHttp().addIncome(
-                  IncomeData(
-                    name: name,
-                    amount: int.parse(amount),
-                    category: category,
-                  ),
-                );
-
-                name = "";
-                amount = "";
-                category = "Other";
-
-                if (resData["statusCode"] == 201) {
-                  refreshPage(context);
-
-                  Message(
-                    message: resData["body"]["resM"],
-                    time: 3,
-                    bgColor: Colors.green,
-                    textColor: AppColor.onPrimary,
-                  ).showMessage;
-
-                  if (resData["body"]["achievementUnlocked"]) {
-                    showDialog(
-                      context: _scaffoldKey.currentContext!,
-                      builder: (builder) =>
-                          congratulation(_scaffoldKey.currentContext!),
-                    );
-                  }
-                } else {
-                  Message(
-                    message: resData["body"]["resM"],
-                    time: 3,
-                    bgColor: Colors.red,
-                    textColor: AppColor.onPrimary,
-                  ).showMessage;
-                }
+                BlocProvider.of<IncomeBloc>(context).add(IncomeAddedEvent(
+                  timePeriod: timePeriod,
+                  scaffoldKey: _scaffoldKey,
+                  name: name,
+                  amount: amount,
+                  category: category,
+                ));
               } else {
                 Message(
                   message: "Provide all information",
@@ -433,199 +477,10 @@ class _IncomePageState extends State<IncomePage> {
     });
   }
 
-  Widget congratulation(BuildContext context) {
-    return SimpleDialog(
-      backgroundColor: AppColor.backgroundLight,
-      titlePadding: EdgeInsets.zero,
-      contentPadding: EdgeInsets.all(10),
-      children: [
-        Column(
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: Image(
-                fit: BoxFit.fitWidth,
-                image: AssetImage(
-                  "image/Congratulation.png",
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              "New Achievement Unlocked.",
-              style: TextStyle(
-                color: AppColor.text,
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(
-              height: 8,
-            ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Theme.of(context).primaryColor,
-                minimumSize: Size.zero,
-                padding: EdgeInsets.all(8),
-                elevation: 5,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5),
-                ),
-              ),
-              onPressed: () {
-                Navigator.pop(context);
-                Navigator.pushNamed(
-                  context,
-                  "/result",
-                );
-              },
-              child: Text("Check Out"),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget getButtons(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        SizedBox(
-          width: width * .30,
-          child: ElevatedButton(
-            onPressed: () {
-              if (incomeIndex == 0) {
-                return;
-              }
-
-              userIncomeDetails.then((value) {
-                setState(() {
-                  incomeList = value.todayIncomes!;
-                  incomeAmount = value.todayIncomeAmount!;
-                  incomeCategoryList = value.todayIncomeCategories!;
-                  incomeIndex = 0;
-                  touchedIndex = 0;
-                });
-              });
-            },
-            child: Text(
-              "Today",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: incomeIndex == 0
-                  ? Theme.of(context).primaryColor
-                  : AppColor.buttonBG,
-              foregroundColor:
-                  incomeIndex == 0 ? AppColor.onPrimary : AppColor.text,
-              minimumSize: Size.zero,
-              padding: EdgeInsets.symmetric(
-                vertical: 10,
-              ),
-              elevation: 5,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5),
-              ),
-            ),
-          ),
-        ),
-        SizedBox(
-          width: width * .30,
-          child: ElevatedButton(
-            onPressed: () {
-              if (incomeIndex == 1) {
-                return;
-              }
-
-              userIncomeDetails.then((value) {
-                setState(() {
-                  incomeList = value.thisWeekIncomes!;
-                  incomeAmount = value.thisWeekIncomeAmount!;
-                  incomeCategoryList = value.thisWeekIncomeCategories!;
-                  incomeIndex = 1;
-                  touchedIndex = 0;
-                });
-              });
-            },
-            child: Text(
-              "This Week",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: incomeIndex == 1
-                  ? Theme.of(context).primaryColor
-                  : AppColor.buttonBG,
-              foregroundColor:
-                  incomeIndex == 1 ? AppColor.onPrimary : AppColor.text,
-              minimumSize: Size.zero,
-              padding: EdgeInsets.symmetric(
-                vertical: 10,
-              ),
-              elevation: 5,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5),
-              ),
-            ),
-          ),
-        ),
-        SizedBox(
-          width: width * .30,
-          child: ElevatedButton(
-            onPressed: () {
-              if (incomeIndex == 2) {
-                return;
-              }
-
-              userIncomeDetails.then((value) {
-                setState(() {
-                  incomeList = value.thisMonthIncomes!;
-                  incomeAmount = value.thisMonthIncomeAmount!;
-                  incomeCategoryList = value.thisMonthIncomeCategories!;
-                  incomeIndex = 2;
-                  touchedIndex = 0;
-                });
-              });
-            },
-            child: Text(
-              "This Month",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: incomeIndex == 2
-                  ? Theme.of(context).primaryColor
-                  : AppColor.buttonBG,
-              foregroundColor:
-                  incomeIndex == 2 ? AppColor.onPrimary : AppColor.text,
-              minimumSize: Size.zero,
-              padding: EdgeInsets.symmetric(
-                vertical: 10,
-              ),
-              elevation: 5,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5),
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
   Widget selectDate(BuildContext context, String firstDate) {
     String startDate = "", endDate = "";
 
-    return StatefulBuilder(builder: (context, setState1) {
+    return StatefulBuilder(builder: (context1, setState1) {
       return SimpleDialog(
         backgroundColor: AppColor.backgroundLight,
         children: [
@@ -750,16 +605,12 @@ class _IncomePageState extends State<IncomePage> {
                         textColor: AppColor.onPrimary,
                       ).showMessage;
                     } else {
-                      IncomeSpecific resData = await IncomeHttp()
-                          .getIncomeSpecific(startDate, endDate);
-
-                      setState(() {
-                        incomeList = resData.incomes!;
-                        incomeAmount = resData.incomeAmount!;
-                        incomeCategoryList = resData.incomeCategories!;
-                      });
-
                       Navigator.pop(context);
+                      BlocProvider.of<IncomeBloc>(context).add(
+                          IncomeSearchEvent(
+                              timePeriod: TimePeriod.searching,
+                              startDate: startDate,
+                              endDate: endDate));
                     }
                   },
                   child: Text(
@@ -789,12 +640,12 @@ class _IncomePageState extends State<IncomePage> {
 
   Widget viewIncome(
     BuildContext context,
+    TimePeriod timePeriod,
+    IncomeState state,
     List<IncomeData> incomes,
     int amount,
     List<IncomeCategorized> category,
   ) {
-    final width = MediaQuery.of(context).size.width;
-
     if (incomes.isNotEmpty) {
       return Column(
         children: [
@@ -816,8 +667,8 @@ class _IncomePageState extends State<IncomePage> {
             ),
           ),
           SizedBox(
-            width: width * .5,
-            height: width * .5,
+            width: AppSize.width(context) * .5,
+            height: AppSize.width(context) * .5,
             child: PieChart(
               PieChartData(
                 pieTouchData: PieTouchData(
@@ -844,8 +695,9 @@ class _IncomePageState extends State<IncomePage> {
                     .map((index, data) {
                       final isTouched = index == touchedIndex;
                       final double fontSize = isTouched ? 20 : 15;
-                      final double radius =
-                          isTouched ? width * .18 : width * .16;
+                      final double radius = isTouched
+                          ? AppSize.width(context) * .18
+                          : AppSize.width(context) * .16;
 
                       final pieData = PieChartSectionData(
                         value: double.parse(
@@ -954,7 +806,8 @@ class _IncomePageState extends State<IncomePage> {
                 minVerticalPadding: 5,
                 visualDensity: VisualDensity(horizontal: 0, vertical: -4),
                 onTap: () {
-                  if (incomeIndex > 1) {
+                  if (state is IncomeLoadedState &&
+                      state.timePeriod == TimePeriod.thisMonth) {
                     return;
                   }
 
@@ -970,6 +823,7 @@ class _IncomePageState extends State<IncomePage> {
                           amount: incomes[index].amount,
                           category: incomes[index].category,
                         ),
+                        timePeriod,
                       );
                     },
                   );
@@ -1011,7 +865,8 @@ class _IncomePageState extends State<IncomePage> {
           ),
         ],
       );
-    } else if (incomeIndex != 3) {
+    } else if (state is IncomeLoadedState &&
+        state.timePeriod != TimePeriod.searching) {
       return SizedBox(
         height: 300,
         child: Column(
@@ -1038,7 +893,7 @@ class _IncomePageState extends State<IncomePage> {
                 showDialog(
                   context: context,
                   builder: (ctx) {
-                    return addIncome(context);
+                    return addIncome(context, timePeriod);
                   },
                 );
               },
@@ -1047,7 +902,8 @@ class _IncomePageState extends State<IncomePage> {
           ],
         ),
       );
-    } else if (incomeIndex == 3) {
+    } else if (state is IncomeLoadedState &&
+        state.timePeriod == TimePeriod.searching) {
       return SizedBox(
         height: 300,
         child: Column(
@@ -1068,11 +924,12 @@ class _IncomePageState extends State<IncomePage> {
     }
   }
 
-  Widget operationIncome(BuildContext context, IncomeData incomeData) {
+  Widget operationIncome(
+      BuildContext context, IncomeData incomeData, TimePeriod timePeriod) {
     return Container(
       padding: EdgeInsets.symmetric(
         vertical: 10,
-        horizontal: MediaQuery.of(context).size.width * .20,
+        horizontal: AppSize.width(context) * .20,
       ),
       decoration: BoxDecoration(
         color: AppColor.backgroundLight,
@@ -1103,6 +960,7 @@ class _IncomePageState extends State<IncomePage> {
                   return editIncome(
                     context,
                     incomeData,
+                    timePeriod,
                   );
                 },
               );
@@ -1137,15 +995,8 @@ class _IncomePageState extends State<IncomePage> {
             ),
             onPressed: () async {
               Navigator.pop(context);
-              final resData = await IncomeHttp().removeIncome(incomeData.id!);
-              refreshPage(context);
-
-              Message(
-                message: resData["resM"],
-                time: 3,
-                bgColor: Theme.of(context).primaryColor,
-                textColor: AppColor.onPrimary,
-              ).showMessage;
+              BlocProvider.of<IncomeBloc>(context).add(IncomeRemovedEvent(
+                  timePeriod: timePeriod, id: incomeData.id!));
             },
             child: SizedBox(
               height: 45,
@@ -1170,18 +1021,20 @@ class _IncomePageState extends State<IncomePage> {
     );
   }
 
-  Widget editIncome(BuildContext context, IncomeData incomeData) {
+  Widget editIncome(
+      BuildContext context, IncomeData incomeData, TimePeriod timePeriod) {
+    final formKey = GlobalKey<FormState>();
     TextEditingController nameTEC = TextEditingController(),
         amountTEC = TextEditingController();
     nameTEC.text = incomeData.name!;
     amountTEC.text = incomeData.amount!.toString();
     String categoryTEC = incomeData.category!;
 
-    return StatefulBuilder(builder: (context, setState1) {
+    return StatefulBuilder(builder: (context1, setState1) {
       return AlertDialog(
         backgroundColor: AppColor.backgroundLight,
         title: Form(
-          key: _formKey,
+          key: formKey,
           child: Column(
             children: [
               TextFormField(
@@ -1274,37 +1127,19 @@ class _IncomePageState extends State<IncomePage> {
               ),
             ),
             onPressed: () async {
-              if (_formKey.currentState!.validate()) {
-                _formKey.currentState!.save();
+              if (formKey.currentState!.validate()) {
+                formKey.currentState!.save();
+                Navigator.pop(context);
 
-                final resData = await IncomeHttp().editIncome(
-                  IncomeData(
+                BlocProvider.of<IncomeBloc>(context).add(IncomeEditedEvent(
+                  timePeriod: timePeriod,
+                  incomeData: IncomeData(
                     id: incomeData.id,
                     name: nameTEC.text,
                     amount: int.parse(amountTEC.text),
                     category: categoryTEC,
                   ),
-                );
-
-                if (resData["statusCode"] == 200) {
-                  refreshPage(context);
-
-                  Navigator.pop(context);
-
-                  Message(
-                    message: resData["body"]["resM"],
-                    time: 3,
-                    bgColor: Colors.green,
-                    textColor: AppColor.onPrimary,
-                  ).showMessage;
-                } else {
-                  Message(
-                    message: resData["body"]["resM"],
-                    time: 3,
-                    bgColor: Colors.red,
-                    textColor: AppColor.onPrimary,
-                  ).showMessage;
-                }
+                ));
               } else {
                 Message(
                   message: "Provide all information",

@@ -5,8 +5,14 @@ abstract class HomeState extends Equatable {
 }
 
 class HomeLoadingState extends HomeState {
+  final bool internet;
+
+  const HomeLoadingState({
+    required this.internet,
+  });
+
   @override
-  List<Object> get props => [];
+  List<Object> get props => [internet];
 }
 
 class HomeLoadedState extends HomeState {
@@ -35,11 +41,6 @@ class HomeLoadedState extends HomeState {
         expenseCategories,
         incomeCategories,
       ];
-}
-
-class NoInternetState extends HomeState {
-  @override
-  List<Object?> get props => [];
 }
 
 class ErrorState extends HomeState {

@@ -1,4 +1,5 @@
 import 'package:expense_tracker/presentation/blocs/home/home_bloc.dart';
+import 'package:expense_tracker/presentation/blocs/internet/internet_bloc.dart';
 import 'package:expense_tracker/presentation/widgets/error_fetching_data.dart';
 import 'package:expense_tracker/presentation/widgets/no_internet.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -42,369 +43,375 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
 
-    return BlocProvider(
-      create: (context) => HomeBloc()..add(HomeLoadedEvent()),
-      child: WillPopScope(
-        onWillPop: showExitPopup,
-        child: Scaffold(
-          body: SafeArea(
-            child: BlocBuilder<HomeBloc, HomeState>(
-              builder: ((context, state) {
-                if (state is NoInternetState) {
+    return WillPopScope(
+      onWillPop: showExitPopup,
+      child: Scaffold(
+        body: SafeArea(
+          child: BlocBuilder<HomeBloc, HomeState>(
+            builder: ((context, state) {
+              if (state is HomeLoadingState) {
+                if (state.internet == false) {
                   return NoInternet();
-                } else if (state is ErrorState) {
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ErrorFetchingData(),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          BlocProvider.of<HomeBloc>(context)
-                              .add(HomeLoadedEvent());
-                        },
-                        child: Text(
-                          "Try Again",
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.symmetric(
-                            vertical: 10,
-                            horizontal: 25,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                        ),
-                      ),
-                    ],
-                  );
-                } else if (state is HomeLoadingState) {
-                  return Center(
-                    child: CircularProgressIndicator(
-                      strokeWidth: 6,
-                      color: Theme.of(context).primaryColor,
-                      backgroundColor: AppColor.buttonBG,
-                    ),
-                  );
-                } else if (state is HomeLoadedState) {
-                  return SingleChildScrollView(
-                    padding: EdgeInsets.only(
-                      top: 10,
-                      left: width * 0.03,
-                      right: width * 0.03,
-                      bottom: 10,
-                    ),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              state.greeting,
-                              style: TextStyle(
-                                color: AppColor.text,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            IconButton(
-                              constraints: BoxConstraints(),
-                              padding: EdgeInsets.zero,
-                              icon: Icon(
-                                Icons.settings,
-                                color: AppColor.text,
-                              ),
-                              onPressed: () {
-                                Navigator.pushNamed(
-                                  context,
-                                  "/setting",
-                                );
-                              },
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        barChart(
-                          context,
-                          state.homeData.thisMonthView!,
-                          state.homeData.thisMonthExpenseAmount!,
-                          state.homeData.thisMonthIncomeAmount!,
-                          state.homeData.previousMonthExpenseAmount!,
-                          state.homeData.previousMonthIncomeAmount!,
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        feedback(context, state.homeData),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Income Categories",
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: AppColor.text,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            state.homeData.thisMonthIncomeCategories!.isNotEmpty
-                                ? TextButton.icon(
-                                    onPressed: () {
-                                      BlocProvider.of<HomeBloc>(context)
-                                          .add(MICEvent(
-                                        greeting: state.greeting,
-                                        homeData: state.homeData,
-                                        moreExpense: state.moreExpense,
-                                        moreIncome: state.moreIncome,
-                                        incomeCategories:
-                                            state.incomeCategories,
-                                        expenseCategories:
-                                            state.expenseCategories,
-                                      ));
-                                    },
-                                    icon: AnimatedRotation(
-                                      turns: state.moreIncome
-                                          ? (90 / 360)
-                                          : (270 / 360),
-                                      duration: Duration(milliseconds: 500),
-                                      child: Icon(
-                                        Icons.arrow_back_ios_new,
-                                        color: AppColor.text,
-                                        size: 18,
-                                      ),
-                                    ),
-                                    label: Text(
-                                      state.moreIncome ? "Less" : "More",
-                                      style: TextStyle(
-                                        color: AppColor.text,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  )
-                                : SizedBox(),
-                          ],
-                        ),
-                        state.homeData.thisMonthIncomeCategories!.isEmpty
-                            ? SizedBox(
-                                height: 1,
-                              )
-                            : SizedBox(),
-                        GridView.count(
-                          physics: NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          childAspectRatio: 1 / 1.3,
-                          crossAxisSpacing: 5,
-                          mainAxisSpacing: 10,
-                          crossAxisCount: 4,
-                          children: List.generate(
-                            state.incomeCategories.length,
-                            (index) {
-                              return GestureDetector(
-                                onTap: () {
-                                  Navigator.pushNamed(
-                                    context,
-                                    "/categorizedIncome",
-                                    arguments: state.incomeCategories[index],
-                                  );
-                                },
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        color: AppColor.onPrimary,
-                                        borderRadius: BorderRadius.circular(5),
-                                        boxShadow: const [
-                                          BoxShadow(
-                                            color: Colors.black26,
-                                            spreadRadius: 1,
-                                            blurRadius: 5,
-                                            offset: Offset(2, 2),
-                                          )
-                                        ],
-                                      ),
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(5),
-                                        child: Image(
-                                          height: width * 0.2,
-                                          width: width * 0.2,
-                                          fit: BoxFit.cover,
-                                          image: AssetImage(
-                                            "image/category/${state.incomeCategories[index]}.jpg",
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Text(
-                                      state.incomeCategories[index],
-                                      softWrap: true,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                        color: AppColor.text,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Expense Categories",
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: AppColor.text,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            state.homeData.thisMonthExpenseCategories!
-                                    .isNotEmpty
-                                ? TextButton.icon(
-                                    onPressed: () {
-                                      BlocProvider.of<HomeBloc>(context)
-                                          .add(MECEvent(
-                                        greeting: state.greeting,
-                                        homeData: state.homeData,
-                                        moreExpense: state.moreExpense,
-                                        moreIncome: state.moreIncome,
-                                        incomeCategories:
-                                            state.incomeCategories,
-                                        expenseCategories:
-                                            state.expenseCategories,
-                                      ));
-                                    },
-                                    icon: AnimatedRotation(
-                                      turns: state.moreExpense
-                                          ? (90 / 360)
-                                          : (270 / 360),
-                                      duration: Duration(milliseconds: 500),
-                                      child: Icon(
-                                        Icons.arrow_back_ios_new,
-                                        color: AppColor.text,
-                                        size: 18,
-                                      ),
-                                    ),
-                                    label: Text(
-                                      state.moreExpense ? "Less" : "More",
-                                      style: TextStyle(
-                                        color: AppColor.text,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  )
-                                : SizedBox(),
-                          ],
-                        ),
-                        state.homeData.thisMonthExpenseCategories!.isEmpty
-                            ? SizedBox(
-                                height: 15,
-                              )
-                            : SizedBox(),
-                        GridView.count(
-                          physics: NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          childAspectRatio: 1 / 1.3,
-                          crossAxisSpacing: 5,
-                          mainAxisSpacing: 10,
-                          crossAxisCount: 4,
-                          children: List.generate(
-                            state.expenseCategories.length,
-                            (index) {
-                              return GestureDetector(
-                                onTap: () {
-                                  Navigator.pushNamed(
-                                    context,
-                                    "/categorizedExpense",
-                                    arguments: state.expenseCategories[index],
-                                  );
-                                },
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        color: AppColor.onPrimary,
-                                        borderRadius: BorderRadius.circular(5),
-                                        boxShadow: const [
-                                          BoxShadow(
-                                            color: Colors.black26,
-                                            spreadRadius: 1,
-                                            blurRadius: 5,
-                                            offset: Offset(2, 2),
-                                          )
-                                        ],
-                                      ),
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(5),
-                                        child: Image(
-                                          height: width * 0.2,
-                                          width: width * 0.2,
-                                          fit: BoxFit.cover,
-                                          image: AssetImage(
-                                            "image/category/${state.expenseCategories[index]}.jpg",
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Text(
-                                      state.expenseCategories[index],
-                                      softWrap: true,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                        color: AppColor.text,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 13,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        state.homeData.expenseDays!.length > 2
-                            ? expenseLineChart(
-                                context,
-                                state.homeData.thisMonthView!,
-                                state.homeData.expenseDays!,
-                                state.homeData.expenseAmounts!,
-                                state.homeData.maxExpenseAmount!,
-                              )
-                            : SizedBox(),
-                      ],
-                    ),
-                  );
                 }
 
-                return SizedBox();
-              }),
-            ),
+                return Center(
+                  child: CircularProgressIndicator(
+                    strokeWidth: 6,
+                    color: Theme.of(context).primaryColor,
+                    backgroundColor: AppColor.buttonBG,
+                  ),
+                );
+              } else if (state is ErrorState) {
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ErrorFetchingData(),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        BlocProvider.of<HomeBloc>(context)
+                            .add(HomeLoadedEvent());
+                      },
+                      child: Text(
+                        "Try Again",
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.symmetric(
+                          vertical: 10,
+                          horizontal: 25,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              } else if (state is HomeLoadedState) {
+                return SingleChildScrollView(
+                  padding: EdgeInsets.only(
+                    top: 10,
+                    left: width * 0.03,
+                    right: width * 0.03,
+                    bottom: 10,
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            state.greeting,
+                            style: TextStyle(
+                              color: AppColor.text,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          IconButton(
+                            constraints: BoxConstraints(),
+                            padding: EdgeInsets.zero,
+                            icon: Icon(
+                              Icons.settings,
+                              color: AppColor.text,
+                            ),
+                            onPressed: () {
+                              Navigator.pushNamed(
+                                context,
+                                "/setting",
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      barChart(
+                        context,
+                        state.homeData.thisMonthView!,
+                        state.homeData.thisMonthExpenseAmount!,
+                        state.homeData.thisMonthIncomeAmount!,
+                        state.homeData.previousMonthExpenseAmount!,
+                        state.homeData.previousMonthIncomeAmount!,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      feedback(context, state.homeData),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Income Categories",
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: AppColor.text,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          state.homeData.thisMonthIncomeCategories!
+                                  .isNotEmpty
+                              ? TextButton.icon(
+                                  onPressed: () {
+                                    BlocProvider.of<HomeBloc>(context)
+                                        .add(MICEvent(
+                                      greeting: state.greeting,
+                                      homeData: state.homeData,
+                                      moreExpense: state.moreExpense,
+                                      moreIncome: state.moreIncome,
+                                      incomeCategories:
+                                          state.incomeCategories,
+                                      expenseCategories:
+                                          state.expenseCategories,
+                                    ));
+                                  },
+                                  icon: AnimatedRotation(
+                                    turns: state.moreIncome
+                                        ? (90 / 360)
+                                        : (270 / 360),
+                                    duration: Duration(milliseconds: 500),
+                                    child: Icon(
+                                      Icons.arrow_back_ios_new,
+                                      color: AppColor.text,
+                                      size: 18,
+                                    ),
+                                  ),
+                                  label: Text(
+                                    state.moreIncome ? "Less" : "More",
+                                    style: TextStyle(
+                                      color: AppColor.text,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                )
+                              : SizedBox(),
+                        ],
+                      ),
+                      state.homeData.thisMonthIncomeCategories!.isEmpty
+                          ? SizedBox(
+                              height: 15,
+                            )
+                          : SizedBox(),
+                      GridView.count(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        childAspectRatio: 1 / 1.3,
+                        crossAxisSpacing: 5,
+                        mainAxisSpacing: 10,
+                        crossAxisCount: 4,
+                        children: List.generate(
+                          state.incomeCategories.length,
+                          (index) {
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(
+                                  context,
+                                  "/categorizedIncome",
+                                  arguments: state.incomeCategories[index],
+                                );
+                              },
+                              child: Column(
+                                crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      color: AppColor.onPrimary,
+                                      borderRadius:
+                                          BorderRadius.circular(5),
+                                      boxShadow: const [
+                                        BoxShadow(
+                                          color: Colors.black26,
+                                          spreadRadius: 1,
+                                          blurRadius: 5,
+                                          offset: Offset(2, 2),
+                                        )
+                                      ],
+                                    ),
+                                    child: ClipRRect(
+                                      borderRadius:
+                                          BorderRadius.circular(5),
+                                      child: Image(
+                                        height: width * 0.2,
+                                        width: width * 0.2,
+                                        fit: BoxFit.cover,
+                                        image: AssetImage(
+                                          "image/category/${state.incomeCategories[index]}.jpg",
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text(
+                                    state.incomeCategories[index],
+                                    softWrap: true,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      color: AppColor.text,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Expense Categories",
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: AppColor.text,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          state.homeData.thisMonthExpenseCategories!
+                                  .isNotEmpty
+                              ? TextButton.icon(
+                                  onPressed: () {
+                                    BlocProvider.of<HomeBloc>(context)
+                                        .add(MECEvent(
+                                      greeting: state.greeting,
+                                      homeData: state.homeData,
+                                      moreExpense: state.moreExpense,
+                                      moreIncome: state.moreIncome,
+                                      incomeCategories:
+                                          state.incomeCategories,
+                                      expenseCategories:
+                                          state.expenseCategories,
+                                    ));
+                                  },
+                                  icon: AnimatedRotation(
+                                    turns: state.moreExpense
+                                        ? (90 / 360)
+                                        : (270 / 360),
+                                    duration: Duration(milliseconds: 500),
+                                    child: Icon(
+                                      Icons.arrow_back_ios_new,
+                                      color: AppColor.text,
+                                      size: 18,
+                                    ),
+                                  ),
+                                  label: Text(
+                                    state.moreExpense ? "Less" : "More",
+                                    style: TextStyle(
+                                      color: AppColor.text,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                )
+                              : SizedBox(),
+                        ],
+                      ),
+                      state.homeData.thisMonthExpenseCategories!.isEmpty
+                          ? SizedBox(
+                              height: 15,
+                            )
+                          : SizedBox(),
+                      GridView.count(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        childAspectRatio: 1 / 1.3,
+                        crossAxisSpacing: 5,
+                        mainAxisSpacing: 10,
+                        crossAxisCount: 4,
+                        children: List.generate(
+                          state.expenseCategories.length,
+                          (index) {
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(
+                                  context,
+                                  "/categorizedExpense",
+                                  arguments: state.expenseCategories[index],
+                                );
+                              },
+                              child: Column(
+                                crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      color: AppColor.onPrimary,
+                                      borderRadius:
+                                          BorderRadius.circular(5),
+                                      boxShadow: const [
+                                        BoxShadow(
+                                          color: Colors.black26,
+                                          spreadRadius: 1,
+                                          blurRadius: 5,
+                                          offset: Offset(2, 2),
+                                        )
+                                      ],
+                                    ),
+                                    child: ClipRRect(
+                                      borderRadius:
+                                          BorderRadius.circular(5),
+                                      child: Image(
+                                        height: width * 0.2,
+                                        width: width * 0.2,
+                                        fit: BoxFit.cover,
+                                        image: AssetImage(
+                                          "image/category/${state.expenseCategories[index]}.jpg",
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text(
+                                    state.expenseCategories[index],
+                                    softWrap: true,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      color: AppColor.text,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 13,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      state.homeData.expenseDays!.length > 2
+                          ? expenseLineChart(
+                              context,
+                              state.homeData.thisMonthView!,
+                              state.homeData.expenseDays!,
+                              state.homeData.expenseAmounts!,
+                              state.homeData.maxExpenseAmount!,
+                            )
+                          : SizedBox(),
+                    ],
+                  ),
+                );
+              }
+
+              return SizedBox();
+            }),
           ),
-          bottomNavigationBar: PageNavigator(pageIndex: 0),
         ),
+        bottomNavigationBar: PageNavigator(pageIndex: 0),
       ),
     );
   }

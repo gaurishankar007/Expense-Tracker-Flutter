@@ -4,19 +4,20 @@ abstract class HomeEvent extends Equatable {
   const HomeEvent();
 }
 
+class HomeLoadingEvent extends HomeEvent {
+  final bool internet;
+
+  const HomeLoadingEvent({
+    required this.internet,
+  });
+
+  @override
+  List<Object> get props => [internet];
+}
+
 class HomeLoadedEvent extends HomeEvent {
   @override
   List<Object> get props => [];
-}
-
-class NoInternetEvent extends HomeEvent {
-  @override
-  List<Object?> get props => [];
-}
-
-class ErrorEvent extends HomeEvent {
-  @override
-  List<Object?> get props => [];
 }
 
 class MICEvent extends HomeEvent {
@@ -59,4 +60,9 @@ class MECEvent extends HomeEvent {
 
   @override
   List<Object> get props => [];
+}
+
+class ErrorEvent extends HomeEvent {
+  @override
+  List<Object?> get props => [];
 }

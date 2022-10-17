@@ -2,13 +2,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:expense_tracker/config/routes/routes.dart';
 import 'package:expense_tracker/config/themes/themes.dart';
 import 'package:expense_tracker/data/local/models/token_model.dart';
+import 'package:expense_tracker/presentation/blocs/internet/internet_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import 'data/local/login_data.dart';
 import 'data/remote/user_http.dart';
-
-late Box box;
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,12 +28,15 @@ class ExpenseTracker extends StatefulWidget {
 class _ExpenseTrackerState extends State<ExpenseTracker> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: AppTheme.light,
-      debugShowCheckedModeBanner: false,
-      title: 'Expense Income Tracker',
-      initialRoute: widget.initialPage,
-      onGenerateRoute: AppRoute.onGeneratedRoute,
+    return BlocProvider(
+      create: (_) => InternetBloc(),
+      child: MaterialApp(
+        theme: AppTheme.light,
+        debugShowCheckedModeBanner: false,
+        title: 'Expense Income Tracker',
+        initialRoute: widget.initialPage,
+        onGenerateRoute: AppRoute.onGeneratedRoute,
+      ),
     );
   }
 }

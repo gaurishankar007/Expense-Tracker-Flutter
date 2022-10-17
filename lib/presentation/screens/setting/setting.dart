@@ -486,7 +486,7 @@ class _SettingState extends State<Setting> {
                 ),
               ),
               textStyle: TextStyle(
-                fontSize: AppSize.subtitleBody1["size"],
+                fontSize: AppSize.subtitle1["size"],
                 fontWeight: FontWeight.w600,
                 color: Colors.white,
               ),
@@ -565,7 +565,7 @@ class _SettingState extends State<Setting> {
                 ),
               ),
               textStyle: TextStyle(
-                fontSize: AppSize.subtitleBody1["size"],
+                fontSize: AppSize.subtitle1["size"],
                 fontWeight: FontWeight.w600,
                 color: Colors.white,
               ),

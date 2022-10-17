@@ -21,6 +21,14 @@ class AppColor {
 }
 
 class AppSize {
+  static double width(BuildContext context) {
+    return MediaQuery.of(context).size.width;
+  }
+
+  static double height(BuildContext context) {
+    return MediaQuery.of(context).size.height;
+  }
+
   static const Map<String, dynamic> h3 = {
     "size": 48.0,
     "weight": FontWeight.w400,
@@ -41,14 +49,24 @@ class AppSize {
     "weight": FontWeight.w500,
   };
 
-  static const Map<String, dynamic> subtitleBody1 = {
+  static const Map<String, dynamic> subtitle1 = {
     "size": 16.0,
     "weight": FontWeight.w400, // Normal or Regular
   };
 
-  static const Map<String, dynamic> subtitle2Button = {
+  static const Map<String, dynamic> subtitle2 = {
     "size": 14.0,
     "weight": FontWeight.w500, // Medium
+  };
+
+  static const Map<String, dynamic> body1 = {
+    "size": 16.0,
+    "weight": FontWeight.w400,
+  };
+
+  static const Map<String, dynamic> button = {
+    "size": 14.0,
+    "weight": FontWeight.w500,
   };
 
   static const Map<String, dynamic> body2 = {
@@ -63,7 +81,8 @@ class AppSize {
 
   static const double icon = 25;
 
-  static const double borderRadius = 10;
+  static const double cBorderRadius = 10;
+  static const double bBorderRadius = 5;
 }
 
 class ExpenseCategoryColors {

@@ -1,30 +1,23 @@
 import 'package:bloc/bloc.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:equatable/equatable.dart';
-import 'package:expense_tracker/core/resources/internet_check.dart';
 import 'package:expense_tracker/data/model/home_model.dart';
 import 'package:expense_tracker/data/remote/home_http.dart';
 
 import '../../../config/category.dart';
 import '../../../data/model/expense_model.dart';
 import '../../../data/model/income_model.dart';
-import '../../../data/remote/progress_http.dart';
 
 part 'home_event.dart';
 part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
-  HomeBloc() : super(HomeLoadingState()) {
-    CheckInternet().connectivityStream.stream.listen((event) {
-      if (event == ConnectivityResult.none) {
-        add(NoInternetEvent());
-      } else {
-        add(HomeLoadedEvent());
-      }
+  HomeBloc() : super(HomeLoadingState(internet: true)) {
+    on<HomeLoadingEvent>((event, emit) {
+      emit(HomeLoadingState(internet: event.internet));
     });
 
     on<HomeLoadedEvent>((event, emit) async {
-      emit(HomeLoadingState());
+      emit(HomeLoadingState(internet: true));
 
       int curTime = DateTime.now().hour;
       String greeting = "Expense Tracker";
@@ -70,9 +63,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
               .toList();
         }
 
-        final pc = await ProgressHttp().calculateProgress();
-        bool achievementUnlocked = pc["achievementUnlocked"];
-
         emit(HomeLoadedState(
           greeting: greeting,
           homeData: homeData,
@@ -83,9 +73,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         ));
       } catch (error) {
         if (error.toString().split(":").first == "SocketException") {
-          add(NoInternetEvent());
+          emit(HomeLoadingState(internet: false));
         } else {
-          add(ErrorEvent());
+          emit(ErrorState());
         }
       }
     });
@@ -172,14 +162,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           incomeCategories: event.incomeCategories,
         ));
       }
-    });
-
-    on<NoInternetEvent>((event, emit) {
-      emit(NoInternetState());
-    });
-
-    on<ErrorEvent>((event, emit) {
-      emit(ErrorState());
     });
   }
 }

@@ -1,4 +1,7 @@
 import 'package:expense_tracker/core/resources/internet_check.dart';
+import 'package:expense_tracker/presentation/blocs/home/home_bloc.dart';
+import 'package:expense_tracker/presentation/blocs/income/income_bloc.dart';
+import 'package:expense_tracker/presentation/blocs/internet/internet_bloc.dart';
 import 'package:expense_tracker/presentation/screens/authentication/enter_token.dart';
 import 'package:expense_tracker/presentation/screens/authentication/forget_password.dart';
 import 'package:expense_tracker/presentation/screens/authentication/login.dart';
@@ -18,8 +21,6 @@ import 'package:expense_tracker/presentation/screens/setting/change_password.dar
 import 'package:expense_tracker/presentation/screens/setting/user_setting.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../data/model/home_model.dart';
 
 class AppRoute {
   static Route? onGeneratedRoute(RouteSettings settings) {
@@ -43,16 +44,19 @@ class AppRoute {
 
       case "/home":
         return _materialRoute(
-          MultiRepositoryProvider(
-            providers: [
-              RepositoryProvider(
-                create: (context) => HomeData(),
-              ),
-              RepositoryProvider(
-                create: (context) => CheckInternet(),
-              )
-            ],
-            child: Home(),
+          BlocProvider(
+            create: (_) => HomeBloc()..add(HomeLoadedEvent()),
+            child: BlocListener<InternetBloc, InternetState>(
+              listener: (context, state) {
+                if (state.connected) {
+                  BlocProvider.of<HomeBloc>(context).add(HomeLoadedEvent());
+                } else {
+                  BlocProvider.of<HomeBloc>(context)
+                      .add(HomeLoadingEvent(internet: false));
+                }
+              },
+              child: Home(),
+            ),
           ),
         );
 
@@ -67,7 +71,24 @@ class AppRoute {
         ));
 
       case "/income":
-        return _materialRoute(IncomePage());
+        return _materialRoute(
+          BlocProvider(
+            create: (_) => IncomeBloc()
+              ..add(IncomeLoadedEvent()),
+            child: BlocListener<InternetBloc, InternetState>(
+              listener: (context, state) {
+                if (state.connected) {
+                  BlocProvider.of<IncomeBloc>(context)
+                      .add(IncomeLoadedEvent());
+                } else {
+                  BlocProvider.of<IncomeBloc>(context)
+                      .add(IncomeLoadingEvent(internet: false));
+                }
+              },
+              child: IncomePage(),
+            ),
+          ),
+        );
 
       case "/expense":
         return _materialRoute(ExpensePage());
